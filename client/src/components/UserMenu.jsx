@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 /*import axios from 'axios';*/
-import mockData from '../assets/data/mockData.json';
+import mockData from '../assets/mockData.json';
 import './UserMenu.css';
 
 const UserMenu = () => {
