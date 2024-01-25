@@ -7,7 +7,9 @@ function Main() {
     <main>
       <Routes>
       <Route path="" element={<UserMenu />} />
-      </Routes>      
+      </Routes>  
+
+      <h1 className='text-dark-sapphire-blue'>Hello Team!</h1>    
     </main>
   )
 }
