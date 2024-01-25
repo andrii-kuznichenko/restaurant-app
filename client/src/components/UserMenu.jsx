@@ -42,16 +42,16 @@ setLoading(false);
           <div key={item.id}>
             <button
               type="button"
-              className={`w-full p-5 font-medium text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 hover:bg-gray-100 gap-3 ${
-                activeAccordion === index ? 'bg-gray-100' : ''
+              className={`w-full p-8 font-medium text-gray-900 border border-b-0 border-gray-400 focus:ring-7 focus:ring-gray-500 hover:bg-gray-100 gap-8 ${
+                activeAccordion === index ? 'bg-gray-300' : ''
               }`}
               onClick={() => handleAccordionClick(index)}
             >
               {item.name}
             </button>
             {activeAccordion === index && (
-              <div className="p-5 border border-b-0 border-gray-200">
-                <p className="mb-2 text-gray-500">{item.content}</p>
+              <div className="p-10 border border-b-0 border-gray-400">
+                <p className="mb-4 text-gray-700">{item.content}</p>
               </div>
             )}
           </div>
