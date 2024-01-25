@@ -5,6 +5,7 @@ const AdminSchema = new mongoose.Schema(
   {
     login: {
       type: String,
+      unique: true,
       required: [true, 'Login is required'],
     },
 

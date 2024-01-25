@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
-  status: {type: String, required: [true, 'Status of order is required']},
+  status: 
+  {
+  type: String, 
+  required: [true, 'Status of order is required'],
+  enum: ['in process', 'need to aceept', 'waiting for payment', 'finished', 'order could not be processed' ],
+  },
   orderTIme: {type: Number},
   tableNumberId: {type: mongoose.Schema.Types.ObjectId, ref: 'Table', required:[true, 'Table reference is required']},
   meals:[{
