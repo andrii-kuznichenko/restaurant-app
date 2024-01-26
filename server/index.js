@@ -26,6 +26,9 @@ const Table = require('./modules/table');
 const Admin = require('./modules/admin');
 const meal = require('./modules/meal');
 
+app.use('/api/restaurant', restaurantRouter);
+app.use('/auth', authRouter);
+
 
 io.use((socket, next) => {
   if (socket.handshake.headers.cookie) {
