@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Meal = moongose.model
+const Meal = mongoose.model
 
 const restaurantSchema = new mongoose.Schema({
   title: {type: String, required: [true, 'Restaurant title is required']},
