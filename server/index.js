@@ -26,6 +26,9 @@ const Table = require('./modules/table');
 const Admin = require('./modules/admin');
 const meal = require('./modules/meal');
 
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+app.use(cookieParser());
+app.use(express.json());
 app.use('/api/restaurant', restaurantRouter);
 app.use('/auth', authRouter);
 

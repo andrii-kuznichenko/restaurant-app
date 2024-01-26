@@ -2,8 +2,10 @@ const Table = require('../modules/table');
 const jwt = require('jsonwebtoken');
 const SECRET = process.env.JWT_SECRET;
 const dayInMilliseconds = 24 * 60 * 60 * 1000;
-const addTable = async (req, res) => {
+
+const addTable =  async (req, res) => {
   try {
+    console.log(req.body);
     const newTable = await Table.create(req.body);
     const tablePayload = {
       _id: newTable._id,
