@@ -101,9 +101,24 @@ const getLoggedInAdmin = async (req, res) => {
   }
 };
 
+const getAllInfoFromRestaurant = async (req, res) => {
+  try {
+    const adminId = req.admin._id;
+    const admin = await Admin.findById(adminId).populate('restaurantId');
+    if (!admin) {
+      return res.status(404).json({message: 'Admin not found'})
+    }
+    res.json(admin.restaurantId)
+  } catch (error) {
+    res.status(500).json({message: error.message});
+  }
+}
+
+
 module.exports = {
   register,
   login,
   logout,
   getLoggedInAdmin,
+  getAllInfoFromRestaurant,
 };

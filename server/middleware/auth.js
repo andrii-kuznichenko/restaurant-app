@@ -15,17 +15,4 @@ const authenticate = async (req, res, next) => {
   }
 };
 
-const authorize = (role) => {
-  return (req, res, next) => {
-    // We're expecting that previous middleware has put the user object on the request object
-    // Given that, we can just inspect their role.
-
-    if (req.admin.role === role) {
-      next();
-    } else {
-      res.status(401).json({ message: 'Unauthorized' });
-    }
-  };
-};
-
-module.exports = { authenticate, authorize };
+module.exports = { authenticate };
