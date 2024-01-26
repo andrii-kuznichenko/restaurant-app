@@ -13,6 +13,8 @@ const server = createServer(app);
 
 const { Server } = require('socket.io');
 const io = new Server(server);
+const jwt = require('jsonwebtoken');
+const cookie = require('cookie');
 
 const authRouter = require('./routes/table');
 const restaurantRouter = require('./routes/restaurant');
@@ -24,49 +26,44 @@ const Table = require('./modules/table');
 const Admin = require('./modules/admin');
 
 
-app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
-app.use(cookieParser());
-app.use(express.json());
+io.use((socket, next) => {
+  if (socket.handshake.headers.cookie) {
+      const cookies = cookie.parse(socket.handshake.headers.cookie);
+      const token = cookies.accessToken;
 
+      jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+          if (err) return next(new Error('Authentication error'));
+          socket.user = user;
+          next();
+      });
+  } else {
+      next(new Error('Authentication error'));
+  }
+});
 
-app.use('/auth', authRouter);
-app.use('/restaurant', restaurantRouter);
+io.on('connection', (socket) => {
+  // Now you have a socket connection with an authenticated user
+  console.log('Connected:', socket.user);
 
-io.on('connection', socket => {
-  console.log(`⚡: ${socket.id} user just connected!`);
-
-  Meal.findById().select('menu -_id').then((allMeals) => {
-    socket.emit('getAllMeals', allMeals);
-  });
-
-  socket.on('createMeal', async payload => {
+  socket.on('connectToMenu', async payload => {
     try {
-      const newMeal = await Meal.create({ ...payload });
-      console.log('PAYLOAAAAD', payload);
-      io.emit('createdMeal', newMeal);
+      const {restaurantId} = payload;
+      const menu = await Restaurant.findById(restaurantId).select('menu').populate('menu');
+      console.log('21211221', menu);
+      io.emit('getMenu', menu);
     } catch (error) {
-      io.emit('mealCreationError', error);
+      io.emit('getMenuError', error);
     }
   });
-  
-  // socket.on('createRestaurant', async payload => {
-  //   try {
-  //     const newRestaurant = await Restaurant.create({ ...payload });
-  //     console.log('PAYLOAAAAD', payload);
-  //     io.emit('restaurantCreated', newRestaurant);
-      
-  //   } catch (error) {
-  //     io.emit('restaurantCreatingError', error);
-  //   }
-  // }); 
 
-
-  socket.on('disconnect', () => {
+    socket.on('disconnect', () => {
     console.log('🔥: A user disconnected');
   });
 });
 
+
 // THE FOLLOWING BLOCK NEED TO BE AFTER ALL THE BACKEND ROUTES!!!!!!!!!!
+
 if (process.env.NODE_ENV === 'production') {
   //*Set static folder up in production
   const buildPath = path.join(__dirname, '../client/dist');
