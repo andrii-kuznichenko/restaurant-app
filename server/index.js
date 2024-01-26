@@ -48,8 +48,9 @@ io.on('connection', (socket) => {
 //socket of manu managment and receiving
   socket.on('connectToMenu', async payload => {
     try {
-      const { restaurantId, ...meal } = payload;
-      if(Object.keys(meal).length !== 0 && socket.user.role === 'admin') {
+      const { restaurantId, operation, ...meal } = payload;
+      if(Object.keys(meal).length !== 0 && socket.user.role === 'admin' && operation === 'add') {   //ADD MEAL STARTS HERE
+
         const newMeal = await Meal.create({...meal});
         const newMenuRestaurant = await Restaurant.updateOne(
           { _id: restaurantId }, 
@@ -57,11 +58,21 @@ io.on('connection', (socket) => {
 
         const menu = await Restaurant.findById(restaurantId).select('menu').populate('menu');
         io.emit('getMenu', menu);
+
+      } else if (Object.keys(meal).length !== 0 && socket.user.role === 'user' && operation === 'update'){ //UPDATE MEAL STARTS HERE
+        
+        const {mealId, ...onlyMeal} = meal;
+        const updatedMeal = await Meal.findOneAndUpdate({ _id: mealId}, {...onlyMeal});
+
+        const menu = await Restaurant.findById(restaurantId).select('menu').populate('menu');
+        io.emit('getMenu', menu);
+
       } else {
         const menu = await Restaurant.findById(restaurantId).select('menu').populate('menu');
         io.emit('getMenu', menu);
       }
     } catch (error) {
+      console.log(error);
       io.emit('getMenuError', error);
     }
   });
