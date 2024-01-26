@@ -1,11 +1,10 @@
 const express = require('express');
-const { authenticate } = require('../middleware/auth');
+const { authenticate, authorize } = require('../middleware/authAdmin');
 const adminRouter = express.Router();
-const { register, login, logout, getLoggedInAdmin, getAllInfoFromRestaurant } = require('../controllers/admins');
+const { register, login, logout, getLoggedInAdmin } = require('../controllers/admins');
 adminRouter.post('/register', register);
 adminRouter.post('/login', login);
 adminRouter.post('/logout', logout);
-adminRouter.get('/currentAdmin', authenticate, getLoggedInAdmin);
-adminRouter.get('/myRestaurant', authenticate, getAllInfoFromRestaurant);
+adminRouter.get('/currentAdmin', authenticate, authorize, getLoggedInAdmin);
 
 module.exports = adminRouter;

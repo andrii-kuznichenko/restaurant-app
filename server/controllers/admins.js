@@ -91,7 +91,7 @@ const logout = (req, res) => {
 };
 const getLoggedInAdmin = async (req, res) => {
   try {
-    // req.user is created in the auth middleware
+    // req.admin is created in the auth middleware
     const admin = await Admin.findOne({ _id: req.admin._id }).select(
       "-password"
     );
@@ -101,24 +101,9 @@ const getLoggedInAdmin = async (req, res) => {
   }
 };
 
-const getAllInfoFromRestaurant = async (req, res) => {
-  try {
-    const adminId = req.admin._id;
-    const admin = await Admin.findById(adminId).populate('restaurantId');
-    if (!admin) {
-      return res.status(404).json({message: 'Admin not found'})
-    }
-    res.json(admin.restaurantId)
-  } catch (error) {
-    res.status(500).json({message: error.message});
-  }
-}
-
-
 module.exports = {
   register,
   login,
   logout,
   getLoggedInAdmin,
-  getAllInfoFromRestaurant,
 };

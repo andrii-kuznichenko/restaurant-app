@@ -26,6 +26,12 @@ const AdminSchema = new mongoose.Schema(
       ref: 'Restaurant',
       required:[false, 'Restaurant reference is required']
     },
+    role: {
+      type: String,
+      required: false,
+      default: 'admin',
+      // enum: ['user', 'editor', 'admin'],
+    },
 
   },
   { timestamps: true },
