@@ -24,6 +24,7 @@ const Restaurant = require('./modules/restaurant');
 const Order = require('./modules/order');
 const Table = require('./modules/table');
 const Admin = require('./modules/admin');
+const meal = require('./modules/meal');
 
 
 io.use((socket, next) => {
@@ -42,21 +43,30 @@ io.use((socket, next) => {
 });
 
 io.on('connection', (socket) => {
-  // Now you have a socket connection with an authenticated user
   console.log('Connected:', socket.user);
 
+//socket of manu managment and receiving
   socket.on('connectToMenu', async payload => {
     try {
-      const {restaurantId} = payload;
-      const menu = await Restaurant.findById(restaurantId).select('menu').populate('menu');
-      console.log('21211221', menu);
-      io.emit('getMenu', menu);
+      const { restaurantId, ...meal } = payload;
+      if(Object.keys(meal).length !== 0 && socket.user.role === 'admin') {
+        const newMeal = await Meal.create({...meal});
+        const newMenuRestaurant = await Restaurant.updateOne(
+          { _id: restaurantId }, 
+          { $push: { menu: newMeal._id.toString() } });
+
+        const menu = await Restaurant.findById(restaurantId).select('menu').populate('menu');
+        io.emit('getMenu', menu);
+      } else {
+        const menu = await Restaurant.findById(restaurantId).select('menu').populate('menu');
+        io.emit('getMenu', menu);
+      }
     } catch (error) {
       io.emit('getMenuError', error);
     }
   });
 
-    socket.on('disconnect', () => {
+  socket.on('disconnect', () => {
     console.log('🔥: A user disconnected');
   });
 });
