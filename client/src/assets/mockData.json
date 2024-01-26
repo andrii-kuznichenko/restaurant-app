@@ -1,5 +1,5 @@
 [
-    { "id": 1, "name": "Menu Item 1", "content": "Content for Menu Item 1" },
-    { "id": 2, "name": "Menu Item 2", "content": "Content for Menu Item 2" },
-    { "id": 3, "name": "Menu Item 3", "content": "Content for Menu Item 3" }
+    { "id": 1, "name": "Menu Item 1", "content": "Content for Menu Item 1", "price": 30 },
+    { "id": 2, "name": "Menu Item 2", "content": "Content for Menu Item 2", "price": 50 },
+    { "id": 3, "name": "Menu Item 3", "content": "Content for Menu Item 3", "price": 25 }
   ]

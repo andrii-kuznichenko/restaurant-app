@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 /*import axios from 'axios';*/
+import UserMealDetails from './UserMealDetails';
+import OrderSummary from './OrderSummary';
 import mockData from '../assets/mockData.json';
 import './UserMenu.css';
 
@@ -7,11 +9,52 @@ const UserMenu = () => {
   const [usermenu, setUserMenu] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeAccordion, setActiveAccordion] = useState(null);
+  const [orderItems, setOrderItems] = useState([]);
+  const [total, setTotal] = useState(0);
 
   const handleAccordionClick = (index) => {
-    setActiveAccordion(index === activeAccordion ? null : index);
+    setActiveAccordion((prevIndex) => (prevIndex === index ? null : index));
   };
   
+
+  const handleAdd = (item) => {
+   
+ // Check if the item is already in the order
+ const existingItem = orderItems.find((orderItem) => orderItem.id === item.id);
+
+ if (existingItem) {
+   setOrderItems((prevItems) =>
+     prevItems.map((orderItem) =>
+       orderItem.id === item.id
+         ? { ...orderItem, quantity: orderItem.quantity + 1 }
+         : orderItem
+     )
+   );
+ } else {
+   setOrderItems((prevItems) => [...prevItems, { ...item, quantity: 1 }]);
+ }
+
+ setTotal((prevTotal) => prevTotal + item.price);
+
+  };
+
+  const handleRemove = (item) => {
+    const existingItem = orderItems.find((orderItem) => orderItem.id === item.id);
+
+    if (existingItem && existingItem.quantity > 0) {
+      setOrderItems((prevItems) =>
+        prevItems.map((orderItem) =>
+          orderItem.id === item.id
+            ? { ...orderItem, quantity: orderItem.quantity - 1 }
+            : orderItem
+        )
+      );
+      setTotal((prevTotal) => prevTotal - item.price);
+    }
+  };
+
+
+
   useEffect(() => {
   /* axios
    .get("/api/usermenu")
@@ -51,12 +94,18 @@ setLoading(false);
             </button>
             {activeAccordion === index && (
               <div className="p-10 border border-b-0 border-gray-400">
-                <p className="mb-4 text-gray-700">{item.content}</p>
+                <UserMealDetails
+                  item={item}
+                  onAdd={() => handleAdd(item)}
+                  onRemove={() => handleRemove(item)}
+                />
+
               </div>
             )}
           </div>
         ))}
       </div>
+      <OrderSummary orderItems={orderItems} total={total} />
     </div>
   );
 };
