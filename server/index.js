@@ -15,6 +15,7 @@ const { Server } = require('socket.io');
 const io = new Server(server);
 
 const authRouter = require('./routes/table');
+const restaurantRouter = require('./routes/restaurant');
 
 const Meal = require('./modules/meal');
 const Restaurant = require('./modules/restaurant');
@@ -29,11 +30,12 @@ app.use(express.json());
 
 
 app.use('/auth', authRouter);
+app.use('/restaurant', restaurantRouter);
 
 io.on('connection', socket => {
   console.log(`⚡: ${socket.id} user just connected!`);
 
-  Meal.find().then((allMeals) => {
+  Meal.findById().select('menu -_id').then((allMeals) => {
     socket.emit('getAllMeals', allMeals);
   });
 
@@ -47,16 +49,16 @@ io.on('connection', socket => {
     }
   });
   
-  socket.on('createRestaurant', async payload => {
-    try {
-      const newRestaurant = await Restaurant.create({ ...payload });
-      console.log('PAYLOAAAAD', payload);
-      io.emit('restaurantCreated', newRestaurant);
+  // socket.on('createRestaurant', async payload => {
+  //   try {
+  //     const newRestaurant = await Restaurant.create({ ...payload });
+  //     console.log('PAYLOAAAAD', payload);
+  //     io.emit('restaurantCreated', newRestaurant);
       
-    } catch (error) {
-      io.emit('restaurantCreatingError', error);
-    }
-  }); 
+  //   } catch (error) {
+  //     io.emit('restaurantCreatingError', error);
+  //   }
+  // }); 
 
 
   socket.on('disconnect', () => {

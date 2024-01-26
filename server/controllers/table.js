@@ -10,6 +10,7 @@ const addTable = async (req, res) => {
       QRCode: newTable.QRCode,
       tableNumber: newTable.tableNumber,
       restaurantId: newTable.restaurantId,
+      role: newTable.role,
     };
     const tableToken = jwt.sign(tablePayload, SECRET);
     res
@@ -39,6 +40,7 @@ const login = async (req, res) => {
           QRCode: tableDoc.QRCode,
           tableNumber: tableDoc.tableNumber,
           restaurantId: tableDoc.restaurantId,
+          role: tableDoc.role,
         };
           const tableToken = jwt.sign(tablePayload, SECRET);
           res

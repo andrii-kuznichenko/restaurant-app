@@ -4,6 +4,7 @@ const tableSchema = new mongoose.Schema({
   QRCode: {type: String, required: [true, 'QRCode is required'], unique: true},
   tableNumber: {type: Number, required: [true, 'Table number is required'], unique: false},
   restaurantId: {type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant', required:[true, 'Restaurant reference is required'], unique: false},
+  role: {type: String, default:"user"}
 }, 
 {timestamps: true},
 );
