@@ -10,7 +10,7 @@ export const AppProvider = ({ children }) => {
   const [orderItems, setOrderItems] = useState([]);
   const [total, setTotal] = useState(0);
   const [userMenu, setUserMenu] = useState([]);
-  const [loading, setLoading] = useState(true);
+  
 
   const updateSelectedItem = (item) => {
     setSelectedItem((prevSelectedItem) =>
@@ -43,12 +43,11 @@ export const AppProvider = ({ children }) => {
     console.log("usermenu with mockData:", mockData);
     setUserMenu(mockData);
 
-    // Set loading to false after data is loaded
-    setLoading(false);
+        
   }, []);
 
   return (
-    <AppContext.Provider value={{ selectedItem, orderItems, total, userMenu, setUserMenu, updateSelectedItem, updateOrderItems, loading }}>
+    <AppContext.Provider value={{ selectedItem, orderItems, total, userMenu, setUserMenu, updateSelectedItem, updateOrderItems, }}>
       {children}
     </AppContext.Provider>
   );

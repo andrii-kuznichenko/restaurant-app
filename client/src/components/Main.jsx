@@ -9,12 +9,11 @@ function Main() {
   return (
     <main>
       <Routes>
-      <Route path="" element={<UserMenu />} />
-      <Route path="/UserOrderMeal" element={<UserOrderMeal />} />
-      <Route path="/OrderSummary" element={<OrderSummary />} />
+      <Route path="/" element={<UserMenu />} />
+      <Route path="user-order" element={<UserOrderMeal />} />
+      <Route path="order-summary" element={<OrderSummary />} />
+      <Route path="OrderSummary" element={<OrderSummary />} />
       </Routes>  
-
-    
     </main>
   )
 }

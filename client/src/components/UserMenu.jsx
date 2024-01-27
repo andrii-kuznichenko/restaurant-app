@@ -12,7 +12,7 @@ const UserMenu = () => {
 
   console.log("UserMenu component mounted");
 
-  const { userMenu, setUserMenu, selectedItem, updateSelectedItem, updateOrderItems, loading, setLoading } = useAppContext();
+  const { userMenu, setUserMenu, selectedItem, updateSelectedItem, updateOrderItems } = useAppContext();
 
   useEffect(() => {
     /* axios
@@ -29,7 +29,7 @@ const UserMenu = () => {
   // Set usermenu state with the mock data
  
   setUserMenu(mockData);
-  setLoading(false);
+  
 }, []);
     
 
@@ -45,12 +45,9 @@ const handleRemove = (item) => {
     updateOrderItems(item);
   };
 
-
-
   
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  
+  
 
   return (
     <div className="user-menu-container">
