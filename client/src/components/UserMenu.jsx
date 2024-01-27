@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 /*import axios from 'axios';*/
-import UserMealDetails from './UserMealDetails';
+import UserOrderMeal from './UserOrderMeal';
 import OrderSummary from './OrderSummary';
 import mockData from '../assets/mockData.json';
 import './UserMenu.css';
@@ -94,7 +94,7 @@ setLoading(false);
             </button>
             {activeAccordion === index && (
               <div className="p-10 border border-b-0 border-gray-400">
-                <UserMealDetails
+                <UserOrderMeal
                   item={item}
                   onAdd={() => handleAdd(item)}
                   onRemove={() => handleRemove(item)}
