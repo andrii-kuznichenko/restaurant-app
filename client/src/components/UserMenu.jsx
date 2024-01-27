@@ -1,56 +1,27 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useAppContext } from './Context';
 /*import axios from 'axios';*/
+
 import UserOrderMeal from './UserOrderMeal';
-import OrderSummary from './OrderSummary';
+
 import mockData from '../assets/mockData.json';
 import './UserMenu.css';
 
 const UserMenu = () => {
-  const [usermenu, setUserMenu] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [activeAccordion, setActiveAccordion] = useState(null);
-  const [orderItems, setOrderItems] = useState([]);
-  const [total, setTotal] = useState(0);
+  console.log("UserMenu component mounted");
+  const { usermenu, selectedItem, updateSelectedItem, updateOrderItems, loading } = useAppContext();
 
-  const handleAccordionClick = (index) => {
-    setActiveAccordion((prevIndex) => (prevIndex === index ? null : index));
-  };
-  
-
-  const handleAdd = (item) => {
-   
- // Check if the item is already in the order
- const existingItem = orderItems.find((orderItem) => orderItem.id === item.id);
-
- if (existingItem) {
-   setOrderItems((prevItems) =>
-     prevItems.map((orderItem) =>
-       orderItem.id === item.id
-         ? { ...orderItem, quantity: orderItem.quantity + 1 }
-         : orderItem
-     )
-   );
- } else {
-   setOrderItems((prevItems) => [...prevItems, { ...item, quantity: 1 }]);
- }
-
- setTotal((prevTotal) => prevTotal + item.price);
-
+const handleAccordionClick = (item) => {
+    updateSelectedItem(item);
   };
 
-  const handleRemove = (item) => {
-    const existingItem = orderItems.find((orderItem) => orderItem.id === item.id);
+const handleAdd = (item) => {
+    updateOrderItems(item);
+  };
 
-    if (existingItem && existingItem.quantity > 0) {
-      setOrderItems((prevItems) =>
-        prevItems.map((orderItem) =>
-          orderItem.id === item.id
-            ? { ...orderItem, quantity: orderItem.quantity - 1 }
-            : orderItem
-        )
-      );
-      setTotal((prevTotal) => prevTotal - item.price);
-    }
+const handleRemove = (item) => {
+    updateOrderItems(item);
   };
 
 
@@ -68,6 +39,7 @@ const UserMenu = () => {
 });*/
 
 // Set usermenu state with the mock data
+console.log("Setting usermenu with mockData:", mockData);
 setUserMenu(mockData);
 setLoading(false);
 
@@ -79,25 +51,29 @@ setLoading(false);
 
   return (
     <div className="user-menu-container">
-      <h2>User Menu</h2>
+      <h2>Menu</h2>
       <div className="menu-items">
-        {usermenu.map((item, index) => (
+        {usermenu.map((item) => (
           <div key={item.id}>
             <button
               type="button"
-              className={`w-full p-8 font-medium text-gray-900 border border-b-0 border-gray-400 focus:ring-7 focus:ring-gray-500 hover:bg-gray-100 gap-8 ${
-                activeAccordion === index ? 'bg-gray-300' : ''
-              }`}
-              onClick={() => handleAccordionClick(index)}
+              className="w-full p-8 font-medium text-gray-900 border border-b-0 border-gray-400 focus:ring-7 focus:ring-gray-500 hover:bg-gray-100 gap-8"
+              onClick={() => handleAccordionClick(item)}
             >
               {item.name}
             </button>
-            {activeAccordion === index && (
+            {selectedItem && selectedItem.id === item.id && (
               <div className="p-10 border border-b-0 border-gray-400">
+                <h3>{selectedItem.name}</h3>
+                <p>{selectedItem.content}</p>
+                <p>Price: ${selectedItem.price.toFixed(2)}</p>
                 <UserOrderMeal
-                  item={item}
-                  onAdd={() => handleAdd(item)}
-                  onRemove={() => handleRemove(item)}
+                  item={selectedItem}
+                  onAdd={() => handleAdd(selectedItem)}
+                  onRemove={() => handleRemove(selectedItem)}
+                  name={selectedItem.name}
+                  content={selectedItem.content}
+                  price={selectedItem.price}
                 />
 
               </div>
@@ -105,7 +81,10 @@ setLoading(false);
           </div>
         ))}
       </div>
-      <OrderSummary orderItems={orderItems} total={total} />
+      <Link to="./OrderSummary">
+       <button className="order-summary-button">See your order summary</button>
+     
+      </Link>
     </div>
   );
 };

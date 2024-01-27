@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 
-const UserOrderMeal = ({ item, onAdd, onRemove }) => {
+const UserOrderMeal = ({ item, onAdd, onRemove, name, content, price }) => {
   const [quantity, setQuantity] = useState(0);
 
   const handleAdd = () => {
@@ -16,11 +16,15 @@ const UserOrderMeal = ({ item, onAdd, onRemove }) => {
     }
   };
 
+  const totalPrice = quantity * price;
+
   return (
     <div>
-      <button onClick={handleRemove}>-</button>
-      {quantity} {item.name}
+       <button onClick={handleRemove}>-</button>
+      <span>{quantity}</span>
       <button onClick={handleAdd}>+</button>
+      
+      <div>Total Price: ${totalPrice.toFixed(2)}</div>
         
     </div>
   );
