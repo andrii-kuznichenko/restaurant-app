@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppContext } from './Context';
 /*import axios from 'axios';*/
@@ -9,8 +9,29 @@ import mockData from '../assets/mockData.json';
 import './UserMenu.css';
 
 const UserMenu = () => {
+
   console.log("UserMenu component mounted");
-  const { usermenu, selectedItem, updateSelectedItem, updateOrderItems, loading } = useAppContext();
+
+  const { userMenu, setUserMenu, selectedItem, updateSelectedItem, updateOrderItems, loading, setLoading } = useAppContext();
+
+  useEffect(() => {
+    /* axios
+     .get("/api/usermenu")
+     .then(res => {
+      setUserMenu(res.data);
+      setLoading(false);
+     })
+     .catch(e => {
+      console.error(e);
+      setLoading(false);
+  });*/
+  
+  // Set usermenu state with the mock data
+ 
+  setUserMenu(mockData);
+  setLoading(false);
+}, []);
+    
 
 const handleAccordionClick = (item) => {
     updateSelectedItem(item);
@@ -26,24 +47,6 @@ const handleRemove = (item) => {
 
 
 
-  useEffect(() => {
-  /* axios
-   .get("/api/usermenu")
-   .then(res => {
-    setUserMenu(res.data);
-    setLoading(false);
-   })
-   .catch(e => {
-    console.error(e);
-    setLoading(false);
-});*/
-
-// Set usermenu state with the mock data
-console.log("Setting usermenu with mockData:", mockData);
-setUserMenu(mockData);
-setLoading(false);
-
-}, []);
   
   if (loading) {
     return <div>Loading...</div>;
@@ -53,7 +56,7 @@ setLoading(false);
     <div className="user-menu-container">
       <h2>Menu</h2>
       <div className="menu-items">
-        {usermenu.map((item) => (
+        {userMenu.map((item) => (
           <div key={item.id}>
             <button
               type="button"

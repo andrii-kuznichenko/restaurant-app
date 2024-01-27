@@ -9,7 +9,7 @@ function Main() {
   return (
     <main>
       <Routes>
-      <Route path="/UserMenu" element={<UserMenu />} />
+      <Route path="" element={<UserMenu />} />
       <Route path="/UserOrderMeal" element={<UserOrderMeal />} />
       <Route path="/OrderSummary" element={<OrderSummary />} />
       </Routes>  

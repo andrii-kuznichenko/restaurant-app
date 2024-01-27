@@ -1,6 +1,7 @@
 
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import mockData from '../assets/mockData.json';
 
 const AppContext = createContext();
 
@@ -9,6 +10,7 @@ export const AppProvider = ({ children }) => {
   const [orderItems, setOrderItems] = useState([]);
   const [total, setTotal] = useState(0);
   const [userMenu, setUserMenu] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const updateSelectedItem = (item) => {
     setSelectedItem((prevSelectedItem) =>
@@ -34,8 +36,19 @@ export const AppProvider = ({ children }) => {
     setTotal((prevTotal) => prevTotal + item.price);
   };
 
+  useEffect(() => {
+    // Fetch data or set mock data
+
+    // Set usermenu state with the mock data
+    console.log("usermenu with mockData:", mockData);
+    setUserMenu(mockData);
+
+    // Set loading to false after data is loaded
+    setLoading(false);
+  }, []);
+
   return (
-    <AppContext.Provider value={{ selectedItem, orderItems, total, userMenu, setUserMenu, updateSelectedItem, updateOrderItems }}>
+    <AppContext.Provider value={{ selectedItem, orderItems, total, userMenu, setUserMenu, updateSelectedItem, updateOrderItems, loading }}>
       {children}
     </AppContext.Provider>
   );

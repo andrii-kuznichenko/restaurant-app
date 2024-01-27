@@ -3,6 +3,9 @@ import React from 'react';
 import { useAppContext } from './Context';
 
 const OrderSummary = () => {
+
+  console.log("OrderSummery is mounted")
+  
   const { orderItems, total } = useAppContext();
 
   return (

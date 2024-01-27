@@ -2,6 +2,9 @@
 import React, { useState } from 'react';
 
 const UserOrderMeal = ({ item, onAdd, onRemove, name, content, price }) => {
+  
+  console.log("UserOrder is mounted")
+  
   const [quantity, setQuantity] = useState(0);
 
   const handleAdd = () => {
