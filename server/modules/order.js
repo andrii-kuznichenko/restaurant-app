@@ -4,11 +4,10 @@ const orderSchema = new mongoose.Schema({
   status: 
   {
   type: String, 
-  required: [true, 'Status of order is required'],
   enum: ['in process', 'need to accept', 'waiting for payment', 'finished', 'order could not be processed'],
   default: 'need to accept'
   },
-  orderTIme: {type: Number},
+  orderTime: {type: Number},
   tableNumberId: {type: mongoose.Schema.Types.ObjectId, ref: 'Table', required:[true, 'Table reference is required']},
   meals:[{
     name:{type: mongoose.Schema.Types.ObjectId, ref:'Meal', required:[true, 'Meal in order is required']},

@@ -48,8 +48,10 @@ io.use((socket, next) => {
   }
 });
 
+const clients = [];
 io.on('connection', (socket) => {
   console.log('Connected:', socket.user);
+  clients.push(socket.user);
 
 //socket of menu managment and receiving it for admin and user
   socket.on('connectToMenu', async payload => {
@@ -94,7 +96,7 @@ io.on('connection', (socket) => {
 //socket for post orders and there managment
   socket.on('connectToOrder', async payload => {
     try {
-      const { restaurantId, operation, ...order } = payload;
+      const {operation, ...order } = payload;
       if(Object.keys(order).length !== 0 && operation === 'add') {   //START ORDER
 
         const newOrder = await Order.create({...order});
@@ -104,22 +106,32 @@ io.on('connection', (socket) => {
         const {orderId, ...order} = order;
         const updatedOrder = await Order.findOneAndUpdate({ _id: orderId}, {...order});
 
-      } else if (Object.keys(order).length !== 0 && socket.user.role === 'admin' && operation === 'change_status'){  //CHANGE STATUS OF ORDER
+      } else if (Object.keys(order).length !== 0 && socket.user.role === 'user' && operation === 'change_status'){  //CHANGE STATUS OF ORDER
 
         const {orderId, status} = order;
         const changedOrderStatus = await Order.findOneAndUpdate({ _id: orderId}, {status: status});
 
-      } else if (Object.keys(meal).length !== 0 && socket.user.role === 'admin' && operation === 'close'){  //CLOSE ORDER
-        const {orderId} = meal;
+      } else if (Object.keys(order).length !== 0 && socket.user.role === 'user' && operation === 'close'){  //CLOSE ORDER
+        const { orderId } = order;
         const closedOrder = await Order.findOneAndUpdate({ _id: orderId}, {isClosed: true});
       }
+
+      const { restaurantId, tableNumberId } = order;
       
-      //NOTIFY EVERYONE IN RESTAURANT ABOUT NEW ORDER
-      io.emit(`getNewOrder-${socket.user.restaurantId}`, newOrder); 
+      // //NOTIFY EVERYONE IN RESTAURANT ABOUT NEW ORDER
+      // io.emit(`getNewOrder-${socket.user.restaurantId}`, newOrder); 
 
       //SEND TO EVERYONE FULL LIST OF ORDERS IN RESTAURANT
-      const orders = await Restaurant.findById(restaurantId).select('menu').populate('menu');
-      io.emit(`getOrders-${socket.user.restaurantId}`, orders);
+
+      for await(const user of clients){
+        if(user.restaurantId === socket.user.restaurantId) {
+          const orderInfo = await Order.find({"restaurantId": user.restaurantId, "tableNumberId": user._id, "isClosed": false}).populate('meals');
+          io.emit(`getOrder-${user._id}`, orderInfo);
+
+          const orders = await Order.find({"restaurantId": user.restaurantId}).populate('meals');
+          io.emit(`getOrders-${user._id}`, orders);
+        }
+      }
 
       
     } catch (error) {
@@ -129,6 +141,13 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
+    const index = clients.map(user => {
+      if(user._id === socket.user._id){
+        return user;
+      }
+    }).indexOf();
+    console.log(index);
+    clients.splice(index, 1);
     console.log('🔥: A user disconnected');
   });
 });
