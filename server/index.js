@@ -97,7 +97,7 @@ io.on('connection', (socket) => {
   socket.on('connectToOrder', async payload => {
     try {
       const {operation, ...order } = payload;
-      if(Object.keys(order).length !== 0 && operation === 'add') {   //START ORDER
+      if(Object.keys(order).length !== 0 && operation === 'add' && socket.user.role === 'user') {   //START ORDER
 
         const newOrder = await Order.create({...order});
 
@@ -106,12 +106,12 @@ io.on('connection', (socket) => {
         const {orderId, ...order} = order;
         const updatedOrder = await Order.findOneAndUpdate({ _id: orderId}, {...order});
 
-      } else if (Object.keys(order).length !== 0 && socket.user.role === 'user' && operation === 'change_status'){  //CHANGE STATUS OF ORDER
+      } else if (Object.keys(order).length !== 0 && socket.user.role === 'admin' && operation === 'change_status'){  //CHANGE STATUS OF ORDER
 
         const {orderId, status} = order;
         const changedOrderStatus = await Order.findOneAndUpdate({ _id: orderId}, {status: status});
 
-      } else if (Object.keys(order).length !== 0 && socket.user.role === 'user' && operation === 'close'){  //CLOSE ORDER
+      } else if (Object.keys(order).length !== 0 && socket.user.role === 'admin' && operation === 'close'){  //CLOSE ORDER
         const { orderId } = order;
         const closedOrder = await Order.findOneAndUpdate({ _id: orderId}, {isClosed: true});
       }
