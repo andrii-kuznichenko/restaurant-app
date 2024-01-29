@@ -60,11 +60,12 @@ function AuthProvider({ children }) {
       .then((res) => {
         setState(null, false, null);
         navigate("/");
+        window.location.reload()
       })
-      .catch((error) => {
-        console.log(error.response.data);
-        setState(null, false, error.response.data);
-      });
+    //   .catch((error) => {
+    //     console.log(error.response.data);
+    //     setState(null, false, error.response.data);
+    //   });
   };
 
   return (

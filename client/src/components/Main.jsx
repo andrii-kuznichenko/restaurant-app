@@ -8,7 +8,10 @@ function Main() {
   return (
     <main>
       <Routes>
-       
+      <Route path="/" element={<Protected />}>
+      
+      </Route>
+
       <Route path="/login" element ={<Login />} />
       <Route path="/register" element ={<Register />} />
       </Routes>  
