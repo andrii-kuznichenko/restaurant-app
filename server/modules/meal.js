@@ -12,4 +12,21 @@ const mealSchema = new mongoose.Schema({
 {timestamps: true},
 );
 
+mealSchema.pre('save', async function (next) {
+  try {
+    const options = {
+      public_id: this._id,
+      folder: process.env.CLOUDINARY_FOLDER_NAME,
+    };
+    const imagePath = this.image;
+    const res = await cloudinary.uploader.upload(imagePath, options);
+    this.image = res.secure_url;
+    fs.unlinkSync(imagePath);
+    next();
+  } catch (e) {
+    next(e.message);
+  }
+});
+
 module.exports = mongoose.model('Meal', mealSchema);
+

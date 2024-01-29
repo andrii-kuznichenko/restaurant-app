@@ -116,7 +116,6 @@ io.on('connection', (socket) => {
         const closedOrder = await Order.findOneAndUpdate({ _id: orderId}, {isClosed: true});
       }
 
-      const { restaurantId, tableNumberId } = order;
       
       // //NOTIFY EVERYONE IN RESTAURANT ABOUT NEW ORDER
       // io.emit(`getNewOrder-${socket.user.restaurantId}`, newOrder); 
