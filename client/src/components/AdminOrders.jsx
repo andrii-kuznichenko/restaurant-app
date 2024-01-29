@@ -1,14 +1,16 @@
 import axios from "../axiosInstance";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import io from "socket.io-client";
+import { AuthContext } from "../context/Auth";
 
 const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
   transports: ["websocket"],
 });
 
 const AdminOrders = () => {
+  const { admin, loading } = useContext(AuthContext);
   const [newOrders, setNewOrders] = useState([]);
-  const adminUserId = '65b7b5bd1d74a6082d25ffcb';
+  const adminUserId = admin._id;
 
   useEffect(() => {
     // axios
@@ -16,16 +18,16 @@ const AdminOrders = () => {
     // .then(res => setBooks(res.data))
     // .catch(e => console.error(e));
 
-    socket.on(`getOrders-65b3b26aef210c44a63af9b2`, orders => {
+    socket.on(`getOrders-${adminUserId}`, orders => {
       console.log("Received orders:", orders);
-      setNewOrders((existingOrders) => [...existingOrders, ...orders]);
+      setNewOrders(orders);
     });
 
     return () => {
-      socket.off(`getOrders-65b3b26aef210c44a63af9b2`);
+      socket.off(`getOrders-${adminUserId}`);
       socket.disconnect();
     };
-  }, []);
+  }, [adminUserId]);
 
   return (
     <div>
