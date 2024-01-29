@@ -1,10 +1,10 @@
 require('dotenv/config');
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db');
-
 const PORT = process.env.PORT || 4000;
 const app = express();
 
@@ -18,6 +18,7 @@ const cookie = require('cookie');
 
 const authRouter = require('./routes/table');
 const restaurantRouter = require('./routes/restaurant');
+const adminRouter = require('./routes/admins');
 
 const Meal = require('./modules/meal');
 const Restaurant = require('./modules/restaurant');
@@ -25,6 +26,14 @@ const Order = require('./modules/order');
 const Table = require('./modules/table');
 const Admin = require('./modules/admin');
 const meal = require('./modules/meal');
+
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+app.use(cookieParser());
+app.use(express.json());
+
+app.use('/auth', authRouter);
+app.use('/admin', adminRouter);
+app.use('/dashboard', restaurantRouter)
 
 
 io.use((socket, next) => {
@@ -42,10 +51,12 @@ io.use((socket, next) => {
   }
 });
 
+const clients = [];
 io.on('connection', (socket) => {
   console.log('Connected:', socket.user);
+  clients.push(socket.user);
 
-//socket of manu managment and receiving
+//socket of menu managment and receiving it for admin and user
   socket.on('connectToMenu', async payload => {
     try {
       const { restaurantId, operation, ...meal } = payload;
@@ -56,28 +67,89 @@ io.on('connection', (socket) => {
           { _id: restaurantId }, 
           { $push: { menu: newMeal._id.toString() } });
 
-        const menu = await Restaurant.findById(restaurantId).select('menu').populate('menu');
-        io.emit('getMenu', menu);
-
-      } else if (Object.keys(meal).length !== 0 && socket.user.role === 'user' && operation === 'update'){ //UPDATE MEAL STARTS HERE
+      } else if (Object.keys(meal).length !== 0 && socket.user.role === 'admin' && operation === 'update'){ //UPDATE MEAL STARTS HERE
         
         const {mealId, ...onlyMeal} = meal;
         const updatedMeal = await Meal.findOneAndUpdate({ _id: mealId}, {...onlyMeal});
 
-        const menu = await Restaurant.findById(restaurantId).select('menu').populate('menu');
-        io.emit('getMenu', menu);
+      } else if (Object.keys(meal).length !== 0 && socket.user.role === 'admin' && operation === 'hide'){  //HIDE MEAL
 
-      } else {
-        const menu = await Restaurant.findById(restaurantId).select('menu').populate('menu');
-        io.emit('getMenu', menu);
+        const {mealId, hide} = meal;
+        const hideMeal = await Meal.findOneAndUpdate({ _id: mealId}, {hide: hide});
+
+      } else if (Object.keys(meal).length !== 0 && socket.user.role === 'admin' && operation === 'delete'){  //DELETE MEAL
+        const {mealId} = meal;
+        const deletedMeal = await Meal.findOneAndDelete({ _id: mealId});
       }
+      
+      const menuAdmin = await Restaurant.findById(restaurantId).select('menu').populate('menu');
+      io.emit(`getMenuAdmin-${socket.user.restaurantId}`, menuAdmin);
+
+      const menuUser = await Restaurant.findById(restaurantId).select('menu').populate({
+        path: 'menu',
+        match: { hide: false }
+    });
+      io.emit(`getMenuUser-${socket.user.restaurantId}`, menuUser);
+      
     } catch (error) {
       console.log(error);
       io.emit('getMenuError', error);
     }
   });
+//socket for post orders and there managment
+  socket.on('connectToOrder', async payload => {
+    try {
+      const {operation, ...order } = payload;
+      if(Object.keys(order).length !== 0 && operation === 'add' && socket.user.role === 'user') {   //START ORDER
+
+        const newOrder = await Order.create({...order});
+
+      } else if (Object.keys(order).length !== 0 && operation === 'update'){ //UPDATE ORDER STARTS HERE
+        
+        const {orderId, ...order} = order;
+        const updatedOrder = await Order.findOneAndUpdate({ _id: orderId}, {...order});
+
+      } else if (Object.keys(order).length !== 0 && socket.user.role === 'admin' && operation === 'change_status'){  //CHANGE STATUS OF ORDER
+
+        const {orderId, status} = order;
+        const changedOrderStatus = await Order.findOneAndUpdate({ _id: orderId}, {status: status});
+
+      } else if (Object.keys(order).length !== 0 && socket.user.role === 'admin' && operation === 'close'){  //CLOSE ORDER
+        const { orderId } = order;
+        const closedOrder = await Order.findOneAndUpdate({ _id: orderId}, {isClosed: true});
+      }
+
+      
+      // //NOTIFY EVERYONE IN RESTAURANT ABOUT NEW ORDER
+      // io.emit(`getNewOrder-${socket.user.restaurantId}`, newOrder); 
+
+      //SEND TO EVERYONE FULL LIST OF ORDERS IN RESTAURANT
+
+      for await(const user of clients){
+        if(user.restaurantId === socket.user.restaurantId) {
+          const orderInfo = await Order.find({"restaurantId": user.restaurantId, "tableNumberId": user._id, "isClosed": false}).populate('meals');
+          io.emit(`getOrder-${user._id}`, orderInfo);
+
+          const orders = await Order.find({"restaurantId": user.restaurantId}).populate('meals');
+          io.emit(`getOrders-${user._id}`, orders);
+        }
+      }
+
+      
+    } catch (error) {
+      console.log(error);
+      io.emit('getOrderError', error);
+    }
+  });
 
   socket.on('disconnect', () => {
+    const index = clients.map(user => {
+      if(user._id === socket.user._id){
+        return user;
+      }
+    }).indexOf();
+    console.log(index);
+    clients.splice(index, 1);
     console.log('🔥: A user disconnected');
   });
 });
