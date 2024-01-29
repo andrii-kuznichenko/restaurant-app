@@ -1,10 +1,10 @@
 require('dotenv/config');
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db');
-
 const PORT = process.env.PORT || 4000;
 const app = express();
 
@@ -18,6 +18,7 @@ const cookie = require('cookie');
 
 const authRouter = require('./routes/table');
 const restaurantRouter = require('./routes/restaurant');
+const adminRouter = require('./routes/admins');
 
 const Meal = require('./modules/meal');
 const Restaurant = require('./modules/restaurant');
@@ -29,8 +30,10 @@ const meal = require('./modules/meal');
 app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
-app.use('/api/restaurant', restaurantRouter);
+
 app.use('/auth', authRouter);
+app.use('/admin', adminRouter);
+app.use('/dashboard', restaurantRouter)
 
 
 io.use((socket, next) => {
