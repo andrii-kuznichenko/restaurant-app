@@ -23,10 +23,10 @@ const UserOrderMeal = ({ item, onAdd, onRemove, name, content, price }) => {
 
   return (
     <div>
-       <button onClick={handleRemove}>-</button>
+      <span>Amount</span>
+      <button onClick={handleRemove}>-</button>
       <span>{quantity}</span>
       <button onClick={handleAdd}>+</button>
-      
       <div>Total Price: ${totalPrice.toFixed(2)}</div>
         
     </div>

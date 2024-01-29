@@ -46,11 +46,10 @@ const handleRemove = (item) => {
   };
 
   
-  
-  
+   
 
   return (
-    <div className="user-menu-container">
+    <div className="user-menu-container mx-auto px-20 bg-gray-200 ">
       <h2>Menu</h2>
       <div className="menu-items">
         {userMenu.map((item) => (
