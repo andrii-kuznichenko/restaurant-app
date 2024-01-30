@@ -1,9 +1,21 @@
 import React, {useEffect} from 'react';
 import io from 'socket.io-client';
-
-const socket = io(import.meta.env.VITE_SERVER_BASE_URL, { transports: ['websocket'] });
+const restaurantId = '65b3b26aef210c44a63af9b2';
+const socket = io(`${import.meta.env.VITE_SERVER_BASE_URL}/restaurant-${restaurantId}`, { transports: ['websocket'] });
 
 function MockOrder() {
+
+  useEffect(() => {
+
+    socket.emit('join room', 'client');
+    
+    
+    return () => {
+        socket.disconnect();
+    };
+  }, []);
+
+
   const mockOrderData = {
     operation: 'add',
     tableNumberId: '65b428a00b61fb0f41d40fb6', 
@@ -17,15 +29,12 @@ function MockOrder() {
   };
 
   const placeMockOrder = () => {
-    socket.emit('connectToOrder', mockOrderData);
+    
+    socket.emit('place order', mockOrderData);
     console.log('Mock order placed:', mockOrderData);
   };
 
-  useEffect(() => {
-    return () => {
-        socket.disconnect();
-    };
-  }, []);
+
 
   return (
     <div>
