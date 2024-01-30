@@ -17,7 +17,7 @@ const AdminOrders = () => {
     // .get(`/api/books`)
     // .then(res => setBooks(res.data))
     // .catch(e => console.error(e));
-
+    socket.emit('connectToOrder', admin.restaurantId);
     socket.on(`getOrders-${adminUserId}`, orders => {
       console.log("Received orders:", orders);
       setNewOrders(orders);
