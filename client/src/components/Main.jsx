@@ -8,24 +8,26 @@ import UserOrderMeal from './UserOrderMeal';
 import TableLogin from './TableLogin';
 import ProtectedTables from './ProtectedTables';
 import Protected from './ProtectedRoute';
+import AdminMenu from './AdminMenu';
 
 function Main() {
   return (
     <main>
       <Routes>
-          <Route path="/" element={<Protected />}>
+      <Route path="/" element={<ProtectedTables />}>
+        <Route path="" element={<UserMenu />} />
+        <Route path="/user/order/summary" element={<OrderSummary />} />
+        <Route path="/user/order/meal/:id" element={<UserOrderMeal />} />
+      </Route>
+      <Route path="/loginTable/:_id/:tableNumber/:restaurantId" element={<TableLogin />} />
+      <Route path="/loginTable" element={<TableLogin />} />
+
+      <Route path="/" element={<Protected />}>
+      <Route path="" element={<AdminMenu />} />
       
       </Route>
       <Route path="/login" element ={<Login />} />
       <Route path="/register" element ={<Register />} />
-
-      
-      <Route path="/user" element={<ProtectedTables />}>
-          <Route path="/user/order/summary" element={<OrderSummary />} />
-          <Route path="/user/order/meal/:id" element={<UserOrderMeal />} />
-      </Route>
-        <Route path="/loginTable/:_id/:tableNumber/:restaurantId" element={<TableLogin />} />
-        <Route path="/loginTable" element={<TableLogin />} />
       </Routes>
     </main>
 

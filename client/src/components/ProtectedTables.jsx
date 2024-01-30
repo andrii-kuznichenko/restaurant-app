@@ -5,7 +5,7 @@ import { AuthTableContext } from '../context/AuthTable';
 function Protected() {
   const { table, loading } = useContext(AuthTableContext);
 
-  return <>{!loading && <>{table ? <Outlet /> : <Navigate to="/loginTable" />}</>}</>;
+  return <>{!loading && <>{table ? <Outlet /> : <Navigate to="/login" />}</>}</>;
 }
 
 export default Protected;
