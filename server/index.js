@@ -17,7 +17,7 @@ const jwt = require('jsonwebtoken');
 const cookie = require('cookie');
 
 const authRouter = require('./routes/table');
-const restaurantRouter = require('./routes/restaurant');
+const restaurantRouter = require('./routes/restaurants');
 const adminRouter = require('./routes/admins');
 
 const Meal = require('./modules/meal');
