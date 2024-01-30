@@ -6,7 +6,6 @@ import Footer from './components/Footer'
 
 function App() {
   
-console.log("App is rendered");
   return (
     <>
      <Main />

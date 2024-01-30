@@ -1,37 +1,43 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAppContext } from './Context';
-/*import axios from 'axios';*/
-
 import UserOrderMeal from './UserOrderMeal';
-
-import mockData from '../assets/mockData.json';
-import './UserMenu.css';
+import axios from '../axiosInstance';
+import { AuthTableContext } from '../context/AuthTable';
+import io from 'socket.io-client';
+const socket = io(import.meta.env.VITE_SERVER_BASE_URL, { transports: ['websocket'] });
 
 const UserMenu = () => {
 
-  console.log("UserMenu component mounted");
+  const context = useContext(AuthTableContext);
 
-  const { userMenu, setUserMenu, selectedItem, updateSelectedItem, updateOrderItems } = useAppContext();
+
+  const [order, setOrder] = useState({
+    "tableNumberId":"",
+    "meals": [{
+      "name": "",
+      "quantity": 0
+    }],
+    "totalPrice": 0,
+    "restaurantId":""
+  });
+  const [menu, setMenu] = useState([]);
+
 
   useEffect(() => {
-    /* axios
-     .get("/api/usermenu")
-     .then(res => {
-      setUserMenu(res.data);
-      setLoading(false);
-     })
-     .catch(e => {
-      console.error(e);
-      setLoading(false);
-  });*/
-  
-  // Set usermenu state with the mock data
- 
-  setUserMenu(mockData);
-  
+
+    socket.emit("connectToMenu", {restaurantId: context.table.restaurantId});
+    socket.on(`getMenuUser-${context.table.restaurantId}`, (receivedMenu) => {
+      setMenu(receivedMenu);
+    });
+
 }, []);
-    
+
+  function uploadHandler (e) {
+
+    socket.emit("connectToMenu",  e.target.files[0], (status) => {
+    console.log(status);
+    });
+  }
 
 const handleAccordionClick = (item) => {
     updateSelectedItem(item);
@@ -46,27 +52,28 @@ const handleRemove = (item) => {
   };
 
   
-  
-  
 
   return (
-    <div className="user-menu-container">
+    <>
+    <div>UserMenu</div>
+    <input type="file" onChange={uploadHandler(files)} />
+    {/* <div className="user-menu-container">
       <h2>Menu</h2>
       <div className="menu-items">
-        {userMenu.map((item) => (
+        {!menu?menu.map((item) => (
           <div key={item.id}>
             <button
               type="button"
               className="w-full p-8 font-medium text-gray-900 border border-b-0 border-gray-400 focus:ring-7 focus:ring-gray-500 hover:bg-gray-100 gap-8"
               onClick={() => handleAccordionClick(item)}
             >
-              {item.name}
+              {item.title}
             </button>
-            {selectedItem && selectedItem.id === item.id && (
+            {selectedItem && selectedItem.id === item._id && (
               <div className="p-10 border border-b-0 border-gray-400">
-                <h3>{selectedItem.name}</h3>
+                <h3>{selectedItem.title}</h3>
                 <p>{selectedItem.content}</p>
-                <p>Price: ${selectedItem.price.toFixed(2)}</p>
+                <p>Price: ${selectedItem.price}</p>
                 <UserOrderMeal
                   item={selectedItem}
                   onAdd={() => handleAdd(selectedItem)}
@@ -79,13 +86,15 @@ const handleRemove = (item) => {
               </div>
             )}
           </div>
-        ))}
+        )):<p></p>}
       </div>
       <Link to="./OrderSummary">
        <button className="order-summary-button">See your order summary</button>
      
       </Link>
     </div>
+    </> */}
+    </>
   );
 };
 
