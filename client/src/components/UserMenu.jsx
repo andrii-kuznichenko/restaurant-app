@@ -56,7 +56,7 @@ const handleRemove = (item) => {
   return (
     <>
     <div>UserMenu</div>
-    <input type="file" onChange={uploadHandler(files)} />
+    <input type="file" onChange={uploadHandler} />
     {/* <div className="user-menu-container">
       <h2>Menu</h2>
       <div className="menu-items">
