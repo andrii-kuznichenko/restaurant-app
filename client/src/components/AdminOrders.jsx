@@ -23,10 +23,21 @@ const AdminOrders = () => {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_SERVER_BASE_URL}/dashboard/orders`)
-
-      .then((res) => setNewOrders(res.data))
-      .catch((e) => console.error(e));
+    axios.get(`/dashboard/orders/${restaurantId}`)
+    .then((res) => {
+      console.log("Received data:", res.data);
+      if (Array.isArray(res.data)) {
+        setNewOrders(res.data);
+      }
+    })
+    .catch((e) => console.error(e));
+      
+      
+      
+      
+      
+      // setNewOrders(res.data))
+     
 
     adminSocket.emit("join room", "admin");
     adminSocket.on("new order", (order) => {
@@ -47,13 +58,16 @@ const AdminOrders = () => {
         <h2>No orders yet</h2>
       ) : (
         newOrders.map((order) => (
+          <>
           <div key={order._id}>
-            {order.meals.map((meal) => (
-              <div key={meal._id}>
-                Meal ID: {meal.name}, Quantity: {meal.quantity}
+            {order.meals.map((meal, index) => (
+              <div key={index}>
+                Meal ID: {meal.name.title}, Quantity: {meal.quantity}
               </div>
             ))}
           </div>
+          <hr />
+          </>
         ))
       )}
     </div>

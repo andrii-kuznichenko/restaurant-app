@@ -20,7 +20,7 @@ function MockOrder() {
     operation: 'add',
     tableNumberId: '65b428a00b61fb0f41d40fb6', 
     meals: [
-      { name: '65b2d6899f642d0b3e3b04b1', quantity: 2 }, 
+      { name: '65b2df1a3a5f9e45045504bf', quantity: 2 }, 
       { name: '65b2debea687ee49a00630ee', quantity: 1 },
     ],
     totalPrice: 100, 
