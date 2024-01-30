@@ -10,8 +10,8 @@ import OrderSummary from './OrderSummary';
 import UserOrderMeal from './UserOrderMeal';
 import TableLogin from './TableLogin';
 import ProtectedTables from './ProtectedTables';
-import Protected from './ProtectedRoute';
 import AdminMenu from './AdminMenu';
+import AdminDashboard from './AdminDashboard';
 
 function Main() {
   return (
@@ -27,7 +27,7 @@ function Main() {
 
       <Route path="/" element={<Protected />}>
       <Route path="" element={<AdminMenu />} />
-      
+      <Route path="/admin/dashboard" element={<AdminDashboard />} />
       </Route>
       <Route path="/login" element ={<Login />} />
       <Route path="/register" element ={<Register />} />
