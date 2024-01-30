@@ -30,6 +30,7 @@ const register = async (req, res) => {
       email: newAdmin.email,
       username: newAdmin.username,
       role: newAdmin.role,
+      restaurantId: newAdmin.restaurantId
     };
     const adminToken = jwt.sign(adminPayload, SECRET);
     res
@@ -70,6 +71,7 @@ const login = async (req, res) => {
             email: adminDoc.email,
             username: adminDoc.username,
             role: adminDoc.role,
+            restaurantId: adminDoc.restaurantId
           };
           const adminToken = jwt.sign(adminPayload, SECRET);
           res
