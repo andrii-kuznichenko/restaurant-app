@@ -50,53 +50,51 @@ const handleRemove = (item) => {
   };
 
   
-  return (
-    <div className="user-menu-container mx-auto px-20 rounded-xl m-[15px] shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)]"
-      >
-      <h2 className="menu-title">Menu</h2>
-      <div className="menu-items rounded-xl m-[15px] space-x-6 space-y-6 justify-center ">
-        
-        
-        {userMenu.map((item) => (
-          <div key={item.id}>
-                        
-            <button
-              type="button"
-              className="menu-item menu-item-hover relative shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)] rounded-xl justify-center text-black flex-col w-full m-2"
-             
-              onClick={() => handleAccordionClick(item)}
-            >
-               <span style={{ fontFamily: "'Merienda', cursive" }}>{item.name}</span>
+return (     
 
-              <div className="arrow-icon-container" style={{ transform: `rotate(${selectedItem && selectedItem.id === item.id ? '180deg' : '0'})` }}>
-              <FaChevronDown />
-              </div>
-     
-            {selectedItem && selectedItem.id === item.id && (
-              <div className="meal-details relative m-2 flex-col w-full">
-                <p>{selectedItem.content}</p>
-                <p>Price: ${selectedItem.price.toFixed(2)}</p>
-                <UserOrderMeal
-                  item={selectedItem}
-                  onAdd={() => handleAdd(selectedItem)}
-                  onRemove={() => handleRemove(selectedItem)}
-                  name={selectedItem.name}
-                  content={selectedItem.content}
-                  price={selectedItem.price}
+  <div className="user-menu-container mx-auto px-2 rounded-xl m-2 shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)] overflow-auto flex items-center">
+    <h2 className="menu-title">Menu</h2>
+    <div className="menu-items rounded-xl m-2 space-x-2 space-y-2 justify-center">
+    {userMenu.map((item) => (
+      <div key={item.id}>
+        
+        <button
+         type="button"
+          className="menu-item menu-item-hover relative shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)] rounded-xl justify-center text-black flex-col w-full m-2 sm:m-4 lg:m-6 justify-between mr-2"
+          onClick={() => handleAccordionClick(item)}
+         >
+            <span style={{ fontFamily: "'Merienda', cursive" }}>{item.name}</span>
+             
+            <div className="arrow-icon-container transform-gpu text-xs sm:text-sm md:text-base lg:text-lg my-1 sm:my-2 md:my-3 lg:my-4" style={{ transform: `rotate(${selectedItem && selectedItem.id === item.id ? '180deg' : '0'})` }}>
+            <FaChevronDown />
+            </div>
+
+             {selectedItem && selectedItem.id === item.id && (
+             <div className="meal-details relative m-2 flex-col w-full overflow-y-auto">
+               <p>{selectedItem.content}</p>
+               <p>Price: ${selectedItem.price.toFixed(2)}</p>
+               <UserOrderMeal
+                item={selectedItem}
+                onAdd={() => handleAdd(selectedItem)}
+                onRemove={() => handleRemove(selectedItem)}
+                name={selectedItem.name}
+                content={selectedItem.content}
+                price={selectedItem.price}
+               
                 />
-              </div>
-            )}
-            
+               </div>
+              )}
+
             </button> 
         </div>
         ))}
 
-<script type="module" src="../src/assets"></script>
-<script noModule src="../src/assets"></script>
+  <script type="module" src="../src/assets"></script>
+  <script noModule src="../src/assets"></script>
 
       </div>
       <Link to="./OrderSummary">
-      <button className="order-summary-button shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)] text-black flex-col w-full m-6 rounded-xl"
+      <button className="order-summary-button shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)] text-black flex-col w-full rounded-xl"
         style={{ fontFamily: "'Merienda', cursive" }}>See your order summary</button>
        </Link>
       </div>
