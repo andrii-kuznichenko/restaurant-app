@@ -1,43 +1,42 @@
 
-/*.user-menu-container {
-    max-width: 400px;
-    margin: 0 auto;
-  }
-  
-  .menu-heading {
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 1.5rem;
-  }
-  
-  .menu-item {
-    width: 100%;
-    padding: 15px;
-    margin-bottom: 30px;
-    font-size: 1rem;
-    font-weight: 500;
-    color: red;
-    border: 1px solid #706262;
-    background-color: #706262;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .menu-item:hover {
-    background-color: #e1e1e1;
-  }
-  
-  .menu-content {
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-top: none;
-    background-color: #f9f9f9;
-  }
-  
 
-  @media (max-width: 768px) {
-    .user-menu-container {
-      max-width: 100%;
-    }
-  }*/
+
+@import url('https://fonts.googleapis.com/css2?family=Merienda&display=swap&family=Nunito+Sans:ital,wght@0,400;1,700&display=swap');
+
+.user-menu-container {
+  font-family: 'Nunito Sans', sans-serif;
+  font-style: italic;
+  font-weight: 900;
+  background-color: #ccfbf1;
+ 
+}
+
+.menu-item-hover:hover {
+  transform: scale(1.05); /* Increase the size of the button by 5% when hovered */
+  transition: transform 0.3s ease-in-out; /* Smooth the size change over 0.3 seconds */
+}
+
+.arrow-icon-container {
+  position: absolute;
+  top: 15px;
+  right: 30px;
+  transform: rotate(0deg);
+  transition: transform 0.3s ease;
+}
+
+.arrow-icon-container.checked {
+  transform: rotate(180deg);
+}
+
+.order-summary-button {
+  background-color: #ccfbf1;
+  border: 4px;
+}
+
+.menu-title {
+  font-family: 'Merienda', cursive;
+  font-size: 2em;
+  line-height: 1.5;
+  font-weight: 900;
+  color: #213547;
+}

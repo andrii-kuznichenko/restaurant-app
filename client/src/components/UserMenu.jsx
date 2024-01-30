@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppContext } from './Context';
@@ -49,9 +51,10 @@ const handleRemove = (item) => {
 
   
   return (
-    <div className="user-menu-container mx-auto px-20 rounded-xl m-[20px] bg-blue-grey-750 shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)]">
-      <h2 className="text-orange-100">Menu</h2>
-      <div className="menu-items rounded-xl m-[15px] space-x-6 space-y-6 justify-center text-[#4d4d4d">
+    <div className="user-menu-container mx-auto px-20 rounded-xl m-[15px] shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)]"
+      >
+      <h2 className="menu-title">Menu</h2>
+      <div className="menu-items rounded-xl m-[15px] space-x-6 space-y-6 justify-center ">
         
         
         {userMenu.map((item) => (
@@ -59,20 +62,18 @@ const handleRemove = (item) => {
                         
             <button
               type="button"
-              className="menu-item relative w-[600px] bg-orange-500 shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)] rounded-xl m-[15px] font-bold tracking-[1px] mx-[20px] h-[50px] flex items-center justify-center text-black m-6"
+              className="menu-item menu-item-hover relative shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)] rounded-xl justify-center text-black flex-col w-full m-2"
+             
               onClick={() => handleAccordionClick(item)}
             >
-               {item.name}
+               <span style={{ fontFamily: "'Merienda', cursive" }}>{item.name}</span>
 
               <div className="arrow-icon-container" style={{ transform: `rotate(${selectedItem && selectedItem.id === item.id ? '180deg' : '0'})` }}>
               <FaChevronDown />
               </div>
-            
-            </button>
-
-
+     
             {selectedItem && selectedItem.id === item.id && (
-              <div className="meal-details relative w-[600px] text-orange-100  m-6">
+              <div className="meal-details relative m-2 flex-col w-full">
                 <p>{selectedItem.content}</p>
                 <p>Price: ${selectedItem.price.toFixed(2)}</p>
                 <UserOrderMeal
@@ -85,9 +86,9 @@ const handleRemove = (item) => {
                 />
               </div>
             )}
-
-          
-    </div>
+            
+            </button> 
+        </div>
         ))}
 
 <script type="module" src="../src/assets"></script>
@@ -95,10 +96,10 @@ const handleRemove = (item) => {
 
       </div>
       <Link to="./OrderSummary">
-       <button className="order-summary-button shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)] rounded-xl m-[15px] m-6">See your order summary</button>
-     
-      </Link>
-    </div>
+      <button className="order-summary-button shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)] text-black flex-col w-full m-6 rounded-xl"
+        style={{ fontFamily: "'Merienda', cursive" }}>See your order summary</button>
+       </Link>
+      </div>
   );
 };
 
