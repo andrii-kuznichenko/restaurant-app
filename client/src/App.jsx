@@ -1,19 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Main from './components/Main'
-import Footer from './components/Footer'
+import { useContext, useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import Main from "./components/Main";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import { AuthTableContext } from "./context/AuthTable";
+import { AuthContext } from "./context/Auth";
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const { table, loading } = useContext(AuthTableContext);
   return (
     <>
-     <Main />
-     <Footer />
+    <>{!loading && <>{table ? <p></p> : <Header  />}</>}</>
+      <Main />
+      <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
