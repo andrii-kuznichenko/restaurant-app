@@ -14,17 +14,17 @@ export const AppProvider = ({ children }) => {
 
   const updateSelectedItem = (item) => {
     setSelectedItem((prevSelectedItem) =>
-      prevSelectedItem?.id === item.id ? null : item
+      prevSelectedItem?._id === item._id ? null : item
     );
   };
 
   const updateOrderItems = (item) => {
-    const existingItem = orderItems.find((orderItem) => orderItem.id === item.id);
+    const existingItem = orderItems.find((orderItem) => orderItem._id === item._id);
 
     if (existingItem) {
       setOrderItems((prevItems) =>
         prevItems.map((orderItem) =>
-          orderItem.id === item.id
+          orderItem._id === item._id
             ? { ...orderItem, quantity: orderItem.quantity + 1 }
             : orderItem
         )

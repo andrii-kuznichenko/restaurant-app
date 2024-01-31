@@ -10,7 +10,7 @@ const UserOrderMeal = ({ item, onAdd, onRemove, name, content, price }) => {
   const handleAdd = (event) => {
     event.stopPropagation();
     setQuantity(quantity + 1);
-    onAdd(item);
+    onAdd(item); 
   };
 
   const handleRemove = (event) => {

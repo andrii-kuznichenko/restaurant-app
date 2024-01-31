@@ -14,7 +14,7 @@ const OrderSummary = () => {
       <ul>
         {Array.isArray(orderItems) && orderItems.length > 0 ? (
           orderItems.map((item) => (
-            <li key={item.id}>
+            <li key={item._id}>
               {item.quantity} x {item.name} - ${item.price * item.quantity}
             </li>
           ))
