@@ -19,9 +19,6 @@ const cookie = require("cookie");
 const authRouter = require('./routes/table');
 const restaurantRouter = require('./routes/restaurants');
 const adminRouter = require('./routes/admins');
-const authRouter = require("./routes/table");
-const restaurantRouter = require("./routes/restaurants");
-const adminRouter = require("./routes/admins");
 
 const Meal = require("./modules/meal");
 const Restaurant = require("./modules/restaurant");

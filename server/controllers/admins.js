@@ -69,7 +69,7 @@ const login = async (req, res) => {
           const adminPayload = {
             _id: adminDoc._id,
             email: adminDoc.email,
-            username: adminDoc.username,
+            login: adminDoc.login,
             role: adminDoc.role,
             restaurantId: adminDoc.restaurantId
           };
