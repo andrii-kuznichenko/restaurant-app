@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { useAppContext } from "./Context";
+import { AppContext } from "./Context";
 /*import axios from 'axios';*/
 
 import UserOrderMeal from "./UserOrderMeal";
@@ -18,7 +18,7 @@ const UserMenu = () => {
     updateSelectedItem,
     updateOrderItems,
     orderItems
-  } = useAppContext();
+  } = useContext(AppContext);
   const [isAccordionExpanded, setIsAccordionExpanded] = useState(false);
 
   useEffect(() => {
@@ -173,7 +173,7 @@ const getTotalPrice = (id)=>{
         <script type="module" src="../src/assets"></script>
         <script noModule src="../src/assets"></script>
       </div>
-      <Link to="./OrderSummary">
+      <Link to="/user/order/summary">
         <button
           className="order-summary-button shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)] text-black flex-col w-full rounded-xl"
           style={{ fontFamily: "'Merienda', cursive" }}
@@ -182,8 +182,7 @@ const getTotalPrice = (id)=>{
         </button>
       </Link>
     </div>
-    </> */}
-    </>
+   
   );
 };
 

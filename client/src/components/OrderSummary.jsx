@@ -1,12 +1,12 @@
 
-import React from 'react';
-import { useAppContext } from './Context';
+import React, { useContext } from 'react';
+import { AppContext } from './Context';
 
 const OrderSummary = () => {
 
   console.log("OrderSummery is mounted")
   
-  const { orderItems, total } = useAppContext();
+  const { orderItems, total } = useContext(AppContext);
 
   return (
     <div>
