@@ -12,6 +12,7 @@ import TableLogin from './TableLogin';
 import ProtectedTables from './ProtectedTables';
 import AdminMenu from './AdminMenu';
 import AdminDashboard from './AdminDashboard';
+import MyRestaurant from './MyRestaurant';
 
 function Main() {
   return (
@@ -26,11 +27,14 @@ function Main() {
       <Route path="/loginTable" element={<TableLogin />} />
 
       <Route path="/" element={<Protected />}>
-      <Route path="" element={<AdminMenu />} />
+      <Route path="/admin/menu" element={<AdminMenu />} />
       <Route path="/admin/dashboard" element={<AdminDashboard />} />
+      <Route path="/admin/orders" element ={<AdminOrders />} />
+      <Route path="/admin/restaurant" element ={<MyRestaurant />} />
       </Route>
       <Route path="/login" element ={<Login />} />
       <Route path="/register" element ={<Register />} />
+      <Route path="/mockorder" element ={<MockOrder />} />
       </Routes>
     </main>
 
