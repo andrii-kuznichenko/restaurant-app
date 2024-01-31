@@ -19,6 +19,7 @@ function AuthProvider({ children }) {
     axios
       .get("/admin/currentAdmin")
       .then((res) => {
+        console.log(res.data);
         setState(res.data.admin, false, null);
         navigate("/");
       })

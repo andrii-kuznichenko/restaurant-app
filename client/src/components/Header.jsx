@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
-const Header = ({ admin, logout }) => {
+const Header = ({admin, logout}) => {
+  console.log(admin);
+  
+
   return (
     <header className="bg-blue-500 p-4 text-white">
       <nav className="flex justify-between">
