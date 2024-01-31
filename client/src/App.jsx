@@ -7,6 +7,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { AuthTableContext } from "./context/AuthTable";
 import { AuthContext } from "./context/Auth";
+import UserPayment from "./components/UserPayment";
 
 function App() {
   const { table, loading } = useContext(AuthTableContext);
@@ -14,6 +15,7 @@ function App() {
     <>
     <>{!loading && <>{table ? <p></p> : <Header  />}</>}</>
       <Main />
+      <UserPayment />
       <Footer />
     </>
   );
