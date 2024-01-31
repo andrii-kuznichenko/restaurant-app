@@ -27,6 +27,7 @@ function Main() {
 
       <Route path="/" element={<Protected />}>
       <Route path="" element={<AdminOrders />} />
+      <Route path="admin/menu" element={<AdminMenu />} />
       <Route path="admin/dashboard" element={<AdminDashboard />} /> 
        <Route path="admin/newMeal" element={<AdminNewMeal />} />  
       <Route path="admin/restaurant" element ={<MyRestaurant />} />
