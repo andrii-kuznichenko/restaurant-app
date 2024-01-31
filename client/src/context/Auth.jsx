@@ -20,7 +20,7 @@ function AuthProvider({ children }) {
       .get("/admin/currentAdmin")
       .then((res) => {
         setState(res.data.admin, false, null);
-        navigate("/");
+        // navigate("/");
       })
       .catch((error) => {
         console.log(error.response.data);

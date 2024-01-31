@@ -11,7 +11,7 @@ function App() {
   const { table, loading } = useContext(AuthTableContext);
   return (
     <>
-    <>{!loading && <>{table ? <p></p> : <Header />}</>}</>
+      <>{!loading && <>{table ? <p></p> : <Header />}</>}</>
       <Main />
       <Footer />
     </>
