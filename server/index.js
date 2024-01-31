@@ -36,6 +36,60 @@ app.use("/admin", adminRouter);
 app.use("/dashboard", restaurantRouter);
 
 
+
+// const namespaces = {};
+// const restaurantId = '65b3b26aef210c44a63af9b2'
+
+// function initRestaurantNamespace(restaurantId) {
+//     if (namespaces[restaurantId]) {
+//         return namespaces[restaurantId];
+//     }
+
+//     const nsp = io.of(`/restaurant-${restaurantId}`);
+//     namespaces[restaurantId] = nsp;
+
+//     nsp.on('connection', (socket) => {
+//         console.log(`User connected to restaurant ${restaurantId}`);
+
+        
+//         socket.on('join room', (roomType) => {
+//             const roomName = `${restaurantId}-${roomType}`;
+//             socket.join(roomName);
+//         });
+
+//         socket.on('request menu', () => {
+//             const menuData = getMenuDataForRestaurant(restaurantId);
+//             socket.emit('menu data', menuData);
+//         });
+
+//         socket.on('place order', async (order) => {
+//             console.log(`Order received in restaurant ${restaurantId}`, order);
+//             try {
+
+//               // add condition here // 
+
+//               const newOrder = await Order.create({...order});
+//               console.log("New order saved:", newOrder);
+//               nsp.to(`${restaurantId}-admin`).emit('new order', newOrder);
+//             } catch (error) {
+//               console.error("Error saving order:", error);
+//             }
+//         });
+
+//         socket.on('disconnect', () => {
+//             console.log(`User disconnected from restaurant ${restaurantId}`);
+//         });
+//     });
+
+//     return nsp;
+// }
+
+// const restaurantIds = ['65b3b26aef210c44a63af9b2'];
+// restaurantIds.forEach(initRestaurantNamespace);
+
+
+
+
 io.use((socket, next) => {
   if (socket.handshake.headers.cookie) {
       const cookies = cookie.parse(socket.handshake.headers.cookie);
@@ -127,13 +181,13 @@ io.on('connection', (socket) => {
 
       for await(const user of clients){
         if(user.restaurantId === socket.user.restaurantId) {
-          const orderInfo = await Order.find({"restaurantId": user.restaurantId, "tableNumberId": user._id, "isClosed": false}).populate('meals');
+          const orderInfo = await Order.find({"restaurantId": user.restaurantId, "tableNumberId": user._id, "isClosed": false}).populate('meals.name');
           io.emit(`getOrder-${user._id}`, orderInfo);
-
-          const orders = await Order.find({"restaurantId": user.restaurantId}).populate('meals');
-          io.emit(`getOrders-${user._id}`, orders);
         }
       }
+
+      const orders = await Order.find({"restaurantId": socket.user.restaurantId}).populate('meals.name');
+      io.emit(`getOrders-${socket.user.restaurantId}`, orders);
 
       
     } catch (error) {
@@ -148,7 +202,6 @@ io.on('connection', (socket) => {
         return user;
       }
     }).indexOf();
-    console.log(index);
     clients.splice(index, 1);
     console.log('🔥: A user disconnected');
   });
@@ -173,62 +226,3 @@ connectDB().then(() => {
     console.log(`server is up on port ${PORT}`);
   });
 });
-
-
-
-
-
-
-// NAMESPACE SOCKET.IO //
-
-// const namespaces = {};
-// const restaurantId = '65b3b26aef210c44a63af9b2'
-
-// function initRestaurantNamespace(restaurantId) {
-//     if (namespaces[restaurantId]) {
-//         return namespaces[restaurantId];
-//     }
-
-//     const nsp = io.of(`/restaurant-${restaurantId}`);
-//     namespaces[restaurantId] = nsp;
-
-//     nsp.on('connection', (socket) => {
-//         console.log(`User connected to restaurant ${restaurantId}`);
-
-        
-//         socket.on('join room', (roomType) => {
-//             const roomName = `${restaurantId}-${roomType}`;
-//             socket.join(roomName);
-//         });
-
-//         socket.on('request menu', () => {
-//             const menuData = getMenuDataForRestaurant(restaurantId);
-//             socket.emit('menu data', menuData);
-//         });
-
-//         socket.on('place order', async (order) => {
-//             console.log(`Order received in restaurant ${restaurantId}`, order);
-//             try {
-
-//               // add condition here // 
-
-//               const newOrder = await Order.create({...order});
-//               console.log("New order saved:", newOrder);
-//               nsp.to(`${restaurantId}-admin`).emit('new order', newOrder);
-//             } catch (error) {
-//               console.error("Error saving order:", error);
-//             }
-//         });
-
-//         socket.on('disconnect', () => {
-//             console.log(`User disconnected from restaurant ${restaurantId}`);
-//         });
-//     });
-
-//     return nsp;
-// }
-
-// const restaurantIds = ['65b3b26aef210c44a63af9b2'];
-// restaurantIds.forEach(initRestaurantNamespace);
-
-// NAMESPACE SOCKET.IO //
