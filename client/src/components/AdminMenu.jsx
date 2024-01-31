@@ -31,19 +31,19 @@ function AdminMenu() {
     <div>
       <h1>Admin Menu</h1>
       {menuItems.map((item, index) => (
-        <div key={index}>
+        <form key={index}>
           <label>Title</label>
           <input
             defaultValue={item.title}
             onChange={(e) => handleEdit(index, "title", e.target.value)}
           />
-
+  
           <label>Description</label>
           <input
             defaultValue={item.description}
             onChange={(e) => handleEdit(index, "description", e.target.value)}
           />
-
+  
           <label>Allergens</label>
           <input
             defaultValue={item.allergens.join(", ")}
@@ -51,35 +51,35 @@ function AdminMenu() {
               handleEdit(index, "allergens", e.target.value.split(", "))
             }
           />
-
+  
           <label>Price</label>
           <input
             defaultValue={item.price}
             onChange={(e) => handleEdit(index, "price", e.target.value)}
           />
-
+  
           <label>Image</label>
           <input
             defaultValue={item.image}
             onChange={(e) => handleEdit(index, "image", e.target.value)}
           />
-
+  
           <label>Hide</label>
           <input
             type="checkbox"
             defaultChecked={item.hide}
             onChange={(e) => handleEdit(index, "hide", e.target.checked)}
           />
-
+  
           <label>Category</label>
           <input
             defaultValue={item.category}
             onChange={(e) => handleEdit(index, "category", e.target.value)}
           />
-        </div>
+        </form>
       ))}
     </div>
   );
-}
-
+          }
+          
 export default AdminMenu;
