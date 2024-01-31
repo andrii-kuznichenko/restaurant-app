@@ -16,7 +16,7 @@ const OrderSummary = () => {
     socket.emit("connectToOrder", {restaurantId: context.table.restaurantId});
     socket.on(`getOrder-${context.table._id}`, (receivedOrder) => {
       if(receivedOrder.length === 0){
-        navigate('/user');
+        navigate('/user/order/closed');
       }
       setOrder(receivedOrder[0]);
     });

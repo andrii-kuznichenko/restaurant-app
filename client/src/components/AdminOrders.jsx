@@ -56,11 +56,18 @@ const AdminOrders = () => {
   }, []);
 
   const closeOrderHandler = (e) => {
-    console.log(e.target.name);
     socket.emit("connectToOrder", {
       restaurantId: admin.restaurantId,
       orderId: e.target.name,
       operation:'close'});
+  }
+
+  const changeOrderStatusHandler = (e) => {
+    socket.emit("connectToOrder", {
+      restaurantId: admin.restaurantId,
+      orderId: e.target.name,
+      status: 'waiting for payment',
+      operation:'change_status'});
   }
 
   return (
@@ -80,6 +87,7 @@ const AdminOrders = () => {
           <h1>status: {order.status}</h1>
           <h2>{order.isClosed?'closed':'in work'}</h2>
           <button onClick={closeOrderHandler} name={order._id}>Close the Order</button>
+          <button onClick={changeOrderStatusHandler} name={order._id}>Change Status</button>
           </div>
           <hr />
           </>
