@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
     Card,
     Typography,
@@ -29,19 +30,22 @@ import {
             <ListItemPrefix>
               <PresentationChartBarIcon className="h-5 w-5" />
             </ListItemPrefix>
-            Restaurant
+            <Link to="/admin/restaurant"><div className="text-black">Restaurant</div></Link>
+
           </ListItem>
           <ListItem>
             <ListItemPrefix>
               <ShoppingBagIcon className="h-5 w-5" />
             </ListItemPrefix>
-            Menu
+            <Link to="/admin/menu"><div className="text-black">Menu</div></Link>
+
           </ListItem>
           <ListItem>
             <ListItemPrefix>
               <InboxIcon className="h-5 w-5" />
             </ListItemPrefix>
-            Orders
+            <Link to="/admin/orders"><div className="text-black">Orders</div></Link>
+
             
           </ListItem>
           

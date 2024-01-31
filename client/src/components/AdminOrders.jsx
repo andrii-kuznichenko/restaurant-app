@@ -57,9 +57,9 @@ const AdminOrders = () => {
       {newOrders.length === 0 ? (
         <h2>No orders yet</h2>
       ) : (
-        newOrders.map((order) => (
+        newOrders.map((order, index) => (
           <>
-          <div key={order._id}>
+          <div key={index}>
             {order.meals.map((meal, index) => (
               <div key={index}>
                 Meal ID: {meal.name.title}, Quantity: {meal.quantity}
