@@ -1,10 +1,137 @@
-import React from 'react'
-import { Label, TextInput } from 'flowbite-react';
+import React, { useState, useContext } from 'react';
+import axios from '../axiosInstance';
+import { AuthContext } from '../context/Auth';
 
 function AdminNewMeal() {
+  const { admin } = useContext(AuthContext);
+  const [mealData, setMealData] = useState({
+      title: '',
+      description: '',
+      allergens: '',
+      price: '',
+      image: null,
+      hide: false,
+      category: '',
+  });
+  const [message, setMessage] = useState('');
+
+  console.log(admin.restaurantId)
+
+  const handleChange = (e) => {
+    setMealData({ ...mealData, [e.target.name]: e.target.value });
+    console.log(mealData.title)
+};
+
+  const handleImageChange = (e) => {
+    setMealData({ ...mealData, image: e.target.files[0] });
+};
+
+const handleHide = (e) => {
+  setMealData({ ...mealData, hide: e.target.checked });
+};
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(`/menu/add/${admin.restaurantId}`, {
+          title: mealData.title,
+          description: mealData.description,
+          allergens: mealData.allergens,
+          price: mealData.price,
+          category: mealData.category,
+          hide: mealData.hide,
+      });
+      setMessage('Meal added successfully');
+      setMealData({
+          title: '',
+          description: '',
+          allergens: '',
+          price: '',
+          image: null,
+          hide: false,
+          category: '',
+      });
+  } catch (error) {
+      console.error('Error adding meal:', error);
+      setMessage('Error adding meal: ' + (error.response?.data?.message || error.message));
+  }
+};
+
+
   return (
-    <>
-    <div className="flex max-w-md flex-col gap-4">
+      <div>
+          <h2>Add a New Meal</h2>
+          <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+              <input 
+                  type="text" 
+                  name="title" 
+                  value={mealData.title} 
+                  onChange={handleChange} 
+                  placeholder="Meal Title"
+                  className='border-4'
+              />
+              <textarea
+                  name="description"
+                  value={mealData.description}
+                  onChange={handleChange}
+                  placeholder="Meal Description"
+                  className='border-4'
+                  
+              ></textarea>
+              <input
+                  type="text"
+                  name="allergens"
+                  value={mealData.allergens}
+                  onChange={handleChange}
+                  placeholder="Allergens (comma separated)"
+                  className='border-4'
+              />
+              <input
+                  type="number"
+                  name="price"
+                  value={mealData.price}
+                  onChange={handleChange}
+                  placeholder="Price"
+                  className='border-4'
+              />
+              <input
+                  type="file"
+                  name="image"
+                  onChange={handleImageChange}
+                  className='border-4'
+              />
+              <input
+                  type="text"
+                  name="category"
+                  value={mealData.category}
+                  onChange={handleChange}
+                  placeholder="Category"
+                  className='border-4'
+              />
+              <label>
+                  Hide Meal:
+                  <input
+                      type="checkbox"
+                      name="hide"
+                      checked={mealData.hide}
+                      onChange={handleHide}
+                      className='border-4'
+                  />
+              </label>
+              <button type="submit" className='border-4'>Add Meal</button>
+          </form>
+          {message && <p>{message}</p>}
+      </div>
+  );
+};
+
+export default AdminNewMeal;
+
+// FORM ANDRII //
+
+{
+  /* <div className="flex max-w-md flex-col gap-4">
       <div>
         <div className="mb-2 block">
           <Label htmlFor="small" value="Small input" />
@@ -23,9 +150,7 @@ function AdminNewMeal() {
         </div>
         <TextInput id="large" type="text" sizing="lg" />
       </div>
-    </div>
-  </>
-  )
+    </div> */
 }
 
-export default AdminNewMeal
+// FORM ANDRII //
