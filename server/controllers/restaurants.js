@@ -1,5 +1,6 @@
 const Admin = require("../modules/admin");
 const Restaurant = require("../modules/restaurant");
+const Order = require("../modules/order");
 
 const getRestaurantInfo = async (req, res) => {
   try {
@@ -54,10 +55,21 @@ const getAllRestaurants = async (req, res) => {
   }
 };
 
+const getAllOrders = async (req, res) => {
+  try {
+    const restaurantId = req.params.restaurantId;
+    const orders = await Order.find({ restaurantId }).populate('meals.name').populate('tableNumberId');
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching orders', error });
+  }
+}
+
 module.exports = {
   getRestaurantInfo,
   createRestaurant,
   getAllRestaurants,
+  getAllOrders,
 };
 
 //const getAllInfoFromRestaurant = async (req, res) => {
