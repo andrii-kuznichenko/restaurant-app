@@ -39,7 +39,7 @@ function AdminMenu() {
       <h1>Admin Menu</h1>
       {menuItems?.length !== 0? menuItems.menu.map((item, index) => (
         <form key={index}>
-          <label>Title</label>
+          <label>Title </label>
           <input
             defaultValue={item.title}
             onChange={(e) => handleEdit(index, "title", e.target.value)}
