@@ -9,7 +9,7 @@ function AdminMenu() {
   const [menuItems, setMenuItems] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/menuItems")
+    fetch("http://localhost:4000/")
       .then((response) => response.json())
       .then((data) => setMenuItems(data));
   }, []);
@@ -18,7 +18,7 @@ function AdminMenu() {
     const updatedItems = [...menuItems];
     updatedItems[index][prop] = value;
     setMenuItems(updatedItems);
-    fetch(`http://localhost:4000/api/menuItems/${updatedItems[index]._id}`, {
+    fetch(`http://localhost:4000/${updatedItems[index]._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
