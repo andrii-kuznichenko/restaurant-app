@@ -1,55 +1,79 @@
-import React, { useState, useEffect } from 'react';
-import io from 'socket.io-client';
+import React, { useState, useEffect } from "react";
+import io from "socket.io-client";
 
-const socket = io('http://localhost:3000');
+const socket = io("http://localhost:4000");
 
 function AdminMenu() {
   const [menuItems, setMenuItems] = useState([]);
-  const [newItem, setNewItem] = useState('');
 
   useEffect(() => {
-    fetch('/api/menuItems')
-      .then(response => response.json())
-      .then(data => setMenuItems(data));
+    fetch("http://localhost:4000/api/menuItems")
+      .then((response) => response.json())
+      .then((data) => setMenuItems(data));
   }, []);
 
-  const handleAdd = () => {
-    const newItemData = { name: newItem, visible: true };
-    socket.emit('addMenuItem', newItemData);
-    setNewItem('');
-  };
-
-  const handleEdit = (index, name) => {
-    const updatedItem = { ...menuItems[index], name };
-    socket.emit('editMenuItem', updatedItem); 
-  };
-
-  const handleRemove = index => {
-    socket.emit('removeMenuItem', menuItems[index]); 
-  };
-
-  const handleToggleVisibility = index => {
-    const updatedItem = { ...menuItems[index], visible: !menuItems[index].visible };
-    socket.emit('toggleMenuItemVisibility', updatedItem);
+  const handleEdit = (index, prop, value) => {
+    const updatedItems = [...menuItems];
+    updatedItems[index][prop] = value;
+    setMenuItems(updatedItems);
+    fetch(`http://localhost:4000/api/menuItems/${updatedItems[index]._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedItems[index]),
+    });
   };
 
   return (
     <div>
       <h1>Admin Menu</h1>
-      <input value={newItem} onChange={e => setNewItem(e.target.value)} />
-      <button onClick={handleAdd}>Add item</button>
       {menuItems.map((item, index) => (
         <div key={index}>
-          <input defaultValue={item.name} onChange={e => handleEdit(index, e.target.value)} />
-          <button onClick={() => handleEdit(index, newItem)}>
-            Edit
-          </button>
-          <button onClick={() => handleToggleVisibility(index)}>
-            {item.visible ? 'Hide' : 'Show'}
-          </button>
-          <button onClick={() => handleRemove(index)}>
-            Remove
-          </button>
+          <label>Title</label>
+          <input
+            defaultValue={item.title}
+            onChange={(e) => handleEdit(index, "title", e.target.value)}
+          />
+
+          <label>Description</label>
+          <input
+            defaultValue={item.description}
+            onChange={(e) => handleEdit(index, "description", e.target.value)}
+          />
+
+          <label>Allergens</label>
+          <input
+            defaultValue={item.allergens.join(", ")}
+            onChange={(e) =>
+              handleEdit(index, "allergens", e.target.value.split(", "))
+            }
+          />
+
+          <label>Price</label>
+          <input
+            defaultValue={item.price}
+            onChange={(e) => handleEdit(index, "price", e.target.value)}
+          />
+
+          <label>Image</label>
+          <input
+            defaultValue={item.image}
+            onChange={(e) => handleEdit(index, "image", e.target.value)}
+          />
+
+          <label>Hide</label>
+          <input
+            type="checkbox"
+            defaultChecked={item.hide}
+            onChange={(e) => handleEdit(index, "hide", e.target.checked)}
+          />
+
+          <label>Category</label>
+          <input
+            defaultValue={item.category}
+            onChange={(e) => handleEdit(index, "category", e.target.value)}
+          />
         </div>
       ))}
     </div>

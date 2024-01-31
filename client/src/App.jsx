@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Main from './components/Main'
 import Footer from './components/Footer'
+import AdminMenu from './components/AdminMenu'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -11,6 +12,7 @@ function App() {
   return (
     <>
      <Main />
+     <AdminMenu />
      <Footer />
     </>
   )
