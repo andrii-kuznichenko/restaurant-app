@@ -61,14 +61,14 @@ const getTotalPrice = (id)=>{
   };
 
   return (
-    <div className="user-menu-container mx-auto px-2 rounded-xl m-2 shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)] overflow-auto flex items-center">
+    <div className="user-menu-container mx-auto px-2 rounded-xl m-2 shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)]">
       <h2 className="menu-title">Menu</h2>
-      <div className="menu-items rounded-xl m-2 space-x-2 space-y-2 justify-center">
+      <div className="menu-items text-black flex-col m-6 rounded-xl">
         {userMenu.map((item) => (
           <div key={item._id}>
             <button
               type="button"
-              className="menu-item menu-item-hover relative shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)] rounded-xl justify-center text-black flex-col w-full m-2 sm:m-4 lg:m-6 justify-between mr-2"
+              className="menu-item menu-item-hover relative shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)] rounded-xl justify-center text-black flex-col w-full m-2 sm:m-4 lg:m-6 justify-between mr-2 "
               onClick={() => handleAccordionClick(item)}
             >
               <span style={{ fontFamily: "'Merienda', cursive" }}>
@@ -87,7 +87,7 @@ const getTotalPrice = (id)=>{
               </div>
 
               {selectedItem && selectedItem._id === item._id && (
-                <div className="meal-details relative m-2 flex-col w-full overflow-y-auto">
+                <div className="meal-details relative m-2 flex-col w-full">
                   <p>{selectedItem.content}</p>
                   <p>Price: ${selectedItem.price.toFixed(2)}</p>
                   {/* <UserOrderMeal

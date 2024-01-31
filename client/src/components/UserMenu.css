@@ -11,12 +11,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
- 
- 
-}
+  min-height: 100vh;
+  text-align: justify;
+  overflow-wrap: break-word;
+  }
+
+  .menu-item-container {
+    display: flex;
+    justify-content: center;
+  }
 
 .menu-item {
+  display: flex;
+  padding: 1rem 2rem;
+  align-items: center;
   text-align: center;
+  overflow-wrap: break-word;
+  margin-right: 1rem;
 }
 
 .menu-items {
@@ -33,8 +44,7 @@
 
 .arrow-icon-container {
   position: absolute;
-  top: 15px;
-  right: 30px;
+  right: 0.5rem;
   transform: rotate(0deg);
   transition: transform 0.3s ease;
 }
@@ -49,7 +59,7 @@
   border: 4px;
   margin-bottom: 15px;
   text-align: center;
-
+  padding: 1rem 2rem;
 }
 
 .menu-title {
@@ -58,6 +68,7 @@
   line-height: 1.5;
   font-weight: 900;
   color: #213547;
+  padding: 0,5rem 0rem 0.5rem 0rem;
 }
 
 
@@ -70,8 +81,6 @@
   .menu-title {
     font-size: 1.6em; 
   }
-
-  
 }
 
 
