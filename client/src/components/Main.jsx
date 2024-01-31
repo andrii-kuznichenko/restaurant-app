@@ -3,7 +3,6 @@ import { Route, Routes } from 'react-router-dom';
 import UserMenu from './UserMenu';
 import Login from './Login';
 import Register from './Register'
-import MockOrder from './MockOrder';
 import Protected from './ProtectedRoute';
 import AdminOrders from './AdminOrders';
 import OrderSummary from './OrderSummary';
@@ -27,15 +26,13 @@ function Main() {
       <Route path="/loginTable/:_id/:tableNumber/:restaurantId" element={<TableLogin />} />
 
       <Route path="/" element={<Protected />}>
-        <Route path="admin/menu" element={<AdminMenu />} />
+      <Route path="" element={<AdminOrders />} />
       <Route path="admin/dashboard" element={<AdminDashboard />} /> 
        <Route path="admin/newMeal" element={<AdminNewMeal />} />  
-      <Route path="admin/orders" element ={<AdminOrders />} />
       <Route path="admin/restaurant" element ={<MyRestaurant />} />
       </Route>
       <Route path="/login" element ={<Login />} />
       <Route path="/register" element ={<Register />} />
-      <Route path="/mockorder" element ={<MockOrder />} />
       </Routes>
     </main>
 

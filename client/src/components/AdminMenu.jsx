@@ -5,7 +5,6 @@ import { AuthContext } from "../context/Auth";
 
 function AdminMenu() {
   const { admin, loading } = useContext(AuthContext);
-  const restaurantId = admin.restaurantId;
   const [menuItems, setMenuItems] = useState([]);
 
   useEffect(() => {
