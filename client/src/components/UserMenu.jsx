@@ -182,6 +182,8 @@ const getTotalPrice = (id)=>{
         </button>
       </Link>
     </div>
+    </> */}
+    </>
   );
 };
 
