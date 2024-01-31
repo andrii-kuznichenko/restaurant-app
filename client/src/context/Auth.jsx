@@ -21,7 +21,7 @@ function AuthProvider({ children }) {
       .then((res) => {
         console.log(res.data);
         setState(res.data.admin, false, null);
-        navigate("/");
+        // navigate("/");
       })
       .catch((error) => {
         console.log(error.response.data);
@@ -46,6 +46,7 @@ function AuthProvider({ children }) {
     axios
       .post("/admin/login", admin)
       .then((res) => {
+        console.log(res.data.admin);
         setState(res.data.admin, false, null);
         navigate("/");
       })

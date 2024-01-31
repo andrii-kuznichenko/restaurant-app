@@ -7,7 +7,7 @@ export const AuthTableContext = createContext();
 function AuthTableProvider({ children }) {
   const navigate = useNavigate();
   const [table, setTable] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loadingTable, setLoading] = useState(true);
   const [errors, setErrors] = useState(null);
   const setState = (table, loading, errors) => {
     setTable(table);
@@ -32,7 +32,7 @@ function AuthTableProvider({ children }) {
       .post('/auth/login', table)
       .then(res => {
         setState(res.data.table, false, null);
-        navigate('/');
+        navigate('/user');
       })
       .catch(err => {
         setState(null, false, err.response.data);
@@ -45,7 +45,7 @@ function AuthTableProvider({ children }) {
       .post('/auth/register', table)
       .then(res => {
         setState(res.data.table, false, null);
-        navigate('/');
+        navigate('/user');
       })
       .catch(err => {
         setState(null, false, err.response.data.errors);
@@ -54,13 +54,13 @@ function AuthTableProvider({ children }) {
 
   const logout = () => {
     axios.post('/auth/logout', {}).then(res => {
-      navigate('/');
+      navigate('/user');
       window.location.reload();
     });
   };
 
   return (
-    <AuthTableContext.Provider value={{ table, errors, loading, register, login, logout }}>
+    <AuthTableContext.Provider value={{ table, errors, loadingTable, register, login, logout }}>
       {children}
     </AuthTableContext.Provider>
   );

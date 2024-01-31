@@ -3,9 +3,9 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { AuthTableContext } from '../context/AuthTable';
 
 function Protected() {
-  const { table, loading } = useContext(AuthTableContext);
+  const { table, loadingTable } = useContext(AuthTableContext);
 
-  return <>{!loading && <>{table ? <Outlet /> : <Navigate to="/" />}</>}</>;
+  return <>{!loadingTable && <>{table ? <Outlet /> : <Navigate to="/user" />}</>}</>;
 }
 
 export default Protected;

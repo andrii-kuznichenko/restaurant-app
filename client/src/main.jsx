@@ -7,7 +7,7 @@ import AuthProvider from './context/Auth.jsx';
 import AuthTableProvider from '../src/context/AuthTable';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <BrowserRouter>
     <AuthProvider>
     <AuthTableProvider>
@@ -15,5 +15,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </AuthTableProvider>
     </AuthProvider>
     </BrowserRouter>
-  </React.StrictMode>,
-);
+  // </React.StrictMode>,
+)

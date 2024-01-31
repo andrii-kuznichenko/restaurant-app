@@ -10,10 +10,9 @@ import { AuthContext } from "./context/Auth";
 
 function App() {
   const { table, loading } = useContext(AuthTableContext);
-  const {admin, logout} = useContext(AuthContext);
   return (
     <>
-    <>{!loading && <>{table ? <p></p> : <Header admin={admin} logout={logout} />}</>}</>
+    <>{!loading && <>{table ? <p></p> : <Header  />}</>}</>
       <Main />
       <Footer />
     </>

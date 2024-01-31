@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../context/Auth";
 
-const Header = ({admin, logout}) => {
-  console.log(admin);
-  
+const Header = () => {
+  const {admin, logout} = useContext(AuthContext);
 
   return (
     <header className="bg-blue-500 p-4 text-white">
