@@ -85,13 +85,14 @@ const AdminOrders = () => {
   return (
     <div>
         <ToastContainer />
-      <h2>Admin Orders</h2>
+      <h1 className="text-center py-3">Admin Orders</h1>
       {orders.length === 0 ? (
         <h2>No orders yet</h2>
       ) : (
         orders.map((order, index) => (
           <>
-          <div key={index}>
+          <div key={index} className="p-2">
+            <div>Table number: {order.tableNumberId.tableNumber}</div>
             {order.meals.map((meal, index) => (
               <div key={index}>
                 Meal ID: {meal.name.title}, Quantity: {meal.quantity}
