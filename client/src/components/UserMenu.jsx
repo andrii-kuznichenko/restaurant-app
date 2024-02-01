@@ -1,19 +1,22 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AppContext } from "./Context";
+import { AppContext } from "../context/Context";
 /*import axios from 'axios';*/
-
 import UserOrderMeal from "./UserOrderMeal";
 import mockData from "../assets/mockData.json";
 import { FaChevronDown } from "react-icons/fa";
 import "./UserMenu.css";
+import { AuthTableContext } from "../context/AuthTable";
+import io from "socket.io-client";
+const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
+  transports: ["websocket"],
+});
 
 
 const UserMenu = () => {
 
   const context = useContext(AuthTableContext);
   const navigate = useNavigate();
-  const [menu, setMenu] = useState([]);
   const [order, setOrder] = useState({});
   console.log("UserMenu component mounted");
 
@@ -29,16 +32,16 @@ const UserMenu = () => {
 
 
   useEffect(() => {
-    socket.emit("connectToMenu", {restaurantId: context.table.restaurantId});
-    socket.on(`getMenuUser-${context.table.restaurantId}`, (receivedMenu) => {
-      console.log(receivedMenu);
-      setMenu(receivedMenu);
-    });
+    console.log(userMenu);
+
 
     socket.emit("connectToOrder", {restaurantId: context.table.restaurantId});
     socket.on(`getOrder-${context.table._id}`, (receivedOrder) => {
       setOrder(receivedOrder);
-  }, []);
+  })
+ }, []);
+
+
   useEffect(() => {
     if(Object.keys(order).length !== 0){
       socket.disconnect();
@@ -88,7 +91,7 @@ const getTotalPrice = (id)=>{
     <div className="user-menu-container mx-auto px-2 rounded-xl m-2 shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)]">
       <h2 className="menu-title">Menu</h2>
       <div className="menu-items text-black flex-col m-6 rounded-xl">
-        {userMenu.map((item) => (
+        {userMenu.menu?.length > 0 ?userMenu.menu.map((item) => (
           <div key={item._id}>
             <button
               type="button"
@@ -96,7 +99,7 @@ const getTotalPrice = (id)=>{
               onClick={() => handleAccordionClick(item)}
             >
               <span style={{ fontFamily: "'Merienda', cursive" }}>
-                {item.name}
+                {item.title}
               </span>
 
               <div
@@ -112,7 +115,7 @@ const getTotalPrice = (id)=>{
 
               {selectedItem && selectedItem._id === item._id && (
                 <div className="meal-details relative m-2 flex-col w-full">
-                  <p>{selectedItem.content}</p>
+                  <p>{item.description}</p>
                   <p>Price: ${selectedItem.price.toFixed(2)}</p>
                   {/* <UserOrderMeal
                 item={selectedItem}
@@ -192,7 +195,7 @@ const getTotalPrice = (id)=>{
               )}
             </button>
           </div>
-        ))}
+        )): <p>Loading...</p>}
 
         <script type="module" src="../src/assets"></script>
         <script noModule src="../src/assets"></script>
@@ -208,6 +211,6 @@ const getTotalPrice = (id)=>{
     </div>
    
   );
-};
+                      }
 
 export default UserMenu;

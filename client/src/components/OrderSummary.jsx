@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 import { AuthTableContext } from '../context/AuthTable';
 import { useNavigate } from 'react-router-dom';
 const socket = io(import.meta.env.VITE_SERVER_BASE_URL, { transports: ['websocket'] });
-import { AppContext } from './Context';
+import { AppContext } from '../context/Context';
 
 const OrderSummary = () => {
 
@@ -17,9 +17,9 @@ const OrderSummary = () => {
     console.log(context.table._id);
     socket.emit("connectToOrder", {restaurantId: context.table.restaurantId});
     socket.on(`getOrder-${context.table._id}`, (receivedOrder) => {
-      if(receivedOrder.length === 0){
-        navigate('/user/order/closed');
-      }
+      // if(receivedOrder.length === 0){
+      //   navigate('/user/order/closed');
+      // }
       setOrder(receivedOrder[0]);
     });
 
@@ -30,7 +30,7 @@ const OrderSummary = () => {
     <div>
       <h2>Order Summary</h2>
       <ul>
-        {Array.isArray(orderItems) && orderItems.length > 0 ? (
+        { orderItems.length > 0 ? (
           orderItems.map((item) => (
             <li key={item._id}>
               {item.quantity} x {item.name} - ${item.price * item.quantity}
