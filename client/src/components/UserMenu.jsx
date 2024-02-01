@@ -42,21 +42,6 @@ const UserMenu = () => {
     }
   },[order])
   
-  const SendOrder = () => {
-  
-    socket.emit("connectToOrder", {
-      restaurantId: context.table.restaurantId,
-      tableNumberId: context.table._id,
-      meals: [{name:"65b2debea687ee49a00630ee", quantity: 2}],
-      totalPrice: 30,
-      operation: 'add'
-    });
-  
-    socket.disconnect();
-  
-    navigate('/user/order/summary');
-  } 
-
 const getQuantity = (id)=>{
    return orderItems.find(item=>item._id === id)?.quantity || 0
 }

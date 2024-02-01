@@ -13,7 +13,7 @@ const OrderSummary = () => {
   const { orderItems, total } = useContext(AuthTableContext);
 
  useEffect(() => {
-    console.log()
+    console.log(orderItems);
     console.log(context.table._id);
     socket.emit("connectToOrder", {restaurantId: context.table.restaurantId});
     socket.on(`getOrder-${context.table._id}`, (receivedOrder) => {
@@ -24,6 +24,28 @@ const OrderSummary = () => {
     });
 
 }, []);
+
+const BackHandler = () =>{
+  navigate(-1);
+}
+
+const SendOrderHandler = () => {
+  const mealsInOrder = orderItems.map(meal => {
+    return {name: meal._id, quantity: meal.quantity}
+  })
+  console.log(mealsInOrder);
+  socket.emit("connectToOrder", {
+    restaurantId: context.table.restaurantId,
+    tableNumberId: context.table._id,
+    meals: mealsInOrder,
+    totalPrice: total,
+    operation: 'add'
+  });
+
+  socket.disconnect();
+
+  navigate('/user/order/confirmation');
+} 
 
 
   return (
@@ -43,11 +65,13 @@ const OrderSummary = () => {
       <p>Total: ${total}</p>
       <div className='flex mt-5 gap-5'>
       <button 
-      className="bg-blue-500 hover:bg-blue-700 text-white  py-2 px-4 rounded-full">
+      className="bg-blue-500 hover:bg-blue-700 text-white  py-2 px-4 rounded-full"
+      onClick={BackHandler}>
         Back
       </button>
       <button 
-      className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-full">
+      className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-full"
+      onClick={SendOrderHandler}>
         Confirm Order
       </button>
       </div>
