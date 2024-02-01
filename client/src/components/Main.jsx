@@ -31,7 +31,7 @@ function Main() {
       <Route path="" element={<AdminOrders />} />
       <Route path="admin/menu" element={<AdminMenu />} />
       <Route path="admin/dashboard" element={<AdminDashboard />} /> 
-       <Route path="admin/newMeal" element={<AdminNewMeal />} />  
+       <Route path="admin/newmeal" element={<AdminNewMeal />} />  
       <Route path="admin/restaurant" element ={<MyRestaurant />} />
       </Route>
       <Route path="/login" element ={<Login />} />

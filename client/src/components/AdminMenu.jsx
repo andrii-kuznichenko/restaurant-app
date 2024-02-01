@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import io from "socket.io-client";
 import { AuthContext } from "../context/Auth";
+import CreateQrCode from "./CreateQrCode";
+import AdminTables from "./AdminTables";
 
 const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
   transports: ["websocket"],
@@ -38,20 +40,19 @@ function AdminMenu() {
     <div>
       <h1>Admin Menu</h1>
       {menuItems?.length !== 0? menuItems.menu.map((item, index) => (
-        <form key={index}>
-          <label>Title</label>
+        <form className="border-2" key={index}>
+          <label>Title: </label>
           <input
             defaultValue={item.title}
             onChange={(e) => handleEdit(index, "title", e.target.value)}
           />
-  
-          <label>Description</label>
+          <label>Description: </label>
           <input
             defaultValue={item.description}
             onChange={(e) => handleEdit(index, "description", e.target.value)}
           />
   
-          <label>Allergens</label>
+          <label>Allergens: </label>
           <input
             defaultValue={item.allergens.join(", ")}
             onChange={(e) =>
@@ -59,33 +60,37 @@ function AdminMenu() {
             }
           />
   
-          <label>Price</label>
+          <label>Price: </label>
           <input
             defaultValue={item.price}
             onChange={(e) => handleEdit(index, "price", e.target.value)}
           />
   
-          <label>Image</label>
+          <label>Image: </label>
           <input
             defaultValue={item.image}
             onChange={(e) => handleEdit(index, "image", e.target.value)}
           />
   
-          <label>Hide</label>
+          <label>Hide: </label>
           <input
             type="checkbox"
             defaultChecked={item.hide}
             onChange={(e) => handleEdit(index, "hide", e.target.checked)}
           />
   
-          <label>Category</label>
+          <label>Category: </label>
           <input
             defaultValue={item.category}
             onChange={(e) => handleEdit(index, "category", e.target.value)}
           />
         </form>
+        
       )): <div>Loading..</div>}
+      <AdminTables />
+      <CreateQrCode />
     </div>
+    
   );
           }
           
