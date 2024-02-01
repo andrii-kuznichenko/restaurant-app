@@ -3,9 +3,10 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import mockData from '../assets/mockData.json';
 
-const AppContext = createContext();
+export const AppContext = createContext();
 
-export const AppProvider = ({ children }) => {
+function AppProvider ({ children }) {
+
   const [selectedItem, setSelectedItem] = useState(null);
   const [orderItems, setOrderItems] = useState([]);
   const [total, setTotal] = useState(0);
@@ -14,17 +15,17 @@ export const AppProvider = ({ children }) => {
 
   const updateSelectedItem = (item) => {
     setSelectedItem((prevSelectedItem) =>
-      prevSelectedItem?.id === item.id ? null : item
+      prevSelectedItem?._id === item._id ? null : item
     );
   };
 
   const updateOrderItems = (item) => {
-    const existingItem = orderItems.find((orderItem) => orderItem.id === item.id);
+    const existingItem = orderItems.find((orderItem) => orderItem._id === item._id);
 
     if (existingItem) {
       setOrderItems((prevItems) =>
         prevItems.map((orderItem) =>
-          orderItem.id === item.id
+          orderItem._id === item._id
             ? { ...orderItem, quantity: orderItem.quantity + 1 }
             : orderItem
         )
@@ -53,10 +54,4 @@ export const AppProvider = ({ children }) => {
   );
 };
 
-export const useAppContext = () => {
-  const context = useContext(AppContext);
-  if (!context) {
-    throw new Error('useAppContext must be used within an AppProvider');
-  }
-  return context;
-};
+export default AppProvider;

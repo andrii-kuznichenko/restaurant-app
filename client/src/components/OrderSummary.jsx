@@ -4,12 +4,14 @@ import io from 'socket.io-client';
 import { AuthTableContext } from '../context/AuthTable';
 import { useNavigate } from 'react-router-dom';
 const socket = io(import.meta.env.VITE_SERVER_BASE_URL, { transports: ['websocket'] });
+import { AppContext } from './Context';
 
 const OrderSummary = () => {
 
   const context = useContext(AuthTableContext);
   const [ order, setOrder ] = useState({});
   const navigate = useNavigate();
+  const { orderItems, total } = useContext(AppContext);
 
  useEffect(() => {
     console.log(context.table._id);
@@ -28,10 +30,10 @@ const OrderSummary = () => {
     <div>
       <h2>Order Summary</h2>
       <ul>
-        { order?.meals?.length > 0 ? (
-          order.meals.map((item) => (
+        {Array.isArray(orderItems) && orderItems.length > 0 ? (
+          orderItems.map((item) => (
             <li key={item._id}>
-              {item.quantity} x {item.name.title} - ${item.name.price * item.quantity}
+              {item.quantity} x {item.name} - ${item.price * item.quantity}
             </li>
           ))
         ) : (
