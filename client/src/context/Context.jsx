@@ -1,11 +1,16 @@
 
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import mockData from '../assets/mockData.json';
+import io from "socket.io-client";
+import { AuthTableContext } from './AuthTable';
+const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
+  transports: ["websocket"],
+})
+export const AppContext = createContext();
 
-const AppContext = createContext();
+function AppProvider ({ children }) {
 
-export const AppProvider = ({ children }) => {
+  const context = useContext(AuthTableContext);
   const [selectedItem, setSelectedItem] = useState(null);
   const [orderItems, setOrderItems] = useState([]);
   const [total, setTotal] = useState(0);
@@ -14,17 +19,17 @@ export const AppProvider = ({ children }) => {
 
   const updateSelectedItem = (item) => {
     setSelectedItem((prevSelectedItem) =>
-      prevSelectedItem?.id === item.id ? null : item
+      prevSelectedItem?._id === item._id ? null : item
     );
   };
 
   const updateOrderItems = (item) => {
-    const existingItem = orderItems.find((orderItem) => orderItem.id === item.id);
+    const existingItem = orderItems.find((orderItem) => orderItem._id === item._id);
 
     if (existingItem) {
       setOrderItems((prevItems) =>
         prevItems.map((orderItem) =>
-          orderItem.id === item.id
+          orderItem._id === item._id
             ? { ...orderItem, quantity: orderItem.quantity + 1 }
             : orderItem
         )
@@ -37,13 +42,12 @@ export const AppProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // Fetch data or set mock data
-
-    // Set usermenu state with the mock data
-    console.log("usermenu with mockData:", mockData);
-    setUserMenu(mockData);
-
-        
+    console.log(context.table);
+    socket.emit("connectToMenu", {restaurantId: '65b37da552aefd47b8a64f21'});
+    socket.on(`getMenuUser-65b37da552aefd47b8a64f21`, (receivedMenu) => {
+      console.log(receivedMenu);
+      setUserMenu(receivedMenu);
+    });
   }, []);
 
   return (
@@ -53,10 +57,4 @@ export const AppProvider = ({ children }) => {
   );
 };
 
-export const useAppContext = () => {
-  const context = useContext(AppContext);
-  if (!context) {
-    throw new Error('useAppContext must be used within an AppProvider');
-  }
-  return context;
-};
+export default AppProvider;
