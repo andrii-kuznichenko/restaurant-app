@@ -22,7 +22,7 @@ function Main() {
       <Route path="/user" element={<ProtectedTables />}>
         <Route path="" element={<UserMenu />} />
         <Route path="order/summary" element={<OrderSummary />} />
-        <Route path="order/closed" element={<UserConfirmation />} />
+        <Route path="order/confirmation" element={<UserConfirmation />} />
         <Route path="order/meal/:id" element={<UserOrderMeal />} />
       </Route>
       <Route path="/loginTable/:_id/:tableNumber/:restaurantId" element={<TableLogin />} />

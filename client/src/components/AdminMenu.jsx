@@ -13,85 +13,122 @@ function AdminMenu() {
   const [menuItems, setMenuItems] = useState([]);
 
   useEffect(() => {
-
-    socket.emit("connectToMenu", {restaurantId: admin.restaurantId});
+    socket.emit("connectToMenu", { restaurantId: admin.restaurantId });
     socket.on(`getMenuAdmin-${admin.restaurantId}`, (receivedMenu) => {
-      console.log(receivedMenu);
       setMenuItems(receivedMenu);
     });
-
   }, []);
 
-  const handleEdit = (index, prop, value) => {
-    // const updatedItems = [...menuItems];
-    // updatedItems[index][prop] = value;
-    // setMenuItems(updatedItems);
-    // fetch(`http://localhost:4000/${updatedItems[index]._id}`, {
-    //   method: "PUT",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(updatedItems[index]),
-    // });
+  const handleEdit = (item, value) => {
+    // const updatedMenuItems = menuItems.map((item, i) =>
+    //   i === index ? { ...item, [field]: value } : item
+    // );
+
+    // setMenuItems(updatedMenuItems);
+    const hideMeal = {restaurantId: admin.restaurantId, mealId: item._id, hide: value, operation: 'hide' };
+    console.log(hideMeal);
+    socket.emit("connectToMenu", hideMeal);
   };
 
+  const [tab, setTab] = useState("active");
+
   return (
-    // TO DO create categories, two tabs for shown meals and hidden meals 
     <div>
-      <h1>Admin Menu</h1>
-      {menuItems?.length !== 0? menuItems.menu.map((item, index) => (
-        <form className="border-2" key={index}>
-          <label>Title: </label>
-          <input
-            defaultValue={item.title}
-            onChange={(e) => handleEdit(index, "title", e.target.value)}
-          />
-          <label>Description: </label>
-          <input
-            defaultValue={item.description}
-            onChange={(e) => handleEdit(index, "description", e.target.value)}
-          />
-  
-          <label>Allergens: </label>
-          <input
-            defaultValue={item.allergens.join(", ")}
-            onChange={(e) =>
-              handleEdit(index, "allergens", e.target.value.split(", "))
-            }
-          />
-  
-          <label>Price: </label>
-          <input
-            defaultValue={item.price}
-            onChange={(e) => handleEdit(index, "price", e.target.value)}
-          />
-  
-          <label>Image: </label>
-          <input
-            defaultValue={item.image}
-            onChange={(e) => handleEdit(index, "image", e.target.value)}
-          />
-  
-          <label>Hide: </label>
-          <input
-            type="checkbox"
-            defaultChecked={item.hide}
-            onChange={(e) => handleEdit(index, "hide", e.target.checked)}
-          />
-  
-          <label>Category: </label>
-          <input
-            defaultValue={item.category}
-            onChange={(e) => handleEdit(index, "category", e.target.value)}
-          />
-        </form>
-        
-      )): <div>Loading..</div>}
-      <AdminTables />
-      <CreateQrCode />
+      <h1 className="text-2xl font-bold mb-4">Admin Menu</h1>
+      <div>
+        <button className="mr-4" onClick={() => setTab("active")}>
+          Active Meals
+        </button>
+        <button onClick={() => setTab("hidden")}>Hidden Meals</button>
+      </div>
+
+      {tab === "active" &&
+        menuItems.menu
+          ?.filter((item) => !item.hide)
+          ?.map((item, index) => (
+            <div
+              key={index}
+              className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl m-3"
+            >
+              <div className="md:flex">
+                <div className="md:flex-shrink-0">
+                  <img
+                    className="h-48 w-full object-cover md:w-48"
+                    src={item.image}
+                    alt={item.title}
+                  />
+                </div>
+                <div className="p-8">
+                  <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
+                    {item.category}
+                  </div>
+                  <a
+                    href="#"
+                    className="block mt-1 text-lg leading-tight font-medium text-black hover:underline"
+                  >
+                    {item.title}
+                  </a>
+                  <p className="mt-2 text-gray-500">{item.description}</p>
+                  <div className="mt-4">
+                    <label className="font-bold text-xl mb-2">Hide</label>
+                    <input
+                      type="checkbox"
+                      className="mr-2 leading-tight"
+                      defaultChecked={item.hide}
+                      onChange={(e) =>
+                        handleEdit(item, e.target.checked)
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+
+      {tab === "hidden" &&
+        menuItems.menu
+          .filter((item) => item.hide)
+          .map((item, index) => (
+            <div
+              key={index}
+              className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl m-3"
+            >
+              <div className="md:flex">
+                <div className="md:flex-shrink-0">
+                  <img
+                    className="h-48 w-full object-cover md:w-48"
+                    src={item.image}
+                    alt={item.title}
+                  />
+                </div>
+                <div className="p-8">
+                  <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
+                    {item.category}
+                  </div>
+                  <a
+                    href="#"
+                    className="block mt-1 text-lg leading-tight font-medium text-black hover:underline"
+                  >
+                    {item.title}
+                  </a>
+                  <p className="mt-2 text-gray-500">{item.description}</p>
+                  <div className="mt-4">
+                    <label className="font-bold text-xl mb-2">Hide</label>
+                    <input
+                      type="checkbox"
+                      className="mr-2 leading-tight"
+                      defaultChecked={item.hide}
+                      onChange={(e) =>
+                        handleEdit(item, e.target.checked)
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
     </div>
-    
   );
-          }
-          
+}
+
 export default AdminMenu;
