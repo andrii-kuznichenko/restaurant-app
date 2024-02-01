@@ -12,6 +12,8 @@ const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
   const notify = () => toast("New order!💰");
   const prevOrdersRef = useRef();
+  const [timeElapsed, setTimeElapsed] = useState('');
+  
 
   // const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
   //   transports: ["websocket"],
@@ -83,6 +85,24 @@ const AdminOrders = () => {
       operation:'change_status'});
   }
 
+  const timeSince = (dateString) => {
+    const createdAt = new Date(dateString);
+    const now = new Date();
+    const differenceInSeconds = Math.floor((now - createdAt) / 1000);
+  
+    if (differenceInSeconds < 60) {
+      return `${differenceInSeconds} sec ago`;
+    } 
+    if (differenceInSeconds < 3600) {
+      return `${Math.floor(differenceInSeconds / 60)} min ago`;
+    } 
+    if (differenceInSeconds < 86400) {
+      return `${Math.floor(differenceInSeconds / 3600)} hours ago`;
+    } 
+    return `${Math.floor(differenceInSeconds / 86400)} days ago`;
+  };
+  
+ 
   return (
     <div>
         <ToastContainer />
@@ -93,7 +113,7 @@ const AdminOrders = () => {
         orders.map((order, index) => (
           <>
           <div key={index} className="p-2 grid grid-cols-6 justify-between">
-            <div className="flex flex-col"><div className="font-bold">Table</div> <div>{order.tableNumberId.tableNumber}</div></div>
+            <div className="flex flex-col"><div className="font-bold">Table</div> <div>{order.tableNumberId.tableNumber}</div><div>{timeSince(order.createdAt)}</div></div>
             <div className="flex flex-col">
             <div className="font-bold pl-2">Order</div>
             {order.meals.map((meal, index) => (
