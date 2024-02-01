@@ -15,19 +15,19 @@ function AdminMenu() {
   useEffect(() => {
     socket.emit("connectToMenu", { restaurantId: admin.restaurantId });
     socket.on(`getMenuAdmin-${admin.restaurantId}`, (receivedMenu) => {
-      console.log(receivedMenu);
       setMenuItems(receivedMenu);
     });
   }, []);
 
-  const handleEdit = (index, field, value) => {
-    const updatedMenuItems = menuItems.map((item, i) =>
-      i === index ? { ...item, [field]: value } : item
-    );
+  const handleEdit = (item, value) => {
+    // const updatedMenuItems = menuItems.map((item, i) =>
+    //   i === index ? { ...item, [field]: value } : item
+    // );
 
-    setMenuItems(updatedMenuItems);
-
-    socket.emit("updateMenuItem", updatedMenuItems[index]);
+    // setMenuItems(updatedMenuItems);
+    const hideMeal = {restaurantId: admin.restaurantId, mealId: item._id, hide: value, operation: 'hide' };
+    console.log(hideMeal);
+    socket.emit("connectToMenu", hideMeal);
   };
 
   const [tab, setTab] = useState("active");
@@ -44,8 +44,8 @@ function AdminMenu() {
 
       {tab === "active" &&
         menuItems.menu
-          .filter((item) => !item.hide)
-          .map((item, index) => (
+          ?.filter((item) => !item.hide)
+          ?.map((item, index) => (
             <div
               key={index}
               className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl m-3"
@@ -76,7 +76,7 @@ function AdminMenu() {
                       className="mr-2 leading-tight"
                       defaultChecked={item.hide}
                       onChange={(e) =>
-                        handleEdit(index, "hide", e.target.checked)
+                        handleEdit(item, e.target.checked)
                       }
                     />
                   </div>
@@ -119,7 +119,7 @@ function AdminMenu() {
                       className="mr-2 leading-tight"
                       defaultChecked={item.hide}
                       onChange={(e) =>
-                        handleEdit(index, "hide", e.target.checked)
+                        handleEdit(item, e.target.checked)
                       }
                     />
                   </div>
