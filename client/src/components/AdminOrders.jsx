@@ -1,12 +1,17 @@
 import axios from "../axiosInstance";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import io from "socket.io-client";
 import { AuthContext } from "../context/Auth";
 const socket = io(import.meta.env.VITE_SERVER_BASE_URL, { transports: ['websocket'] });
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const AdminOrders = () => {
   const { admin, loading } = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
+  const notify = () => toast("New order!💰");
+  const prevOrdersRef = useRef();
 
   // const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
   //   transports: ["websocket"],
@@ -51,6 +56,13 @@ const AdminOrders = () => {
     socket.emit("connectToOrder", {restaurantId: admin.restaurantId});
     socket.on(`getOrders-${admin.restaurantId}`, (receivedOrders) => {
       console.log(receivedOrders);
+        // Check if there is a previous state and if the new orders array is longer
+        if (prevOrdersRef.current && receivedOrders.length > prevOrdersRef.current.length) {
+          notify(); // Trigger the notification for a new order
+        }
+  
+        // Update the previous orders ref with the current orders
+        prevOrdersRef.current = receivedOrders;
       setOrders(receivedOrders);
       });
   }, []);
@@ -72,6 +84,7 @@ const AdminOrders = () => {
 
   return (
     <div>
+        <ToastContainer />
       <h2>Admin Orders</h2>
       {orders.length === 0 ? (
         <h2>No orders yet</h2>
