@@ -125,6 +125,7 @@ const AdminOrders = () => {
               </div>
             
             ))}
+            <div>Total price: {order.totalPrice} EUR</div>
             </div>
             <div className="flex flex-col"><div className="font-bold">Status</div> <div>{order.status}</div></div>
             <div className="flex flex-col"><div className="font-bold">Closed/active</div> <div>{order.isClosed?'closed':'active'}</div></div>
