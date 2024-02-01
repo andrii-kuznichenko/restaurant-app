@@ -31,119 +31,93 @@ function AdminMenu() {
         </button>
         <button onClick={() => setTab("hidden")}>Hidden Meals</button>
       </div>
-      {tab === "active"
-        ? menuItems?.length !== 0 &&
-          menuItems.menu
-            .filter((item) => !item.hide)
-            .map((item, index) => (
-              <div
-                key={index}
-                className="mb-4 p-4 border border-gray-300 rounded"
-              >
-                <label className="block text-sm font-bold mb-2">Title</label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  defaultValue={item.title}
-                  onChange={(e) => handleEdit(index, "title", e.target.value)}
-                />
 
-                <label className="block text-sm font-bold mb-2 mt-4">
-                  Price
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  defaultValue={item.price}
-                  onChange={(e) => handleEdit(index, "price", e.target.value)}
-                />
-
-                <label className="block text-sm font-bold mb-2 mt-4">
-                  Image
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  defaultValue={item.image}
-                  onChange={(e) => handleEdit(index, "image", e.target.value)}
-                />
-
-                <label className="block text-sm font-bold mb-2 mt-4">
-                  Hide
-                </label>
-                <input
-                  type="checkbox"
-                  className="mr-2 leading-tight"
-                  defaultChecked={item.hide}
-                  onChange={(e) => handleEdit(index, "hide", e.target.checked)}
-                />
-
-                <label className="block text-sm font-bold mb-2 mt-4">
-                  Category
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  defaultValue={item.category}
-                  onChange={(e) =>
-                    handleEdit(index, "category", e.target.value)
-                  }
-                />
+      {tab === "active" &&
+        menuItems.menu
+          .filter((item) => !item.hide)
+          .map((item, index) => (
+            <div
+              key={index}
+              className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl m-3"
+            >
+              <div className="md:flex">
+                <div className="md:flex-shrink-0">
+                  <img
+                    className="h-48 w-full object-cover md:w-48"
+                    src={item.image}
+                    alt={item.title}
+                  />
+                </div>
+                <div className="p-8">
+                  <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
+                    {item.category}
+                  </div>
+                  <a
+                    href="#"
+                    className="block mt-1 text-lg leading-tight font-medium text-black hover:underline"
+                  >
+                    {item.title}
+                  </a>
+                  <p className="mt-2 text-gray-500">{item.description}</p>
+                  <div className="mt-4">
+                    <label className="font-bold text-xl mb-2">Hide</label>
+                    <input
+                      type="checkbox"
+                      className="mr-2 leading-tight"
+                      defaultChecked={item.hide}
+                      onChange={(e) =>
+                        handleEdit(index, "hide", e.target.checked)
+                      }
+                    />
+                  </div>
+                </div>
               </div>
-            ))
-        : menuItems?.length !== 0 &&
-          menuItems.menu
-            .filter((item) => item.hide)
-            .map((item, index) => (
-              <div
-                key={index}
-                className="mb-4 p-4 border border-gray-300 rounded"
-              >
-                <label className="block text-sm font-bold mb-2">Title</label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  defaultValue={item.title}
-                  onChange={(e) => handleEdit(index, "title", e.target.value)}
-                />
+            </div>
+          ))}
 
-                <label className="block text-sm font-bold mb-2 mt-4">
-                  Price
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  defaultValue={item.price}
-                  onChange={(e) => handleEdit(index, "price", e.target.value)}
-                />
-
-                <label className="block text-sm font-bold mb-2 mt-4">
-                  Image
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  defaultValue={item.image}
-                  onChange={(e) => handleEdit(index, "image", e.target.value)}
-                />
-
-                <label className="block text-sm font-bold mb-2 mt-4">
-                  Hide
-                </label>
-                <input
-                  type="checkbox"
-                  className="mr-2 leading-tight"
-                  defaultChecked={item.hide}
-                  onChange={(e) => handleEdit(index, "hide", e.target.checked)}
-                />
-
-                <label className="block text-sm font-bold mb-2 mt-4">
-                  Category
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  defaultValue={item.category}
-                  onChange={(e) =>
-                    handleEdit(index, "category", e.target.value)
-                  }
-                />
+      {tab === "hidden" &&
+        menuItems.menu
+          .filter((item) => item.hide)
+          .map((item, index) => (
+            <div
+              key={index}
+              className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl m-3"
+            >
+              <div className="md:flex">
+                <div className="md:flex-shrink-0">
+                  <img
+                    className="h-48 w-full object-cover md:w-48"
+                    src={item.image}
+                    alt={item.title}
+                  />
+                </div>
+                <div className="p-8">
+                  <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
+                    {item.category}
+                  </div>
+                  <a
+                    href="#"
+                    className="block mt-1 text-lg leading-tight font-medium text-black hover:underline"
+                  >
+                    {item.title}
+                  </a>
+                  <p className="mt-2 text-gray-500">{item.description}</p>
+                  <div className="mt-4">
+                    <label className="font-bold text-xl mb-2">Hide</label>
+                    <input
+                      type="checkbox"
+                      className="mr-2 leading-tight"
+                      defaultChecked={item.hide}
+                      onChange={(e) =>
+                        handleEdit(index, "hide", e.target.checked)
+                      }
+                    />
+                  </div>
+                </div>
               </div>
-            ))}
+            </div>
+          ))}
     </div>
-    
   );
 }
 
