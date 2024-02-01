@@ -1,0 +1,70 @@
+/* OrderSummary.css */
+
+.bg-gradient {
+    background: linear-gradient(to bottom, #3b5998, #00a400);
+  }
+  
+  .order-summary-container {
+    padding: 1rem;
+    background-color: #add8e6;
+    border-radius: 1.5rem;
+    filter: drop-shadow(5px 10px 5px rgba(0, 0, 0, 0.1)) drop-shadow(-3px -3px 5px rgba(255, 255, 255, 0.8));
+    text-align: center;
+    transition: filter 0.3s ease;
+  }
+  
+  .btn-footer-color {
+    background: linear-gradient(to bottom, #3b5998, #00a400);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .font-merienda {
+    font-family: 'Merienda', cursive;
+  }
+  
+  .font-nunito-sans {
+    font-family: 'Nunito Sans', sans-serif;
+    font-style: italic;
+    font-weight: 400;
+  }
+  
+  /* Media Queries */
+  
+  /* Mobile Screen */
+  @media (max-width: 320px) {
+    .order-summary-container {
+      width: 90%;
+    }
+  
+    h1.font-merienda {
+      font-size: 2rem;
+    }
+  }
+  
+  /* Mobile Screen M */
+  @media (min-width: 321px) and (max-width: 375px) {
+    h1.font-merienda {
+      font-size: 2.5rem;
+    }
+  }
+  
+  /* Tablet Screen */
+  @media (min-width: 768px) {
+    .order-summary-container {
+      width: 60%;
+    }
+  
+    ul {
+      font-size: 1.2rem;
+    }
+  
+    p.font-nunito-sans {
+      font-size: 1.5rem;
+    }
+  }
+  

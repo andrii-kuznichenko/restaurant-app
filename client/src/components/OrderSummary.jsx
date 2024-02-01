@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import { AuthTableContext } from '../context/AuthTable';
 import { useNavigate } from 'react-router-dom';
+import "./OrderSummary.css";
 const socket = io(import.meta.env.VITE_SERVER_BASE_URL, { transports: ['websocket'] });
 
 const OrderSummary = () => {
@@ -49,8 +50,9 @@ const SendOrderHandler = () => {
 
 
   return (
-    <div>
-      <h2>Order Summary</h2>
+    <div className="flex items-center justify-center min-h-screen bg-gradient">
+     <div className="order-summary-container">
+        <h1 className="font-merienda text-4xl mb-4">Order Summary</h1>
       <ul>
         { orderItems.length > 0 ? (
           orderItems.map((item) => (
@@ -62,21 +64,21 @@ const SendOrderHandler = () => {
           <li>No items in the order</li>
         )}
       </ul>
-      <p>Total: ${total}</p>
-      <div className='flex mt-5 gap-5'>
+      <p className="font-nunito-sans italic font-light mt-4">Total: ${total}</p>
+      <div className='flex mt-5 gap-5 justify-center'>
       <button 
-      className="bg-blue-500 hover:bg-blue-700 text-white  py-2 px-4 rounded-full"
+      className="btn-footer-color text-white py-2 px-4 rounded-full"
       onClick={BackHandler}>
         Back
       </button>
       <button 
-      className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-full"
+      className="btn-footer-color text-white py-2 px-4 rounded-full"
       onClick={SendOrderHandler}>
         Confirm Order
       </button>
       </div>
     </div>
-    
+  </div>  
   );
 };
 
