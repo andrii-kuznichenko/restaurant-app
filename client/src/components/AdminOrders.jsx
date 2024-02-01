@@ -91,17 +91,24 @@ const AdminOrders = () => {
       ) : (
         orders.map((order, index) => (
           <>
-          <div key={index} className="p-2">
-            <div>Table number: {order.tableNumberId.tableNumber}</div>
+          <div key={index} className="p-2 grid grid-cols-6 justify-between">
+            <div className="flex flex-col"><div className="font-bold">Table</div> <div>{order.tableNumberId.tableNumber}</div></div>
+            <div className="flex flex-col">
+            <div className="font-bold">Order</div>
             {order.meals.map((meal, index) => (
+              <div>
               <div key={index}>
-                Meal ID: {meal.name.title}, Quantity: {meal.quantity}
+                
+                {meal.name.title} {meal.quantity}x
               </div>
+              </div>
+            
             ))}
-          <h1>status: {order.status}</h1>
-          <h2>{order.isClosed?'closed':'in work'}</h2>
-          <button onClick={closeOrderHandler} name={order._id}>Close the Order</button>
-          <button onClick={changeOrderStatusHandler} name={order._id}>Change Status</button>
+            </div>
+            <div className="flex flex-col"><div className="font-bold">Status</div> <div>{order.status}</div></div>
+            <div className="flex flex-col"><div className="font-bold">Closed/active</div> <div>{order.isClosed?'closed':'active'}</div></div>
+          <button onClick={closeOrderHandler} name={order._id} className="border-2 hover:bg-red-500">Close the Order</button>
+          <button onClick={changeOrderStatusHandler} name={order._id} className="border-2 hover:bg-blue-500">Change Status</button>
           </div>
           <hr />
           </>
