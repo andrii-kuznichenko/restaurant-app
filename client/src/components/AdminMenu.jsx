@@ -20,6 +20,16 @@ function AdminMenu() {
     });
   }, []);
 
+  const handleEdit = (index, field, value) => {
+    const updatedMenuItems = menuItems.map((item, i) =>
+      i === index ? { ...item, [field]: value } : item
+    );
+
+    setMenuItems(updatedMenuItems);
+
+    socket.emit("updateMenuItem", updatedMenuItems[index]);
+  };
+
   const [tab, setTab] = useState("active");
 
   return (
