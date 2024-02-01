@@ -40,7 +40,7 @@ const AdminTables = () => {
                     {tables.map(table => (
                         <li key={table._id} className='flex flex-row'>
                             Table Number: {table.tableNumber}
-                            <CreateQrCode url={table.url} />
+                            <CreateQrCode url={table.url} tableId={table._id} />
                         </li>
                     ))}
                 </ul>
