@@ -122,7 +122,7 @@ const AdminOrders = () => {
               <option value="order could not be processed">Order could not be processed</option>
             </select>
           
-          <button onClick={changeOrderStatusHandler} name={order._id} className="border-2 hover:bg-blue-500">Change Status</button>
+          {/* <button onClick={changeOrderStatusHandler} name={order._id} className="border-2 hover:bg-blue-500">Change Status</button> */}
           </div>
           <hr />
           </>
