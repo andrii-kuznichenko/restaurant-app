@@ -1,9 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AppContext } from "../context/Context";
 /*import axios from 'axios';*/
 import UserOrderMeal from "./UserOrderMeal";
-import mockData from "../assets/mockData.json";
 import { FaChevronDown } from "react-icons/fa";
 import "./UserMenu.css";
 import { AuthTableContext } from "../context/AuthTable";
@@ -18,23 +16,18 @@ const UserMenu = () => {
   const context = useContext(AuthTableContext);
   const navigate = useNavigate();
   const [order, setOrder] = useState({});
-  console.log("UserMenu component mounted");
 
   const {
     userMenu,
-    setUserMenu,
     selectedItem,
     updateSelectedItem,
     updateOrderItems,
     orderItems
-  } = useContext(AppContext);
+  } = useContext(AuthTableContext);
   const [isAccordionExpanded, setIsAccordionExpanded] = useState(false);
 
 
-  useEffect(() => {
-    console.log(userMenu);
-
-
+  useEffect(() => { 
     socket.emit("connectToOrder", {restaurantId: context.table.restaurantId});
     socket.on(`getOrder-${context.table._id}`, (receivedOrder) => {
       setOrder(receivedOrder);
@@ -91,7 +84,7 @@ const getTotalPrice = (id)=>{
     <div className="user-menu-container mx-auto px-2 rounded-xl m-2 shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)]">
       <h2 className="menu-title">Menu</h2>
       <div className="menu-items text-black flex-col m-6 rounded-xl">
-        {userMenu.menu?.length > 0 ?userMenu.menu.map((item) => (
+        {userMenu?.menu?.length > 0 ?userMenu.menu.map((item) => (
           <div key={item._id}>
             <button
               type="button"
