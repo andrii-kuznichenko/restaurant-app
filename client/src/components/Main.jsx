@@ -14,6 +14,9 @@ import AdminNewMeal from './AdminNewMeal';
 import AdminDashboard from './AdminDashboard';
 import MyRestaurant from './MyRestaurant';
 import UserConfirmation from './UserConfirmation';
+import UserMealDetails from './UserMealDetails';
+import AdminOrderDetails from './AdminOrderDetails';
+import AdminMealDetails from './AdminMealDetails';
 
 function Main() {
   return (
@@ -23,16 +26,18 @@ function Main() {
         <Route path="" element={<UserMenu />} />
         <Route path="order/summary" element={<OrderSummary />} />
         <Route path="order/confirmation" element={<UserConfirmation />} />
-        <Route path="order/meal/:id" element={<UserOrderMeal />} />
+        <Route path="order/meal/:id" element={<UserMealDetails />} />
       </Route>
       <Route path="/loginTable/:_id/:tableNumber/:restaurantId" element={<TableLogin />} />
 
       <Route path="/" element={<Protected />}>
       <Route path="" element={<AdminOrders />} />
       <Route path="admin/menu" element={<AdminMenu />} />
+      <Route path="admin/menu/:id" element={<AdminMealDetails />} />
       <Route path="admin/dashboard" element={<AdminDashboard />} /> 
-       <Route path="admin/newmeal" element={<AdminNewMeal />} />  
+      <Route path="admin/newmeal" element={<AdminNewMeal />} />  
       <Route path="admin/restaurant" element ={<MyRestaurant />} />
+      <Route path="admin/order/:id" element ={<AdminOrderDetails />} />
       </Route>
       <Route path="/login" element ={<Login />} />
       <Route path="/register" element ={<Register />} />

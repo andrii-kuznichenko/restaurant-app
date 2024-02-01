@@ -5,6 +5,7 @@ import { AuthContext } from "../context/Auth";
 const socket = io(import.meta.env.VITE_SERVER_BASE_URL, { transports: ['websocket'] });
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Navigate, useNavigate } from "react-router-dom";
 
 
 const AdminOrders = () => {
@@ -12,6 +13,7 @@ const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
   const notify = () => toast("New order!💰");
   const prevOrdersRef = useRef();
+  const navigate = useNavigate();
   const [timeElapsed, setTimeElapsed] = useState('');
   
 
@@ -101,6 +103,10 @@ const AdminOrders = () => {
     } 
     return `${Math.floor(differenceInSeconds / 86400)} days ago`;
   };
+
+  const OrderDetailHandler = (id) => {
+    navigate(`admin/order/${id}`);
+  }
   
  
   return (
@@ -142,7 +148,9 @@ const AdminOrders = () => {
               <option value="finished">Finished</option>
               <option value="order could not be processed">Order could not be processed</option>
             </select>
-          
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={(() => OrderDetailHandler(order._id))}>
+              Order Details
+            </button>
           {/* <button onClick={changeOrderStatusHandler} name={order._id} className="border-2 hover:bg-blue-500">Change Status</button> */}
           </div>
           <hr />
