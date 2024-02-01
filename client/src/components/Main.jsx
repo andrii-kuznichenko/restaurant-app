@@ -14,6 +14,8 @@ import AdminNewMeal from './AdminNewMeal';
 import AdminDashboard from './AdminDashboard';
 import MyRestaurant from './MyRestaurant';
 import UserConfirmation from './UserConfirmation';
+import AdminTables from './AdminTables';
+import AdminAddTable from './AdminAddTable';
 
 function Main() {
   return (
@@ -33,6 +35,8 @@ function Main() {
       <Route path="admin/dashboard" element={<AdminDashboard />} /> 
        <Route path="admin/newmeal" element={<AdminNewMeal />} />  
       <Route path="admin/restaurant" element ={<MyRestaurant />} />
+      <Route path="admin/tables" element={<AdminTables />} />
+      <Route path="admin/addtable" element={<AdminAddTable />} />
       </Route>
       <Route path="/login" element ={<Login />} />
       <Route path="/register" element ={<Register />} />
