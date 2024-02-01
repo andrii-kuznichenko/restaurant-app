@@ -75,10 +75,11 @@ const AdminOrders = () => {
   }
 
   const changeOrderStatusHandler = (e) => {
+    console.log(e)
     socket.emit("connectToOrder", {
       restaurantId: admin.restaurantId,
       orderId: e.target.name,
-      status: 'waiting for payment',
+      status: e.target.value,
       operation:'change_status'});
   }
 
@@ -94,12 +95,12 @@ const AdminOrders = () => {
           <div key={index} className="p-2 grid grid-cols-6 justify-between">
             <div className="flex flex-col"><div className="font-bold">Table</div> <div>{order.tableNumberId.tableNumber}</div></div>
             <div className="flex flex-col">
-            <div className="font-bold">Order</div>
+            <div className="font-bold pl-2">Order</div>
             {order.meals.map((meal, index) => (
               <div>
               <div key={index}>
                 
-                {meal.name.title} {meal.quantity}x
+              ●{meal.name.title} {meal.quantity}x
               </div>
               </div>
             
@@ -108,6 +109,19 @@ const AdminOrders = () => {
             <div className="flex flex-col"><div className="font-bold">Status</div> <div>{order.status}</div></div>
             <div className="flex flex-col"><div className="font-bold">Closed/active</div> <div>{order.isClosed?'closed':'active'}</div></div>
           <button onClick={closeOrderHandler} name={order._id} className="border-2 hover:bg-red-500">Close the Order</button>
+          <select
+              onChange={(e) => changeOrderStatusHandler(e)}
+              defaultValue={order.status}
+              className="border-2 hover:bg-blue-500"
+              name={order._id}
+            >
+              <option value="in process">In process</option>
+              <option value="need to accept">Need to accept</option>
+              <option value="waiting for payment">Waiting for payment</option>
+              <option value="finished">Finished</option>
+              <option value="order could not be processed">Order could not be processed</option>
+            </select>
+          
           <button onClick={changeOrderStatusHandler} name={order._id} className="border-2 hover:bg-blue-500">Change Status</button>
           </div>
           <hr />
