@@ -1,12 +1,16 @@
 
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import mockData from '../assets/mockData.json';
-
+import io from "socket.io-client";
+import { AuthTableContext } from './AuthTable';
+const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
+  transports: ["websocket"],
+})
 export const AppContext = createContext();
 
 function AppProvider ({ children }) {
 
+  const context = useContext(AuthTableContext);
   const [selectedItem, setSelectedItem] = useState(null);
   const [orderItems, setOrderItems] = useState([]);
   const [total, setTotal] = useState(0);
@@ -38,13 +42,12 @@ function AppProvider ({ children }) {
   };
 
   useEffect(() => {
-    // Fetch data or set mock data
-
-    // Set usermenu state with the mock data
-    console.log("usermenu with mockData:", mockData);
-    setUserMenu(mockData);
-
-        
+    console.log(context.table);
+    socket.emit("connectToMenu", {restaurantId: '65b37da552aefd47b8a64f21'});
+    socket.on(`getMenuUser-65b37da552aefd47b8a64f21`, (receivedMenu) => {
+      console.log(receivedMenu);
+      setUserMenu(receivedMenu);
+    });
   }, []);
 
   return (
