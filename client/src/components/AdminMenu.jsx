@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import io from "socket.io-client";
 import { AuthContext } from "../context/Auth";
+import CreateQrCode from "./CreateQrCode";
+import AdminTables from "./AdminTables";
 
 const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
   transports: ["websocket"],
@@ -141,6 +143,7 @@ function AdminMenu() {
               </div>
             ))}
     </div>
+    
   );
 }
 

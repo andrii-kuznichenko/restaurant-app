@@ -13,6 +13,7 @@ import AdminMenu from './AdminMenu';
 import AdminNewMeal from './AdminNewMeal';
 import AdminDashboard from './AdminDashboard';
 import MyRestaurant from './MyRestaurant';
+import UserConfirmation from './UserConfirmation';
 
 function Main() {
   return (
@@ -21,6 +22,7 @@ function Main() {
       <Route path="/user" element={<ProtectedTables />}>
         <Route path="" element={<UserMenu />} />
         <Route path="order/summary" element={<OrderSummary />} />
+        <Route path="order/closed" element={<UserConfirmation />} />
         <Route path="order/meal/:id" element={<UserOrderMeal />} />
       </Route>
       <Route path="/loginTable/:_id/:tableNumber/:restaurantId" element={<TableLogin />} />
@@ -29,7 +31,7 @@ function Main() {
       <Route path="" element={<AdminOrders />} />
       <Route path="admin/menu" element={<AdminMenu />} />
       <Route path="admin/dashboard" element={<AdminDashboard />} /> 
-       <Route path="admin/newMeal" element={<AdminNewMeal />} />  
+       <Route path="admin/newmeal" element={<AdminNewMeal />} />  
       <Route path="admin/restaurant" element ={<MyRestaurant />} />
       </Route>
       <Route path="/login" element ={<Login />} />

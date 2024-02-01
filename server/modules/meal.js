@@ -1,13 +1,15 @@
 const mongoose = require('mongoose');
+const cloudinary = require('../config/cloudinary');
+const fs = require('fs');
 
 const mealSchema = new mongoose.Schema({
   title: {type: String, required: [true, 'Meal title is required']},
   description: {type: String, required: [true, 'Description about the meal is required']},
   allergens: [String],
-  price: {type: Number, required: [true, 'Price is required Nothing free in this restaurant']},
+  price: {type: Number, required: [true, 'Price is required. Nothing free in this restaurant']},
   image: {type: String, required: [true, 'Image of meal is required']},
   hide: {type: Boolean, default: false},
-  category: {type: String, required: 'Category of meal is required'},
+  category: {type: String, required: [true, 'Category of meal is required']},
 }, 
 {timestamps: true},
 );
@@ -24,6 +26,7 @@ mealSchema.pre('save', async function (next) {
     fs.unlinkSync(imagePath);
     next();
   } catch (e) {
+    console.error("Error uploading to Cloudinary:", e)
     next(e.message);
   }
 });

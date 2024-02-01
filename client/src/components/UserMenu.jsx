@@ -27,13 +27,17 @@ const UserMenu = () => {
 
     socket.emit("connectToOrder", {restaurantId: context.table.restaurantId});
     socket.on(`getOrder-${context.table._id}`, (receivedOrder) => {
-      if(receivedOrder.length !== 0){
-        socket.disconnect();
-        navigate('/user/order/summary');
-      }
+      setOrder(receivedOrder);
     });
 
 }, []);
+
+useEffect(() => {
+  if(Object.keys(order).length !== 0){
+    socket.disconnect();
+    navigate('/user/order/summary');
+  }
+},[order])
 
 const SendOrder = () => {
 
