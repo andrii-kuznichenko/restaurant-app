@@ -6,7 +6,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import QRCode from "react-qr-code";
 import * as htmlToImage from "html-to-image";
-// `http://localhost:5173/loginTable/${table._id}/${table.tableNumber}/${table.restaurantId}`
 
 const AdminAddTable = () => {
   const { admin } = useContext(AuthContext);
@@ -16,7 +15,21 @@ const AdminAddTable = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [qrCodeValue, setQrCodeValue] = useState('')
   const qrCodeRef = useRef(null);
+  const [captureQRCode, setCaptureQRCode] = useState(false);
+  const [tableId, setTableId] = useState(null);
+//   const [qrCodeVisible, setQrCodeVisible] = useState(false);
 
+useEffect(() => {
+    if (captureQRCode && tableId) {
+      const capture = async () => {
+        const qrCodeUrl = await convertToImageAndUpload();
+        await axios.post("auth/tables/update-qr-code", { tableId, qrCodeUrl });
+        setCaptureQRCode(false); 
+        setSuccessMessage("Table created and QR code updated successfully.");
+      };
+      capture().catch(console.error);
+    }
+  }, [captureQRCode, tableId]);
 
   const createTableAndGetId = async () => {
     try {
@@ -34,6 +47,7 @@ const AdminAddTable = () => {
   const convertToImageAndUpload = async () => {
     try {
       const dataUrl = await htmlToImage.toPng(qrCodeRef.current);
+      console.log(dataUrl)
       const response = await axios.post("/auth/tables/qr-codes", {
         imageData: dataUrl,
       });
@@ -49,16 +63,19 @@ const AdminAddTable = () => {
     event.preventDefault();
     try {
       
-      const tableId = await createTableAndGetId();
-      const qrCodeValueURL = `http://localhost:5173/loginTable/${tableId}/${tableNumber}/${admin.restaurantId}`;
+      const newTableId = await createTableAndGetId();
+      setTableId(newTableId); 
+      const qrCodeValueURL = `http://localhost:5173/loginTable/${newTableId}/${tableNumber}/${admin.restaurantId}`;
+      console.log(qrCodeValueURL)
       
-      
-      setQrCodeValue(qrCodeValueURL);
-      const qrCodeUrl = await convertToImageAndUpload();
+      setQrCodeValue(qrCodeValueURL); // sets the qrCodeValue to http://localhost etc...
+      setCaptureQRCode(true);
+    //   setQrCodeVisible(true);
+    //   const qrCodeUrl = await convertToImageAndUpload();
 
      
-      await axios.post("auth/tables/update-qr-code", { tableId, qrCodeUrl });
-      setSuccessMessage("Table created and QR code updated successfully.");
+    //   await axios.post("auth/tables/update-qr-code", { tableId, qrCodeUrl });
+    //   setSuccessMessage("Table created and QR code updated successfully.");
     } catch (error) {
         console.log(error)
       setErrorMessage(error.response?.data?.message || "Error processing request");
@@ -86,9 +103,12 @@ const AdminAddTable = () => {
         <button type="submit" className="border-2 hover:bg-blue-500">Add Table</button>
         {errorMessage && <p>{errorMessage}</p>}
       </form>
+      
       <div ref={qrCodeRef} width={200} height={200} >
         <QRCode value={qrCodeValue} size={256} />
       </div>
+   
+
       {successMessage && <div className="text-center">{successMessage}</div>}{" "}
     </>
   );
