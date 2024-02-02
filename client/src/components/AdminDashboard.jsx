@@ -11,6 +11,7 @@ const AdminDashboard = () => {
     const { admin, loading } = useContext(AuthContext);
   return (
    <>
+   
 <div className="grid h-full grid-cols-5 gap-x-0 gap-y-0" style={{ gridTemplateRows: 'repeat(5, 1fr)' }}>
     <div className="div1 flex flex-col justify-center" style={{ gridArea: '1 / 1 / 6 / 2' }}>
         <DefaultSidebar />

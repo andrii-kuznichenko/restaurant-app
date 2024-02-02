@@ -8,19 +8,16 @@ const socket = io(import.meta.env.VITE_SERVER_BASE_URL, { transports: ['websocke
 const OrderSummary = () => {
 
   const context = useContext(AuthTableContext);
-  const [ order, setOrder ] = useState({});
+  const [ order, setOrder ] = useState({loading: false});
   const navigate = useNavigate();
   const { orderItems, total } = useContext(AuthTableContext);
 
  useEffect(() => {
-    console.log(orderItems);
-    console.log(context.table._id);
     socket.emit("connectToOrder", {restaurantId: context.table.restaurantId});
     socket.on(`getOrder-${context.table._id}`, (receivedOrder) => {
-      // if(receivedOrder.length === 0){
-      //   navigate('/user/order/closed');
-      // }
-      setOrder(receivedOrder[0]);
+      if(receivedOrder?.length > 0){
+        setOrder({loading: true});
+      }
     });
 
 }, []);
@@ -28,6 +25,13 @@ const OrderSummary = () => {
 const BackHandler = () =>{
   navigate(-1);
 }
+
+useEffect(() => {
+  if(order?.loading){
+    socket.disconnect();
+    navigate('/user/order/confirmation');
+  }
+},[order])
 
 const SendOrderHandler = () => {
   const mealsInOrder = orderItems.map(meal => {
