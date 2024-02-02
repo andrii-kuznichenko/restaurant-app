@@ -7,28 +7,28 @@ const socket = io(import.meta.env.VITE_SERVER_BASE_URL, { transports: ['websocke
 function UserConfirmation() {
 
   const context = useContext(AuthTableContext);
-  const [ order, setOrder ] = useState({});
-  const navigate = useNavigate();
+  const [ order, setOrder ] = useState({loading: false});
 
  useEffect(() => {
-    console.log(context.table._id);
     socket.emit("connectToOrder", {restaurantId: context.table.restaurantId});
     socket.on(`getOrder-${context.table._id}`, (receivedOrder) => {
-      // if(receivedOrder.length === 0){
-      //   navigate('/user/order/closed');
-      // }
-      setOrder(receivedOrder[0]);
+      if(receivedOrder?.length === 0){
+        const newOrder = {...receivedOrder[0], loading: true, isClose: true};
+        setOrder(newOrder);
+      } else if (receivedOrder?.length > 0){
+        const newOrder = {...receivedOrder[0], loading: true, isClose: false};
+        setOrder(newOrder);
+      }
     });
-    console.log(order);
 
 }, []);
 
   return (
-    order?.meals?.length > 0 
+    order.loading && !order.isClose 
       ?<div>
       <h2>Order Summary</h2>
       <ul>
-        { order?.meals?.length > 0 ? (
+        { order.meals?.length > 0 ? (
           order.meals.map((item) => (
             <li key={item._id}>
               {item.quantity} x {item.name.title} - ${item.name.price * item.quantity}
@@ -41,7 +41,7 @@ function UserConfirmation() {
       <p>Total: {order?.totalPrice}</p>
       <h1>STATUS: {order?.status}</h1>
     </div>
-    :<h1>Thank you for your order</h1>    
+    :order.isClose?<h1>Thank you for your order</h1>:<h1>Loading...</h1>    
   )
 }
 

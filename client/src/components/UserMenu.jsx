@@ -38,7 +38,7 @@ const UserMenu = () => {
   useEffect(() => {
     if(Object.keys(order).length !== 0){
       socket.disconnect();
-      navigate('/user/order/summary');
+      navigate('/user/order/confirmation');
     }
   },[order])
   
@@ -64,6 +64,10 @@ const getTotalPrice = (id)=>{
   const handleRemove = (item) => {
     updateOrderItems(item);
   };
+
+  const NavigateToDetails = (id) => {
+    navigate(`order/meal/${id}`)
+  }
 
   return (
     <div className="user-menu-container mx-auto px-2 rounded-xl m-2 shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)]">
@@ -95,6 +99,10 @@ const getTotalPrice = (id)=>{
                 <div className="meal-details relative m-2 flex-col w-full">
                   <p>{item.description}</p>
                   <p>Price: ${selectedItem.price.toFixed(2)}</p>
+                  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                  onClick={() => NavigateToDetails(item._id)}>
+                  See Meal Details
+                </button>
                   {/* <UserOrderMeal
                 item={selectedItem}
                 onAdd={() => handleAdd(selectedItem)}
