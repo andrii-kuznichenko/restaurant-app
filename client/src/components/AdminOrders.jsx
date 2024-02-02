@@ -126,7 +126,7 @@ const AdminOrders = () => {
         ) : (
           orders.map((order, index) => (
             <>
-              <Timeline.Item>
+              <Timeline.Item className="border-b-2">
                 <Timeline.Point />
                 <Timeline.Content>
                   <Timeline.Time>{timeSince(order.createdAt)}</Timeline.Time>
