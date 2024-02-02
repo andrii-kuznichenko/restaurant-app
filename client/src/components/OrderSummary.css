@@ -1,4 +1,4 @@
-/* OrderSummary.css */
+/* 
 
 .bg-gradient {
     background: linear-gradient(to bottom, #3b5998, #00a400);
@@ -33,9 +33,7 @@
     font-weight: 400;
   }
   
-  /* Media Queries */
-  
-  /* Mobile Screen */
+
   @media (max-width: 320px) {
     .order-summary-container {
       width: 90%;
@@ -46,14 +44,14 @@
     }
   }
   
-  /* Mobile Screen M */
+ 
   @media (min-width: 321px) and (max-width: 375px) {
     h1.font-merienda {
       font-size: 2.5rem;
     }
   }
   
-  /* Tablet Screen */
+
   @media (min-width: 768px) {
     .order-summary-container {
       width: 60%;
@@ -66,5 +64,734 @@
     p.font-nunito-sans {
       font-size: 1.5rem;
     }
-  }
+  } 
+
+  */
+
   
+
+/*
+.bg-gradient {
+  background: linear-gradient(to bottom, #E28401, #EC9D04);
+}
+
+.order-summary-container {
+  padding: 1rem;
+  background-color: #F0B51D;
+  border-radius: 1.5rem;
+  filter: drop-shadow(5px 10px 5px rgba(0, 0, 0, 0.1)) drop-shadow(-3px -3px 5px rgba(255, 255, 255, 0.8));
+  text-align: center;
+  transition: filter 0.3s ease;
+}
+
+.btn-footer-color {
+  background: linear-gradient(to bottom, #F0B51D, #B00005);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.font-merienda {
+  font-family: 'Merienda', cursive;
+}
+
+.font-nunito-sans {
+  font-family: 'Nunito Sans', sans-serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+
+@media (max-width: 320px) {
+  .order-summary-container {
+      width: 90%;
+  }
+
+  h1.font-merienda {
+      font-size: 2rem;
+  }
+}
+
+
+@media (min-width: 321px) and (max-width: 375px) {
+  h1.font-merienda {
+      font-size: 2.5rem;
+  }
+}
+
+
+@media (min-width: 768px) {
+  .order-summary-container {
+      width: 60%;
+  }
+
+  ul {
+      font-size: 1.2rem;
+  }
+
+  p.font-nunito-sans {
+      font-size: 1.5rem;
+  }
+}
+*/
+
+
+/*
+.bg-gradient {
+  background: linear-gradient(to bottom, #E28401, #EC9D04);
+}
+
+.order-summary-container {
+  padding: 1rem;
+  background-color: #F0B51D;
+  border-radius: 1.5rem;
+  filter: drop-shadow(6px 12px 6px rgba(0, 0, 0, 0.4)) drop-shadow(-4px -4px 6px rgba(255, 255, 255, 0.9));
+  text-align: center;
+  transition: filter 0.3s ease;
+}
+
+.btn-footer-color {
+  background: linear-gradient(to bottom, #F0B51D, #B00005);
+  color: black;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-hoover {
+  transition: transform 0.3s ease-in-out;
+  font-size: 16px; 
+  font-weight: bold; 
+  color: black;
+
+}
+
+.btn-hoover:hover {
+  transform: scale(1.09);
+}
+
+.font-merienda {
+  font-family: 'Merienda', cursive;
+}
+
+.font-nunito-sans {
+  font-family: 'Nunito Sans', sans-serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+
+@media (max-width: 320px) {
+  .order-summary-container {
+      width: 90%;
+  }
+
+  h1.font-merienda {
+      font-size: 2rem;
+  }
+}
+
+@media (min-width: 321px) and (max-width: 375px) {
+  h1.font-merienda {
+      font-size: 2.5rem;
+  }
+}
+
+
+@media (min-width: 768px) {
+  .order-summary-container {
+      width: 60%;
+  }
+
+  ul {
+      font-size: 1.2rem;
+  }
+
+  p.font-nunito-sans {
+      font-size: 1.5rem;
+  }
+}
+*/
+
+/*
+.bg-gradient {
+  background: linear-gradient(to bottom, #4E070C, #FF670E);
+}
+
+body {
+  background-color: #FDE4CE; 
+
+.order-summary-container {
+  padding: 1rem;
+  background-color: #FDE4CE;
+  border-radius: 1.5rem;
+  filter: drop-shadow(6px 12px 6px rgba(0, 0, 0, 0.4)) drop-shadow(-4px -4px 6px rgba(255, 255, 255, 0.9));
+  text-align: center;
+  transition: filter 0.3s ease;
+}
+
+.btn-footer-color {
+  background: linear-gradient(to bottom, #FDE4CE, #4E070C);
+  color: black;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-hoover {
+  transition: transform 0.3s ease-in-out;
+  font-size: 16px; 
+  font-weight: bold; 
+  color: black;
+}
+
+.btn-hoover:hover {
+  transform: scale(1.09);
+}
+
+.font-merienda {
+  font-family: 'Merienda', cursive;
+}
+
+.font-nunito-sans {
+  font-family: 'Nunito Sans', sans-serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+@media (max-width: 320px) {
+  .order-summary-container {
+      width: 90%;
+  }
+
+  h1.font-merienda {
+      font-size: 2rem;
+  }
+}
+
+@media (min-width: 321px) and (max-width: 375px) {
+  h1.font-merienda {
+      font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .order-summary-container {
+      width: 60%;
+  }
+
+  ul {
+      font-size: 1.2rem;
+  }
+
+  p.font-nunito-sans {
+      font-size: 1.5rem;
+  }
+}
+*/
+
+
+
+/*
+
+.bg-gradient {
+  background: linear-gradient(to bottom, #829461, #ABB95B);
+}
+
+.order-summary-container {
+  padding: 1rem;
+  background-color: #FFF7D9;
+  border-radius: 1.5rem;
+  filter: drop-shadow(6px 12px 6px rgba(0, 0, 0, 0.4)) drop-shadow(-4px -4px 6px rgba(255, 255, 255, 0.9));
+  text-align: center;
+  transition: filter 0.3s ease;
+}
+
+.btn-footer-color {
+  background: linear-gradient(to bottom, #FFF7D9, #829461);
+  color: black;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-hoover {
+  transition: transform 0.3s ease-in-out;
+  font-size: 16px; 
+  font-weight: bold; 
+  color: black;
+}
+
+.btn-hoover:hover {
+  transform: scale(1.09);
+}
+
+.font-merienda {
+  font-family: 'Merienda', cursive;
+}
+
+.font-nunito-sans {
+  font-family: 'Nunito Sans', sans-serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+@media (max-width: 320px) {
+  .order-summary-container {
+      width: 90%;
+  }
+
+  h1.font-merienda {
+      font-size: 2rem;
+  }
+}
+
+@media (min-width: 321px) and (max-width: 375px) {
+  h1.font-merienda {
+      font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .order-summary-container {
+      width: 60%;
+  }
+
+  ul {
+      font-size: 1.2rem;
+  }
+
+  p.font-nunito-sans {
+      font-size: 1.5rem;
+  }
+}*/
+
+
+/*
+
+.bg-gradient {
+  background: linear-gradient(to bottom, #F5F7F2, #F6C4C7, #951911);
+}
+
+.order-summary-container {
+  padding: 1rem;
+  background-color: #F5F7F2;
+  border-radius: 1.5rem;
+  filter: drop-shadow(6px 12px 6px rgba(0, 0, 0, 0.4)) drop-shadow(-4px -4px 6px rgba(255, 255, 255, 0.9));
+  text-align: center;
+  transition: filter 0.3s ease;
+}
+
+.btn-footer-color {
+  background: linear-gradient(to bottom, #F5F7F2, #F6C4C7, #951911);
+  color: black;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-hoover {
+  transition: transform 0.3s ease-in-out;
+  font-size: 16px; 
+  font-weight: bold; 
+  color: black;
+}
+
+.btn-hoover:hover {
+  transform: scale(1.09);
+}
+
+.font-merienda {
+  font-family: 'Merienda', cursive;
+}
+
+.font-nunito-sans {
+  font-family: 'Nunito Sans', sans-serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.footer {
+  background: linear-gradient(to bottom, #F5F7F2, #951911);
+  color: black;
+  padding: 2rem;
+}
+
+@media (max-width: 320px) {
+  .order-summary-container {
+      width: 90%;
+  }
+
+  h1.font-merienda {
+      font-size: 2rem;
+  }
+}
+
+@media (min-width: 321px) and (max-width: 375px) {
+  h1.font-merienda {
+      font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .order-summary-container {
+      width: 60%;
+  }
+
+  ul {
+      font-size: 1.2rem;
+  }
+
+  p.font-nunito-sans {
+      font-size: 1.5rem;
+  }
+}
+
+*/
+
+
+
+/*
+
+.bg-gradient {
+  background: linear-gradient(to bottom, #FCFBF7, #D90024, #11263B);
+}
+
+.order-summary-container {
+  padding: 1rem;
+  background-color: #FCFBF7;
+  border-radius: 1.5rem;
+  filter: drop-shadow(6px 12px 6px rgba(0, 0, 0, 0.4)) drop-shadow(-4px -4px 6px rgba(255, 255, 255, 0.9));
+  text-align: center;
+  transition: filter 0.3s ease;
+}
+
+.btn-footer-color {
+  background: linear-gradient(to bottom, #FCFBF7, #D90024, #11263B);
+  color: black;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-hoover {
+  transition: transform 0.3s ease-in-out;
+  font-size: 16px; 
+  font-weight: bold; 
+  color: black;
+}
+
+.btn-hoover:hover {
+  transform: scale(1.09);
+}
+
+.font-merienda {
+  font-family: 'Merienda', cursive;
+}
+
+.font-nunito-sans {
+  font-family: 'Nunito Sans', sans-serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.footer {
+  background: linear-gradient(to bottom, #FCFBF7, #D90024, #11263B);
+  color: black;
+  padding: 2rem;
+}
+
+@media (max-width: 320px) {
+  .order-summary-container {
+      width: 90%;
+  }
+
+  h1.font-merienda {
+      font-size: 2rem;
+  }
+}
+
+@media (min-width: 321px) and (max-width: 375px) {
+  h1.font-merienda {
+      font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .order-summary-container {
+      width: 60%;
+  }
+
+  ul {
+      font-size: 1.2rem;
+  }
+
+  p.font-nunito-sans {
+      font-size: 1.5rem;
+  }
+}
+*/
+
+
+
+.bg-gradient {
+  background: linear-gradient(to bottom, #F8FCFF, #549829, #93C154);
+}
+
+.order-summary-container {
+  padding: 1rem;
+  background-color: #F8FCFF; 
+  border-radius: 1.5rem;
+  filter: drop-shadow(6px 12px 6px rgba(0, 0, 0, 0.4)) drop-shadow(-4px -4px 6px rgba(255, 255, 255, 0.9));
+  text-align: center;
+  transition: filter 0.3s ease;
+}
+
+.btn-footer-color {
+  background: linear-gradient(to bottom, #F8FCFF, #549829, #93C154);
+  color: #613677; 
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-hoover {
+  transition: transform 0.3s ease-in-out;
+  font-size: 16px; 
+  font-weight: bold; 
+  color: #613677; 
+}
+
+.btn-hoover:hover {
+  transform: scale(1.09);
+}
+
+.font-merienda {
+  font-family: 'Merienda', cursive;
+}
+
+.font-nunito-sans {
+  font-family: 'Nunito Sans', sans-serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.footer {
+  background: linear-gradient(to bottom, #F8FCFF, #115B9A);
+  color: #613677; 
+  padding: 2rem;
+}
+
+@media (max-width: 320px) {
+  .order-summary-container {
+      width: 90%;
+  }
+
+  h1.font-merienda {
+      font-size: 2rem;
+  }
+}
+
+@media (min-width: 321px) and (max-width: 375px) {
+  h1.font-merienda {
+      font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .order-summary-container {
+      width: 60%;
+  }
+
+  ul {
+      font-size: 1.2rem;
+  }
+
+  p.font-nunito-sans {
+      font-size: 1.5rem;
+  }
+}
+
+
+
+/*
+.bg-gradient {
+  background: linear-gradient(to bottom, #F8FCFF, #115B9A, #549829);
+}
+
+.order-summary-container {
+  padding: 1rem;
+  background-color: #F8FCFF; 
+  border-radius: 1.5rem;
+  filter: drop-shadow(6px 12px 6px rgba(0, 0, 0, 0.4)) drop-shadow(-4px -4px 6px rgba(255, 255, 255, 0.9));
+  text-align: center;
+  transition: filter 0.3s ease;
+}
+
+.btn-footer-color {
+  background: linear-gradient(to bottom, #F8FCFF, #115B9A, #549829);
+  color: #613677; 
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-hoover {
+  transition: transform 0.3s ease-in-out;
+  font-size: 16px; 
+  font-weight: bold; 
+  color: #613677; 
+}
+
+.btn-hoover:hover {
+  transform: scale(1.09);
+}
+
+.font-merienda {
+  font-family: 'Merienda', cursive;
+}
+
+.font-nunito-sans {
+  font-family: 'Nunito Sans', sans-serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.footer {
+  background: linear-gradient(to bottom, #F8FCFF, #549829);
+  color: #613677; 
+  padding: 2rem;
+}
+
+@media (max-width: 320px) {
+  .order-summary-container {
+      width: 90%;
+  }
+
+  h1.font-merienda {
+      font-size: 2rem;
+  }
+}
+
+@media (min-width: 321px) and (max-width: 375px) {
+  h1.font-merienda {
+      font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .order-summary-container {
+      width: 60%;
+  }
+
+  ul {
+      font-size: 1.2rem;
+  }
+
+  p.font-nunito-sans {
+      font-size: 1.5rem;
+  }
+}
+*/
+
+/*
+
+.bg-gradient {
+  background: linear-gradient(to bottom, #642B52, #754599, #9650B8);
+}
+
+.order-summary-container {
+  padding: 1rem;
+  background-color: #F9F8FD;
+  border-radius: 1.5rem;
+  filter: drop-shadow(6px 12px 6px rgba(0, 0, 0, 0.4)) drop-shadow(-4px -4px 6px rgba(255, 255, 255, 0.9));
+  text-align: center;
+  transition: filter 0.3s ease;
+}
+
+.btn-footer-color {
+  background: linear-gradient(to bottom, #F9F8FD, #FE7C39, #9650B8);
+  color: #754599;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-hoover {
+  transition: transform 0.3s ease-in-out;
+  font-size: 16px; 
+  font-weight: bold; 
+  color: #754599;
+}
+
+.btn-hoover:hover {
+  transform: scale(1.09);
+}
+
+.font-merienda {
+  font-family: 'Merienda', cursive;
+}
+
+.font-nunito-sans {
+  font-family: 'Nunito Sans', sans-serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.footer {
+  background: linear-gradient(to bottom, #F9F8FD, #FE7C39);
+  color: #754599;
+  padding: 2rem;
+}
+
+@media (max-width: 320px) {
+  .order-summary-container {
+      width: 90%;
+  }
+
+  h1.font-merienda {
+      font-size: 2rem;
+  }
+}
+
+@media (min-width: 321px) and (max-width: 375px) {
+  h1.font-merienda {
+      font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .order-summary-container {
+      width: 60%;
+  }
+
+  ul {
+      font-size: 1.2rem;
+  }
+
+  p.font-nunito-sans {
+      font-size: 1.5rem;
+  }
+}
+*/
+
+

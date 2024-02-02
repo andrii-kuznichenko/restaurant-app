@@ -73,7 +73,7 @@ const getTotalPrice = (id)=>{
           <div key={item._id}>
             <button
               type="button"
-              className="menu-item menu-item-hover relative shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)] rounded-xl justify-center text-black flex-col w-full m-2 sm:m-4 lg:m-6 justify-between mr-2 "
+              className="menu-item menu-item-hover relative shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)] rounded-xl justify-center text-black flex-col w-full m-2 sm:m-4 lg:m-6 justify-between mr-2 bg-amber-400"
               onClick={() => handleAccordionClick(item)}
             >
               <span style={{ fontFamily: "'Merienda', cursive" }}>
@@ -180,7 +180,7 @@ const getTotalPrice = (id)=>{
       </div>
       <Link to="/user/order/summary">
         <button
-          className="order-summary-button shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)] text-black flex-col w-full rounded-xl"
+          className="order-summary-button menu-item-hover shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)] text-black flex-col w-full rounded-xl"
           style={{ fontFamily: "'Merienda', cursive" }}
         >
           See your order summary
@@ -189,6 +189,6 @@ const getTotalPrice = (id)=>{
     </div>
    
   );
-                      }
+  }
 
 export default UserMenu;

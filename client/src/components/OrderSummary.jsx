@@ -50,7 +50,7 @@ const SendOrderHandler = () => {
 
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient">
+    <div className="flex items-center justify-center min-h-screen">
      <div className="order-summary-container">
         <h1 className="font-merienda text-4xl mb-4">Order Summary</h1>
       <ul>
@@ -67,12 +67,12 @@ const SendOrderHandler = () => {
       <p className="font-nunito-sans italic font-light mt-4">Total: ${total}</p>
       <div className='flex mt-5 gap-5 justify-center'>
       <button 
-      className="btn-footer-color text-white py-2 px-4 rounded-full"
+      className="btn-hoover btn-footer-color text-black py-4 px-6 rounded-full"
       onClick={BackHandler}>
         Back
       </button>
       <button 
-      className="btn-footer-color text-white py-2 px-4 rounded-full"
+      className="btn-hoover btn-footer-color text-black py-4 px-6 rounded-full"
       onClick={SendOrderHandler}>
         Confirm Order
       </button>
