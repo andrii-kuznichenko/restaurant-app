@@ -1,8 +1,10 @@
 import React, { useState, useContext } from "react";
 import axios from "../axiosInstance";
 import { AuthContext } from "../context/Auth";
+import { useNavigate } from "react-router-dom";
 
 function AdminNewMeal() {
+  const navigate = useNavigate();
   const { admin } = useContext(AuthContext);
   const [mealData, setMealData] = useState({
     title: "",
@@ -71,6 +73,7 @@ function AdminNewMeal() {
         console.error('Error adding meal:', error);
         setMessage('Error adding meal: ' + (error.response?.data?.message || error.message));
     }
+    navigate("/")
 };
 
   return (
@@ -133,7 +136,7 @@ function AdminNewMeal() {
             className="border-4"
           />
         </label>
-        <button type="submit" className="border-4">
+        <button type="submit" className="border-4 hover:bg-blue-500">
           Add Meal
         </button>
       </form>
