@@ -77,7 +77,7 @@ const getTotalPrice = (id)=>{
           <div key={item._id}>
             <button
               type="button"
-              className="menu-item menu-item-hover relative shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)] rounded-xl justify-center text-black flex-col w-full m-2 sm:m-4 lg:m-6 justify-between mr-2 bg-slate-50"
+              className="menu-item menu-item-hover bg-light-zinc-50 relative shadow-[3px_6px_3px_-0.05px_rgba(0,0,0,0.05),-3px_-3px_5px_-0.05px_rgba(255,255,255,0.05)] rounded-xl justify-center text-black flex-col w-full m-3 px-3 justify-between mr-2"
               onClick={() => handleAccordionClick(item)}
             >
               <span style={{ fontFamily: "'Merienda', cursive" }}>
@@ -99,21 +99,11 @@ const getTotalPrice = (id)=>{
                 <div className="meal-details relative m-2 flex-col w-full">
                   <p>{item.description}</p>
                   <p>Price: ${selectedItem.price.toFixed(2)}</p>
-                  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                  <button class="bg-indigo-400 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded-full"
                   onClick={() => NavigateToDetails(item._id)}>
                   See Meal Details
                 </button>
-                  {/* <UserOrderMeal
-                item={selectedItem}
-                onAdd={() => handleAdd(selectedItem)}
-                onRemove={() => handleRemove(selectedItem)}
-                name={selectedItem.name}
-                content={selectedItem.content}
-                price={selectedItem.price}
-               
-                /> */}
-                  {/* NEW CODE start */}
-                  <div
+                                    <div
                     style={{
                       display: "flex",
                       flexDirection: "column",
@@ -176,7 +166,6 @@ const getTotalPrice = (id)=>{
                       Total Price: <strong>${getTotalPrice(selectedItem._id)}</strong>
                     </div>
                   </div>
-                  {/* NEW CODE END */}
                 </div>
               )}
             </button>
@@ -188,7 +177,7 @@ const getTotalPrice = (id)=>{
       </div>
       <Link to="/user/order/summary">
         <button
-          className="order-summary-button menu-item-hover shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)] text-black flex-col w-full rounded-xl"
+          className="order-summary-button menu-item-hover bg-indigo-400 relative shadow-[3px_6px_3px_-0.05px_rgba(0,0,0,0.05),-3px_-3px_5px_-0.05px_rgba(255,255,255,0.05)] text-black flex-col w-full rounded-xl"
           style={{ fontFamily: "'Merienda', cursive" }}
         >
           See your order summary

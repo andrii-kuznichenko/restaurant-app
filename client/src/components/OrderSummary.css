@@ -2,7 +2,7 @@
 
 .order-summary-container {
   padding: 1rem;
-  background-color: #F8FCFF; 
+  
   border-radius: 1.5rem;
   filter: drop-shadow(6px 12px 6px rgba(0, 0, 0, 0.4)) drop-shadow(-4px -4px 6px rgba(255, 255, 255, 0.9));
   text-align: center;
