@@ -11,8 +11,8 @@ module.exports = {
 
 export default {
   content: [
+    './src/**/*.{js,jsx,ts,tsx}', // src folder, for example
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
     'node_modules/flowbite-react/lib/esm/**/*.js',
   ],
   theme: {
@@ -22,14 +22,28 @@ export default {
         'teal-blue': '#00587A',
         'cyan-azure': '#008891',
         'off-white': '#E7E7DE',
-        'light-lime': '#f7fee7',
-        'dark-lime1': '#3f6212',
-        'dark-lime2': '#365314',
-        'dark-lime3': '#1a2e05',
+
+        'light-slate-50': '#f8fafc',
+        'light-gray-50': '#f9fafb',
+        'light-zinc-50': '#fafafa',
+        'light-neutral-50': '#fafafa',
+        'light-stone-50': '#fafaf9',
+        
         'orange400':'#fb923c',
         'orange500':'#f97316',
-        'yellow300':'#fde047'
+        'yellow300':'#fde047',
+
+        'teal800': '#115e59',
+        'teal900': '#134e4a',
+        'cyan800': '#155e75',
+        'cyan900': '#164e63',
+
+        'light-gray': '#E7E7DE',
+        "dark-lime1": "#3f6212",
+        // buttonText: 'black',
+        'footerBackground': '#008891',
         
+        // containerBackground: '#E7E7DE',
       }
     },
   },
@@ -37,4 +51,4 @@ export default {
     require('flowbite/plugin'),
     require("daisyui"),
   ],
-}
+};
