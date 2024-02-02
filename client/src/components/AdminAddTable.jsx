@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import QRCode from "react-qr-code";
 import * as htmlToImage from "html-to-image";
+import { Link } from "react-router-dom";
 
 const AdminAddTable = () => {
   const { admin } = useContext(AuthContext);
@@ -13,18 +14,18 @@ const AdminAddTable = () => {
   const [qrCodeURL, setQRCodeURL] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [qrCodeValue, setQrCodeValue] = useState('')
+  const [qrCodeValue, setQrCodeValue] = useState("");
   const qrCodeRef = useRef(null);
   const [captureQRCode, setCaptureQRCode] = useState(false);
   const [tableId, setTableId] = useState(null);
-//   const [qrCodeVisible, setQrCodeVisible] = useState(false);
+  //   const [qrCodeVisible, setQrCodeVisible] = useState(false);
 
-useEffect(() => {
+  useEffect(() => {
     if (captureQRCode && tableId) {
       const capture = async () => {
         const qrCodeUrl = await convertToImageAndUpload();
         await axios.post("auth/tables/update-qr-code", { tableId, qrCodeUrl });
-        setCaptureQRCode(false); 
+        setCaptureQRCode(false);
         setSuccessMessage("Table created and QR code updated successfully.");
       };
       capture().catch(console.error);
@@ -37,7 +38,7 @@ useEffect(() => {
         restaurantId: admin.restaurantId,
         tableNumber,
       });
-      return response.data.table._id; 
+      return response.data.table._id;
     } catch (error) {
       console.error("Error creating table:", error);
       throw error;
@@ -47,7 +48,7 @@ useEffect(() => {
   const convertToImageAndUpload = async () => {
     try {
       const dataUrl = await htmlToImage.toPng(qrCodeRef.current);
-      console.log(dataUrl)
+      console.log(dataUrl);
       const response = await axios.post("/auth/tables/qr-codes", {
         imageData: dataUrl,
       });
@@ -62,23 +63,23 @@ useEffect(() => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      
       const newTableId = await createTableAndGetId();
-      setTableId(newTableId); 
+      setTableId(newTableId);
       const qrCodeValueURL = `http://localhost:5173/loginTable/${newTableId}/${tableNumber}/${admin.restaurantId}`;
-      console.log(qrCodeValueURL)
-      
+      console.log(qrCodeValueURL);
+
       setQrCodeValue(qrCodeValueURL); // sets the qrCodeValue to http://localhost etc...
       setCaptureQRCode(true);
-    //   setQrCodeVisible(true);
-    //   const qrCodeUrl = await convertToImageAndUpload();
+      //   setQrCodeVisible(true);
+      //   const qrCodeUrl = await convertToImageAndUpload();
 
-     
-    //   await axios.post("auth/tables/update-qr-code", { tableId, qrCodeUrl });
-    //   setSuccessMessage("Table created and QR code updated successfully.");
+      //   await axios.post("auth/tables/update-qr-code", { tableId, qrCodeUrl });
+      //   setSuccessMessage("Table created and QR code updated successfully.");
     } catch (error) {
-        console.log(error)
-      setErrorMessage(error.response?.data?.message || "Error processing request");
+      console.log(error);
+      setErrorMessage(
+        error.response?.data?.message || "Error processing request"
+      );
     }
   };
 
@@ -100,16 +101,33 @@ useEffect(() => {
           value={QRCode}
           onChange={(e) => setQRCode(e.target.value)}
         />  */}
-        <button type="submit" className="border-2 hover:bg-blue-500">Add Table</button>
+        <button type="submit" className="border-2 hover:bg-blue-500">
+          Add Table
+        </button>
         {errorMessage && <p>{errorMessage}</p>}
       </form>
-      
-      <div ref={qrCodeRef} width={200} height={200} >
-        <QRCode value={qrCodeValue} size={256} />
-      </div>
-   
+      {qrCodeValue && (
+        <div
+          width={200}
+          height={200}
+          className="flex flex-col items-center text-center py-6"
+        >
+          <QRCode
+            value={qrCodeValue}
+            size={256}
+            ref={qrCodeRef}
+            className="mb-2"
+          />
+          <div>
+            Table {tableNumber} was succesfully created.✅ <br />
+            Qr code was generated and saved. ✅ <br />
+            <br /> See all tables <Link to="/admin/tables" className="font-bold">here</Link> or
+            create another table.
+          </div>
+        </div>
+      )}
 
-      {successMessage && <div className="text-center">{successMessage}</div>}{" "}
+      {/* {successMessage && <div className="text-center">{successMessage}</div>}{" "} */}
     </>
   );
 };
