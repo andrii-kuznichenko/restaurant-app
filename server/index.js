@@ -113,16 +113,14 @@ io.on("connection", (socket) => {
       const { restaurantId, operation, ...meal } = payload;
       if (
         Object.keys(meal).length !== 0 &&
-        socket.user.role === "admin" &&
-        operation === "add"
+        operation === "find"
       ) {
         //ADD MEAL STARTS HERE
+        const { mealId } = meal;
+        const newMeal = await Meal.findById(mealId);
 
-        const newMeal = await Meal.create({ ...meal });
-        const newMenuRestaurant = await Restaurant.updateOne(
-          { _id: restaurantId },
-          { $push: { menu: newMeal._id.toString() } }
-        );
+        io.emit(`getMeal-${mealId}`, newMeal);
+
       } else if (
         Object.keys(meal).length !== 0 &&
         socket.user.role === "admin" &&
@@ -220,6 +218,13 @@ io.on("connection", (socket) => {
           { _id: orderId },
           { isClosed: true }
         );
+      } else if (Object.keys(order).length !== 0 &&
+      socket.user.role === "admin" &&
+      operation === "find"){
+        const { orderId } = order;
+        const foundOrder = await Order.findById(orderId);
+
+        io.emit(`getOrder-${orderId}`, foundOrder);
       }
 
       // //NOTIFY EVERYONE IN RESTAURANT ABOUT NEW ORDER
