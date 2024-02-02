@@ -4,6 +4,7 @@ import { AuthContext } from "../context/Auth";
 import CreateQrCode from "./CreateQrCode";
 import AdminTables from "./AdminTables";
 import { useNavigate } from "react-router-dom";
+import AdminMenuModal from "./AdminMenuModal";
 
 const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
   transports: ["websocket"],
@@ -13,6 +14,33 @@ function AdminMenu() {
   const { admin, loading } = useContext(AuthContext);
   const [menuItems, setMenuItems] = useState([]);
   const navigate = useNavigate();
+  const [tab, setTab] = useState("active");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const openModal = (item) => {
+    setSelectedItem(item);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleEdit = (item, value) => {
+    const hideMeal = {
+      restaurantId: admin.restaurantId,
+      mealId: item._id,
+      hide: value,
+      operation: "hide",
+    };
+    console.log(hideMeal);
+    socket.emit("connectToMenu", hideMeal);
+  };
+
+  const OrderMealHandler = (id) => {
+    navigate(`${id}`);
+  };
 
   useEffect(() => {
     socket.emit("connectToMenu", { restaurantId: admin.restaurantId });
@@ -20,23 +48,6 @@ function AdminMenu() {
       setMenuItems(receivedMenu);
     });
   }, []);
-
-  const handleEdit = (item, value) => {
-    // const updatedMenuItems = menuItems.map((item, i) =>
-    //   i === index ? { ...item, [field]: value } : item
-    // );
-
-    // setMenuItems(updatedMenuItems);
-    const hideMeal = {restaurantId: admin.restaurantId, mealId: item._id, hide: value, operation: 'hide' };
-    console.log(hideMeal);
-    socket.emit("connectToMenu", hideMeal);
-  };
-
-  const OrderMealHandler = (id) => {
-    navigate(`${id}`)
-  }
-
-  const [tab, setTab] = useState("active");
 
   return (
     <div>
@@ -81,11 +92,9 @@ function AdminMenu() {
                       type="checkbox"
                       className="mr-2 leading-tight"
                       defaultChecked={item.hide}
-                      onChange={(e) =>
-                        handleEdit(item, e.target.checked)
-                      }
+                      onChange={(e) => handleEdit(item, e.target.checked)}
                     />
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={(() => OrderMealHandler(item._id))}>
+                    <button onClick={() => openModal(item)}>
                       Meal Details
                     </button>
                   </div>
@@ -93,6 +102,12 @@ function AdminMenu() {
               </div>
             </div>
           ))}
+
+      <AdminMenuModal
+        item={selectedItem}
+        isOpen={isModalOpen}
+        closeModal={closeModal}
+      />
 
       {tab === "hidden" &&
         menuItems.menu
@@ -127,11 +142,12 @@ function AdminMenu() {
                       type="checkbox"
                       className="mr-2 leading-tight"
                       defaultChecked={item.hide}
-                      onChange={(e) =>
-                        handleEdit(item, e.target.checked)
-                      }
+                      onChange={(e) => handleEdit(item, e.target.checked)}
                     />
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={(() => OrderMealHandler(item._id))}>
+                    <button
+                      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                      onClick={() => OrderMealHandler(item._id)}
+                    >
                       Meal Details
                     </button>
                   </div>
