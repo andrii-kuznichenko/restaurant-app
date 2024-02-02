@@ -25,7 +25,8 @@ function UserConfirmation() {
 
   return (
     order.loading && !order.isClose 
-      ?<div>
+      ?order.status === 'order could not be processed'?
+      <p>Sorry we could not procces your order. Wait for waiter</p>:<div>
       <h2>Order Summary</h2>
       <ul>
         { order.meals?.length > 0 ? (
