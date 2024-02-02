@@ -3,6 +3,7 @@ import io from "socket.io-client";
 import { AuthContext } from "../context/Auth";
 import CreateQrCode from "./CreateQrCode";
 import AdminTables from "./AdminTables";
+import { useNavigate } from "react-router-dom";
 
 const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
   transports: ["websocket"],
@@ -11,6 +12,7 @@ const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
 function AdminMenu() {
   const { admin, loading } = useContext(AuthContext);
   const [menuItems, setMenuItems] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     socket.emit("connectToMenu", { restaurantId: admin.restaurantId });
@@ -29,6 +31,10 @@ function AdminMenu() {
     console.log(hideMeal);
     socket.emit("connectToMenu", hideMeal);
   };
+
+  const OrderMealHandler = (id) => {
+    navigate(`${id}`)
+  }
 
   const [tab, setTab] = useState("active");
 
@@ -79,6 +85,9 @@ function AdminMenu() {
                         handleEdit(item, e.target.checked)
                       }
                     />
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={(() => OrderMealHandler(item._id))}>
+                      Meal Details
+                    </button>
                   </div>
                 </div>
               </div>
@@ -122,6 +131,9 @@ function AdminMenu() {
                         handleEdit(item, e.target.checked)
                       }
                     />
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={(() => OrderMealHandler(item._id))}>
+                      Meal Details
+                    </button>
                   </div>
                 </div>
               </div>
