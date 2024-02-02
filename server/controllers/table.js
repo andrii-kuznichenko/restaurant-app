@@ -18,10 +18,10 @@ const addTable =  async (req, res) => {
     const tableToken = jwt.sign(tablePayload, SECRET);
     res
       .status(201)
-      .cookie('accessToken', tableToken, {
-        httpOnly: true,
-        expires: new Date(Date.now() + dayInMilliseconds),
-      })
+      // .cookie('accessToken', tableToken, {
+      //   httpOnly: true,
+      //   // // expires: new Date(Date.now() + dayInMilliseconds),
+      // })
       .json({ message: 'table created!', table: tablePayload });
   } catch (error) {
     res.status(400).json({ message: error.message });
