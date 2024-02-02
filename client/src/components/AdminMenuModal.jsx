@@ -1,6 +1,7 @@
 import React from "react";
 
 function AdminMenuModal({ item, isOpen, closeModal }) {
+    console.log(item);
   if (!isOpen) {
     return null;
   }

@@ -89,7 +89,7 @@ function AdminMenu() {
                 </div>
                 <div className="md:flex-shrink-0">
                   <img
-                    className="h-48 w-full object-cover"
+                    className="h-48 w-full object-cover rounded-lg"
                     src={item.image}
                     alt={item.title}
                   />
@@ -112,7 +112,7 @@ function AdminMenu() {
                   >
                     {item.hide
                       ? "Meal Hidden from Menu"
-                      : "Hide Meal from Menu"}
+                      : "Remove from menu"}
                   </button>
                   <button
                     onClick={() => openModal(item)}
@@ -145,7 +145,7 @@ function AdminMenu() {
                 </div>
                 <div className="md:flex-shrink-0">
                   <img
-                    className="h-48 w-full object-cover"
+                    className="h-48 w-full object-cover rounded-lg"
                     src={item.image}
                     alt={item.title}
                   />
