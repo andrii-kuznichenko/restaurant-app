@@ -547,9 +547,9 @@ body {
 
 
 
-.bg-gradient {
+/*.bg-gradient {
   background: linear-gradient(to bottom, #F8FCFF, #549829, #93C154);
-}
+}*/
 
 .order-summary-container {
   padding: 1rem;
@@ -560,21 +560,18 @@ body {
   transition: filter 0.3s ease;
 }
 
-.btn-footer-color {
-  background: linear-gradient(to bottom, #F8FCFF, #549829, #93C154);
-  color: #613677; 
+
+.btn-hoover {
+  
+  transition: transform 0.3s ease-in-out;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
-}
-
-.btn-hoover {
-  transition: transform 0.3s ease-in-out;
   font-size: 16px; 
   font-weight: bold; 
-  color: #613677; 
+  
 }
 
 .btn-hoover:hover {
@@ -591,11 +588,6 @@ body {
   font-weight: 400;
 }
 
-.footer {
-  background: linear-gradient(to bottom, #F8FCFF, #115B9A);
-  color: #613677; 
-  padding: 2rem;
-}
 
 @media (max-width: 320px) {
   .order-summary-container {

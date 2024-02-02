@@ -55,7 +55,12 @@ const SendOrderHandler = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-     <div className="order-summary-container">
+     <div className="order-summary-container"
+     style={{
+      containerBackground: 'var(--color-buttonBackground)',
+     
+    }}
+     >
         <h1 className="font-merienda text-4xl mb-4">Order Summary</h1>
       <ul>
         { orderItems.length > 0 ? (
@@ -71,12 +76,20 @@ const SendOrderHandler = () => {
       <p className="font-nunito-sans italic font-light mt-4">Total: ${total}</p>
       <div className='flex mt-5 gap-5 justify-center'>
       <button 
-      className="btn-hoover btn-footer-color text-black py-4 px-6 rounded-full"
+      className="btn-hoover rounded-full"
+      style={{
+        backgroundColor: 'var(--color-buttonBackground)',
+        color: 'var(--color-buttonText)',
+      }}
       onClick={BackHandler}>
         Back
       </button>
       <button 
-      className="btn-hoover btn-footer-color text-black py-4 px-6 rounded-full"
+      className="btn-hoover rounded-full"
+      style={{
+        backgroundColor: 'var(--color-buttonBackground)',
+        color: 'var(--color-buttonText)',
+      }}
       onClick={SendOrderHandler}>
         Confirm Order
       </button>

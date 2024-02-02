@@ -4,7 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
-
+:root {
+  --color-buttonBackground: #115e59;
+  --color-buttonText: #ffffff;
+}
 
 /*:root {
   font-family: 'Nunito Sans', sans-serif;
