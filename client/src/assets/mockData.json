@@ -1,0 +1,5 @@
+[
+    { "_id": 1, "name": "Menu Item 1", "content": "Content for Menu Item 1-Crispy potato cubes topped with a spicy tomato-based sauce and aioli, capturing the bold flavors of Spanish cuisine. Ingredients: Potatoes, olive oil, paprika, tomato sauce, garlic, mayonnaise. Nutrition per Serving: Calories: 220, Fat: 12g, Carbohydrates: 25g, Protein: 4g.", "price": 30 },
+    { "_id": 2, "name": "Menu Item 2", "content": "Content for Menu Item 2-Description: A classic French dish featuring slow-cooked chicken in red wine with mushrooms, onions, and bacon, served with creamy mashed potatoes.Ingredients: Chicken, red wine, mushrooms, onions, bacon, potatoes, cream. Nutrition per Serving: Calories: 380, Fat: 18g, Carbohydrates: 22g, Protein: 28g.", "price": 50 },
+    { "_id": 3, "name": "Menu Item 3", "content": "Content for Menu Item 3- Description: Silky smooth chocolate mousse made with rich Belgian chocolate, served with a dollop of whipped cream.Ingredients: Dark chocolate, cream, eggs, sugar, whipped cream.Nutrition per Serving: Calories: 300, Fat: 20g, Carbohydrates: 25g, Protein: 5g.", "price": 25 }
+  ]

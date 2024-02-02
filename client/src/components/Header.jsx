@@ -1,40 +1,50 @@
-import { useContext } from 'react';
+import React, { useContext, useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+import { AuthContext } from "../context/Auth";
 
-import { NavLink } from 'react-router-dom';
-import { AuthContext } from '../context/Auth';
-function Header() {
-  const { admin, logout } = useContext(AuthContext);
+const Header = () => {
+  const {admin, logout} = useContext(AuthContext);
 
   return (
-    <header className="header">
-      <nav>
+    <header className="bg-blue-500 p-4 text-white">
+      <nav className="flex justify-between">
         <div>
-          <NavLink className="nav-link" to={'/'}>
+          <NavLink className="text-white hover:text-gray-300" to={"/"}>
             Home
           </NavLink>
-    
         </div>
-        <>
+        <div>
           {admin ? (
-            <div className="header-admin">
+            <div className="flex items-center space-x-4">
               <p>Hello: {admin.login}</p>
-              <button onClick={logout}>Logout</button>
+              <NavLink className="text-white hover:text-gray-300" to={"admin/newMeal"}>
+                Add New Meal
+              </NavLink>
+              <button
+                onClick={logout}
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Logout
+              </button>
             </div>
           ) : (
-            <div className="header-admin">
-              <NavLink className="nav-link" to={'/login'}>
+            <div className="flex items-center space-x-4">
+              <NavLink className="text-white hover:text-gray-300" to={"/login"}>
                 Login
               </NavLink>
-              <span> | </span>
-              <NavLink className="nav-link" to={'/register'}>
+              <span className="text-white"> | </span>
+              <NavLink
+                className="text-white hover:text-gray-300"
+                to={"/register"}
+              >
                 Register
               </NavLink>
             </div>
           )}
-        </>
+        </div>
       </nav>
     </header>
   );
-}
+};
 
 export default Header;

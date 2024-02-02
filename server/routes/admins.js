@@ -5,6 +5,6 @@ const { register, login, logout, getLoggedInAdmin } = require('../controllers/ad
 adminRouter.post('/register', register);
 adminRouter.post('/login', login);
 adminRouter.post('/logout', logout);
-adminRouter.get('/currentAdmin', authenticate, authorize, getLoggedInAdmin);
+adminRouter.get('/currentAdmin', authenticate, getLoggedInAdmin);
 
 module.exports = adminRouter;

@@ -1,0 +1,148 @@
+
+
+@import url('https://fonts.googleapis.com/css2?family=Merienda&display=swap&family=Nunito+Sans:ital,wght@0,400;1,700&display=swap');
+
+
+
+.user-menu-container {
+  font-family: 'Nunito Sans', sans-serif;
+  font-style: italic;
+  font-weight: 900;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  text-align: justify;
+  overflow-wrap: break-word;
+  }
+
+  .menu-item-container {
+    display: flex;
+    justify-content: center;
+  }
+
+.menu-item {
+  display: flex;
+  padding: 1rem 2rem;
+  align-items: center;
+  text-align: center;
+  overflow-wrap: break-word;
+  margin-right: 1rem;
+}
+
+.menu-items {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+}
+
+.menu-item-hover:hover {
+  transform: scale(1.05); 
+  transition: transform 0.3s ease-in-out; 
+}
+
+.arrow-icon-container {
+  position: absolute;
+  right: 0.5rem;
+  transform: rotate(0deg);
+  transition: transform 0.3s ease;
+}
+
+.arrow-icon-container.checked {
+  transform: rotate(180deg);
+}
+
+
+.order-summary-button {
+  background-color: #F0B51D;
+  border: 4rem;
+  margin-bottom: 4rem;
+  text-align: center;
+  padding: 1rem 2rem;
+  
+  
+}
+
+.menu-title {
+  font-family: 'Merienda', cursive;
+  font-size: 2em;
+  line-height: 1.5;
+  font-weight: 900;
+  color: #213547;
+  padding: 0,5rem 0rem 0.5rem 0rem;
+}
+
+
+
+@media (max-width: 600px) {
+  .user-menu-container {
+    font-size: 0.8em; 
+  }
+
+  .menu-title {
+    font-size: 1.6em; 
+  }
+}
+
+
+
+@media only screen and (max-width: 320px) {
+  .user-menu-container {
+      flex-direction: column;
+      padding: 1em;
+  }
+
+  .menu-title {
+      font-size: 1.2em;
+  }
+
+  .menu-item {
+      font-size: 0.8em;
+  }
+
+  .order-summary-button {
+      font-size: 0.8em;
+  }
+}
+
+
+@media only screen and (min-width: 321px) and (max-width: 375px) {
+  .user-menu-container {
+      flex-direction: column;
+      padding: 1.5em;
+  }
+
+  .menu-title {
+      font-size: 1.4em;
+  }
+
+  .menu-item {
+      font-size: 0.9em;
+  }
+
+  .order-summary-button {
+      font-size: 0.9em;
+  }
+}
+
+
+@media only screen and (min-width: 376px) and (max-width: 425px) {
+  .user-menu-container {
+      flex-direction: column;
+      padding: 2em;
+  }
+
+  .menu-title {
+      font-size: 1.6em;
+  }
+
+  .menu-item {
+      font-size: 1em;
+  }
+
+  .order-summary-button {
+      font-size: 1em;
+  }
+}

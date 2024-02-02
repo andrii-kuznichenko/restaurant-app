@@ -19,8 +19,9 @@ function AuthProvider({ children }) {
     axios
       .get("/admin/currentAdmin")
       .then((res) => {
+        console.log(res.data);
         setState(res.data.admin, false, null);
-        navigate("/");
+        // navigate("/");
       })
       .catch((error) => {
         console.log(error.response.data);
@@ -45,6 +46,7 @@ function AuthProvider({ children }) {
     axios
       .post("/admin/login", admin)
       .then((res) => {
+        console.log(res.data.admin);
         setState(res.data.admin, false, null);
         navigate("/");
       })
@@ -60,11 +62,12 @@ function AuthProvider({ children }) {
       .then((res) => {
         setState(null, false, null);
         navigate("/");
+        window.location.reload()
       })
-      .catch((error) => {
-        console.log(error.response.data);
-        setState(null, false, error.response.data);
-      });
+    //   .catch((error) => {
+    //     console.log(error.response.data);
+    //     setState(null, false, error.response.data);
+    //   });
   };
 
   return (
