@@ -71,7 +71,7 @@ function AdminMenu() {
           }`}
           onClick={() => setTab("hidden")}
         >
-          Hidden Meals
+          Off the menu
         </button>
       </div>
 
@@ -81,51 +81,45 @@ function AdminMenu() {
           ?.map((item, index) => (
             <div
               key={index}
-              className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl m-3"
+              className="w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto bg-white rounded-xl shadow-md overflow-hidden m-3"
             >
-              <div className="md:flex">
+              <div className="p-8">
+                <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold text-center">
+                  {item.category}
+                </div>
                 <div className="md:flex-shrink-0">
                   <img
-                    className="h-48 w-full object-cover md:w-48"
+                    className="h-48 w-full object-cover"
                     src={item.image}
                     alt={item.title}
                   />
                 </div>
-                <div className="p-8">
-                  <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
-                    {item.category}
-                  </div>
-                  <a
-                    href="#"
-                    className="block mt-1 text-lg leading-tight font-medium text-black hover:underline"
+                <a
+                  href="#"
+                  className="block mt-1 text-lg leading-tight font-medium text-black hover:underline text-center"
+                >
+                  {item.title}
+                </a>
+                <p className="mt-2 text-gray-500">{item.description}</p>
+                <div className="mt-4 flex justify-between">
+                  <button
+                    onClick={() => handleEdit(item, !item.hide)}
+                    className={`cursor-pointer px-4 py-2 rounded transition-colors duration-200 ease-in-out ${
+                      item.hide
+                        ? "bg-green-500 hover:bg-green-700 text-white"
+                        : "bg-red-400 hover:bg-gray-400 text-black-700"
+                    }`}
                   >
-                    {item.title}
-                  </a>
-                  <p className="mt-2 text-gray-500">{item.description}</p>
-                  <div className="mt-4">
-                    <div className="flex items-center justify-center p-1">
-                      <button
-                        onClick={() => handleEdit(item, !item.hide)}
-                        className={`cursor-pointer px-4 py-2 rounded transition-colors duration-200 ease-in-out ${
-                          item.hide
-                            ? "bg-green-500 hover:bg-green-700 text-white"
-                            : "bg-red-400 hover:bg-gray-400 text-black-700"
-                        }`}
-                      >
-                        {item.hide
-                          ? "Meal Hidden from Menu"
-                          : "Hide Meal from Menu"}
-                      </button>
-                    </div>
-                    <div className="flex justify-center">
-                      <button
-                        onClick={() => openModal(item)}
-                        className="bg-orange-200 hover:bg-red-400 text-black font-bold py-2 px-4 rounded justify-center p-1"
-                      >
-                        Meal Details
-                      </button>
-                    </div>
-                  </div>
+                    {item.hide
+                      ? "Meal Hidden from Menu"
+                      : "Hide Meal from Menu"}
+                  </button>
+                  <button
+                    onClick={() => openModal(item)}
+                    className="bg-orange-200 hover:bg-red-400 text-black font-bold py-2 px-4 rounded justify-center p-1"
+                  >
+                    Meal Details
+                  </button>
                 </div>
               </div>
             </div>
@@ -143,47 +137,43 @@ function AdminMenu() {
           .map((item, index) => (
             <div
               key={index}
-              className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl m-3"
+              className="w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto bg-white rounded-xl shadow-md overflow-hidden m-3"
             >
-              <div className="md:flex">
+              <div className="p-8">
+                <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold text-center">
+                  {item.category}
+                </div>
                 <div className="md:flex-shrink-0">
                   <img
-                    className="h-48 w-full object-cover md:w-48"
+                    className="h-48 w-full object-cover"
                     src={item.image}
                     alt={item.title}
                   />
                 </div>
-                <div className="p-8">
-                  <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
-                    {item.category}
-                  </div>
-                  <a
-                    href="#"
-                    className="block mt-1 text-lg leading-tight font-medium text-black hover:underline"
+                <a
+                  href="#"
+                  className="block mt-1 text-lg leading-tight font-medium text-black hover:underline text-center"
+                >
+                  {item.title}
+                </a>
+                <p className="mt-2 text-gray-500">{item.description}</p>
+                <div className="mt-4 flex justify-between">
+                  <button
+                    onClick={() => handleEdit(item, !item.hide)}
+                    className={`mr-2 leading-tight font-bold py-2 px-4 rounded transition-colors duration-200 ease-in-out ${
+                      item.hide
+                        ? "bg-green-500 hover:bg-green-700 text-white"
+                        : "bg-gray-200 hover:bg-gray-400 text-gray-700"
+                    }`}
                   >
-                    {item.title}
-                  </a>
-                  <p className="mt-2 text-gray-500">{item.description}</p>
-                  <div className="mt-4">
-                    <button
-                      onClick={() => handleEdit(item, !item.hide)}
-                      className={`mr-2 leading-tight font-bold py-2 px-4 rounded transition-colors duration-200 ease-in-out ${
-                        item.hide
-                          ? "bg-green-500 hover:bg-green-700 text-white"
-                          : "bg-gray-200 hover:bg-gray-400 text-gray-700"
-                      }`}
-                    >
-                      {item.hide ? "Put back on menu" : "Hide"}
-                    </button>
-                    <div className="flex justify-center">
-                      <button
-                        onClick={() => openModal(item)}
-                        className="bg-orange-200 hover:bg-red-400 text-black font-bold py-2 px-4 rounded justify-center p-1"
-                      >
-                        Meal Details
-                      </button>
-                    </div>
-                  </div>
+                    {item.hide ? "Put back on menu" : "Hide"}
+                  </button>
+                  <button
+                    onClick={() => openModal(item)}
+                    className="bg-orange-200 hover:bg-red-400 text-black font-bold py-2 px-4 rounded justify-center p-1"
+                  >
+                    Meal Details
+                  </button>
                 </div>
               </div>
             </div>
