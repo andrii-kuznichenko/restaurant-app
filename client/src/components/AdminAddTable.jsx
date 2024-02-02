@@ -8,6 +8,7 @@ import QRCode from "react-qr-code";
 import * as htmlToImage from "html-to-image";
 import { Link } from "react-router-dom";
 
+
 const AdminAddTable = () => {
   const { admin } = useContext(AuthContext);
   const [tableNumber, setTableNumber] = useState("");
