@@ -12,10 +12,12 @@ import AdminOrderTimeline from "./AdminOrderTimeline";
 import { Button, Timeline } from "flowbite-react";
 import { HiArrowNarrowRight } from "react-icons/hi";
 import { Dropdown } from "flowbite-react";
+import LoadingDots from "./LoadingDots";
 
 const AdminOrders = () => {
   const { admin, loading } = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
+  const [ordersLoadind, SetOrdersLoading] = useState(true);
   const notify = () => toast("New order!💰");
   const prevOrdersRef = useRef();
   const navigate = useNavigate();
@@ -70,6 +72,9 @@ const AdminOrders = () => {
       // Update the previous orders ref with the current orders
       prevOrdersRef.current = receivedOrders;
       setOrders(receivedOrders);
+      setTimeout(() => {
+        SetOrdersLoading(false);
+   }, 600)
     });
   }, []);
 
@@ -119,9 +124,9 @@ const AdminOrders = () => {
     <div>
       <Timeline className="mx-4">
         <ToastContainer />
-        <h1 className="text-center py-3">Admin Orders</h1>
 
-        {orders.length === 0 ? (
+        {ordersLoadind?<LoadingDots />
+        :orders.length === 0 ? (
           <h2>No orders yet</h2>
         ) : (
           orders.map((order, index) => (

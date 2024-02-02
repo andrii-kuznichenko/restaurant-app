@@ -6,7 +6,7 @@ const Header = () => {
   const {admin, logout} = useContext(AuthContext);
 
   return (
-    <header className="bg-blue-500 p-4 text-white">
+    <header className="bg-footerBackground p-4 text-white">
       <nav className="flex justify-between">
         <div>
           <NavLink className="text-white hover:text-gray-300" to={"/"}>

@@ -4,6 +4,7 @@ import io from "socket.io-client";
 import { AuthContext } from '../context/Auth';
 import { Badge, Progress } from 'flowbite-react';
 import { HiCheck, HiClock } from 'react-icons/hi';
+import LoadingDots from './LoadingDots';
 const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
   transports: ["websocket"],
 });
@@ -11,20 +12,26 @@ const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
 function AdminOrderDetails() {
   const { id } = useParams();
   const [order, setOrder] = useState({loading:true});
+  const [orderTime, setOrderTime] = useState(''); 
   const { admin, loading } = useContext(AuthContext);
+
   const prevOrdersRef = useRef();
 
 
   useEffect(() => { 
     socket.emit("connectToOrder", {restaurantId: admin.restaurantId, operation: 'find', orderId: id});
     socket.on(`getOrder-${id}`, (receivedOrder) => {
-      setOrder({...receivedOrder, loading: false});
+      setOrder(receivedOrder);
+      setTimeout(() => {
+        setOrder({...receivedOrder, loading: false});
+   }, 400)
   })
  }, []);
- useEffect(() => { 
-  console.log(order);
 
-}, [order]);
+ useEffect(() => { 
+  console.log(orderTime);
+
+}, [orderTime]);
 
 const timeSince = (dateString) => {
   const createdAt = new Date(dateString);
@@ -48,7 +55,8 @@ const AcceptOrderHandler = () => {
     restaurantId: admin.restaurantId,
     orderId: id,
     status: 'in process',
-    operation:'change_status'});
+    orderTime: orderTime,
+    operation:'update'});
 }
 
 const DeclineOrderHandler = () => {
@@ -65,11 +73,47 @@ const CloseOrderHandler = () => {
     orderId: id,
     operation:'close'});
 }
+const CloseOrderAndFinishHandler = () => {
+    socket.emit("connectToOrder", {
+        restaurantId: admin.restaurantId,
+        orderId: id,
+        status: 'finished',
+        operation:'change_status'});
+      socket.emit("connectToOrder", {
+        restaurantId: admin.restaurantId,
+        orderId: id,
+        operation:'close'});    
+}
+
+
+const TimePickerHandler = (e) => {
+    if(e.target.name === '5min'){
+        setOrderTime('5');
+    } else if (e.target.name === '10min'){
+        setOrderTime('10');
+    } else if (e.target.name === '15min'){
+        setOrderTime('15');
+    } else if (e.target.name === '20min'){
+        setOrderTime('20');
+    } else if (e.target.name === '30min'){
+        setOrderTime('30');
+    } else if (e.target.name === '45min'){
+        setOrderTime('45');
+    }
+}
+
+const OrderServedHandler = (e) => {
+    socket.emit("connectToOrder", {
+        restaurantId: admin.restaurantId,
+        orderId: id,
+        status: 'waiting for payment',
+        operation:'change_status'});
+}
 
   return (
     <>
     <div>
-      {order.loading?<p>Loading...</p>:
+      {order.loading?<LoadingDots />:
       <div>
       <div className='flex items-start py-3'>
       <div className='flex flex-col'>
@@ -83,7 +127,7 @@ const CloseOrderHandler = () => {
       </div>
       <div className="mt-2">
       <span className="flex items-center text-sm font-medium text-gray-500 dark:text-white me-5">
-      <span className={order.status==='order could not be processed'?"flex w-2.5 h-2.5 bg-red-600 rounded-full me-1.5 flex-shrink-0":"flex w-2.5 h-2.5 bg-blue-600 rounded-full me-1.5 flex-shrink-0"}>
+      <span className={order.status==='order could not be processed'?"flex w-2.5 h-2.5 bg-red-600 rounded-full me-1.5 flex-shrink-0":"flex w-2.5 h-2.5 bg-teal-600 rounded-full me-1.5 flex-shrink-0"}>
       </span>{order.status}</span>
       </div> 
       </div>
@@ -92,14 +136,14 @@ const CloseOrderHandler = () => {
         <li class="relative w-full mb-6">
             {order.status === 'need to accept' ?
             <div class="flex items-center">
-            <div class="z-10 flex items-center justify-center w-6 h-6 bg-blue-200 rounded-full ring-0 ring-white dark:bg-blue-900 sm:ring-8 dark:ring-gray-900 shrink-0">
-                <span class="flex w-3 h-3 bg-blue-600 rounded-full"></span>
+            <div class="z-10 flex items-center justify-center w-6 h-6 bg-teal-200 rounded-full ring-0 ring-white dark:bg-teal-900 sm:ring-8 dark:ring-gray-900 shrink-0">
+                <span class="flex w-3 h-3 bg-teal-600 rounded-full"></span>
             </div>
             <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
         </div>
             :<div class="flex items-center">
-                <div class="z-10 flex items-center justify-center w-6 h-6 bg-blue-600 rounded-full ring-0 ring-white dark:bg-blue-900 sm:ring-8 dark:ring-gray-900 shrink-0">
-                    <svg class="w-2.5 h-2.5 text-blue-100 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+                <div class="z-10 flex items-center justify-center w-6 h-6 bg-teal-600 rounded-full ring-0 ring-white dark:bg-teal-900 sm:ring-8 dark:ring-gray-900 shrink-0">
+                    <svg class="w-2.5 h-2.5 text-teal-100 dark:text-teal-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
                     </svg>
                 </div>
@@ -128,9 +172,23 @@ const CloseOrderHandler = () => {
             </div>
             <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
         </div>
+            :order.status === 'in process'&& !order.isClosed?
+            <div class="flex items-center">
+            <div class="z-10 flex items-center justify-center w-6 h-6 bg-teal-200 rounded-full ring-0 ring-white dark:bg-teal-900 sm:ring-8 dark:ring-gray-900 shrink-0">
+                <span class="flex w-3 h-3 bg-teal-600 rounded-full"></span>
+            </div>
+            <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+        </div>
+            :order.status === 'in process' && order.isClosed?
+            <div class="flex items-center">
+            <div class="z-10 flex items-center justify-center w-6 h-6 bg-red-200 rounded-full ring-0 ring-white dark:bg-red-900 sm:ring-8 dark:ring-red-900 shrink-0">
+                <span class="flex w-3 h-3 bg-red-600 rounded-full"></span>
+            </div>
+            <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+            </div>
             :<div class="flex items-center">
-                <div class="z-10 flex items-center justify-center w-6 h-6 bg-blue-600 rounded-full ring-0 ring-white dark:bg-blue-900 sm:ring-8 dark:ring-gray-900 shrink-0">
-                    <svg class="w-2.5 h-2.5 text-blue-100 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+                <div class="z-10 flex items-center justify-center w-6 h-6 bg-teal-600 rounded-full ring-0 ring-white dark:bg-teal-900 sm:ring-8 dark:ring-gray-900 shrink-0">
+                    <svg class="w-2.5 h-2.5 text-teal-100 dark:text-teal-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
                     </svg>
                 </div>
@@ -141,7 +199,7 @@ const CloseOrderHandler = () => {
             </div>
         </li>
         <li class="relative w-full mb-6">
-        {order.status === 'need to accept'?
+        {order.status === 'need to accept' || order.status === 'in process'?
               <div class="flex items-center">
               <div class="z-10 flex items-center justify-center w-6 h-6 bg-gray-200 rounded-full ring-0 ring-white dark:bg-gray-700 sm:ring-8 dark:ring-gray-900 shrink-0">
                   <svg class="w-2.5 h-2.5 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
@@ -150,7 +208,7 @@ const CloseOrderHandler = () => {
               </div>
               <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
           </div>
-            :order.status === 'order could not be processed'?
+            :order.status === 'order could not be processed' || order.status === 'in process' && order.isClosed?
             <div class="flex items-center">
             <div class="z-10 flex items-center justify-center w-6 h-6 bg-red-200 rounded-full ring-0 ring-white dark:bg-red-700 sm:ring-8 dark:ring-red-900 shrink-0">
               <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -159,16 +217,23 @@ const CloseOrderHandler = () => {
             </div>
             <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
         </div>
-            :order.status === 'waiting for payment'?
+            :order.status === 'waiting for payment' && !order.isClosed?
             <div class="flex items-center">
-            <div class="z-10 flex items-center justify-center w-6 h-6 bg-blue-200 rounded-full ring-0 ring-white dark:bg-blue-900 sm:ring-8 dark:ring-gray-900 shrink-0">
-                <span class="flex w-3 h-3 bg-blue-600 rounded-full"></span>
+            <div class="z-10 flex items-center justify-center w-6 h-6 bg-teal-200 rounded-full ring-0 ring-white dark:bg-teal-900 sm:ring-8 dark:ring-gray-900 shrink-0">
+                <span class="flex w-3 h-3 bg-teal-600 rounded-full"></span>
             </div>
             <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
         </div>
+            :order.status === 'waiting for payment' && order.isClosed?
+            <div class="flex items-center">
+            <div class="z-10 flex items-center justify-center w-6 h-6 bg-red-200 rounded-full ring-0 ring-white dark:bg-red-900 sm:ring-8 dark:ring-red-900 shrink-0">
+                <span class="flex w-3 h-3 bg-red-600 rounded-full"></span>
+            </div>
+            <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+            </div>
             :<div class="flex items-center">
-                <div class="z-10 flex items-center justify-center w-6 h-6 bg-blue-600 rounded-full ring-0 ring-white dark:bg-blue-900 sm:ring-8 dark:ring-gray-900 shrink-0">
-                    <svg class="w-2.5 h-2.5 text-blue-100 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+                <div class="z-10 flex items-center justify-center w-6 h-6 bg-teal-600 rounded-full ring-0 ring-white dark:bg-teal-900 sm:ring-8 dark:ring-gray-900 shrink-0">
+                    <svg class="w-2.5 h-2.5 text-teal-100 dark:text-teal-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
                     </svg>
                 </div>
@@ -181,8 +246,8 @@ const CloseOrderHandler = () => {
         <li class="relative w-full mb-6">
            {order.isClosed?
            <div class="flex items-center">
-                <div class="z-10 flex items-center justify-center w-6 h-6 bg-blue-600 rounded-full ring-0 ring-white dark:bg-blue-900 sm:ring-8 dark:ring-gray-900 shrink-0">
-                    <svg class="w-2.5 h-2.5 text-blue-100 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+                <div class="z-10 flex items-center justify-center w-6 h-6 bg-teal-600 rounded-full ring-0 ring-white dark:bg-teal-900 sm:ring-8 dark:ring-gray-900 shrink-0">
+                    <svg class="w-2.5 h-2.5 text-teal-100 dark:text-teal-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
                     </svg>
                 </div>
@@ -238,6 +303,31 @@ const CloseOrderHandler = () => {
       </table>
   </div>
       </div>
+      {order.status === 'need to accept'?
+      <>
+      <h2 className="flex flex-row flex-nowrap items-center mt-15">
+      <span className="flex-grow block border-t border-gray-200"></span>
+      <span className="flex-none block mx-4 px-4 py-2.5 text-xl rounded leading-none font-medium bg-gray-200 text-gray-700">
+          Choose Order Duration
+      </span>
+      <span class="flex-grow block border-t border-gray-200"></span>
+  </h2>
+  <div className='flex justify-center  mt-7 items-center'>
+  <button type="button" name='5min' class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+  onClick={TimePickerHandler}>5 min</button>
+    <button type="button" name='10min' class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+  onClick={TimePickerHandler}>10 min</button>
+    <button type="button" name='15min' class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+  onClick={TimePickerHandler}>15 min</button>
+    <button type="button" name='20min' class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+  onClick={TimePickerHandler}>20 min</button>
+    <button type="button" name='30min' class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+  onClick={TimePickerHandler}>30 min</button>
+    <button type="button" name='45min' class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+  onClick={TimePickerHandler}>45 min</button>
+</div>
+  </>
+      :<p></p>}
       <div className='flex mx-5'>
         {order.status === 'need to accept'?
         <><button type="button" className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-900"
@@ -247,6 +337,18 @@ const CloseOrderHandler = () => {
                     Decline Order</button></>:order.status === 'order could not be processed'?
       <button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
       onClick={CloseOrderHandler}>
+      Close Order</button>
+      : order.status === 'in process'
+      ?<><button type="button" className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-900"
+      onClick={OrderServedHandler}>
+      Order Served</button>
+      <button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+      onClick={CloseOrderHandler}>
+      Close Order</button>
+      </>
+      :order.status === 'waiting for payment'?
+      <button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+      onClick={CloseOrderAndFinishHandler}>
       Close Order</button>
       :<p></p>}
       </div>

@@ -1,6 +1,7 @@
 
 import React, { useContext, useEffect, useState } from 'react';
 import io from 'socket.io-client';
+import axios from '../axiosInstance'
 import { AuthTableContext } from '../context/AuthTable';
 import { useNavigate } from 'react-router-dom';
 import "./OrderSummary.css";
@@ -16,12 +17,16 @@ const OrderSummary = () => {
   const { orderItems, total } = useContext(AuthTableContext);
 
  useEffect(() => {
-    socket.emit("connectToOrder", {restaurantId: context.table.restaurantId});
-    socket.on(`getOrder-${context.table._id}`, (receivedOrder) => {
-      if(receivedOrder?.length > 0){
-        setOrder({loading: true});
-      }
-    });
+  axios
+  .get(`/order/${context.table._id}`)
+  .then((res) => {
+    setOrder(res.data);
+
+  })
+  .catch((error) => {
+    console.log(error.response.data);
+    setState(null, false, error.response.data);
+  });
 
 }, []);
 
@@ -32,7 +37,7 @@ const BackHandler = () =>{
 useEffect(() => {
   if(order?.loading){
     socket.disconnect();
-    navigate('/user/order/confirmation');
+      navigate('/user/order/confirmation');
   }
 },[order])
 
@@ -51,7 +56,9 @@ const SendOrderHandler = () => {
 
   socket.disconnect();
 
-  navigate('/user/order/confirmation');
+  setTimeout( () => {
+    navigate('/user/order/confirmation');
+  }, 1000);
 } 
 
 

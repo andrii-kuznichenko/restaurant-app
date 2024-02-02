@@ -2,26 +2,47 @@ import React, { useContext, useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import { AuthTableContext } from '../context/AuthTable';
 import { useNavigate } from 'react-router-dom';
+import axios from '../axiosInstance'
+import LoadingDots from './LoadingDots';
 const socket = io(import.meta.env.VITE_SERVER_BASE_URL, { transports: ['websocket'] });
 
 function UserConfirmation() {
 
   const context = useContext(AuthTableContext);
   const [ order, setOrder ] = useState({loading: false});
+  const [orderId, setOrderId] = useState('');
 
  useEffect(() => {
-    socket.emit("connectToOrder", {restaurantId: context.table.restaurantId});
-    socket.on(`getOrder-${context.table._id}`, (receivedOrder) => {
-      if(receivedOrder?.length === 0){
-        const newOrder = {...receivedOrder[0], loading: true, isClose: true};
+  axios
+  .get(`/order/${context.table._id}`)
+  .then((res) => {
+    setOrderId(res.data?._id);
+
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
+}, []);
+
+useEffect(() => {
+  if(orderId?.length > 0){
+    socket.emit("connectToOrder", {orderId: orderId});
+    socket.on(`getOrder-${orderId}`, (receivedOrder) => {
+      if(receivedOrder?.isClosed){
+        const newOrder = {...receivedOrder, loading: true, isClose: true};
         setOrder(newOrder);
-      } else if (receivedOrder?.length > 0){
-        const newOrder = {...receivedOrder[0], loading: true, isClose: false};
+      } else {
+        const newOrder = {...receivedOrder, loading: true, isClose: false};
         setOrder(newOrder);
       }
     });
+  }
+},[orderId])
 
-}, []);
+useEffect(() => {
+  console.log(order);
+},[order])
 
   return (
     order.loading && !order.isClose 
@@ -41,8 +62,11 @@ function UserConfirmation() {
       </ul>
       <p>Total: {order?.totalPrice}</p>
       <h1>STATUS: {order?.status}</h1>
+      {order.status === 'in process'
+      ?<p>OrderTime: {order.orderTime}</p>
+      :<p>asdasda</p>}
     </div>
-    :order.isClose?<h1>Thank you for your order</h1>:<h1>Loading...</h1>    
+    :order.isClose?<h1>Thank you for your order</h1>:<h1><LoadingDots /></h1>    
   )
 }
 

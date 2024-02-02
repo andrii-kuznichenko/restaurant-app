@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-/*import axios from 'axios';*/
 import UserOrderMeal from "./UserOrderMeal";
 import { FaChevronDown } from "react-icons/fa";
 import "./UserMenu.css";
 import { AuthTableContext } from "../context/AuthTable";
 import io from "socket.io-client";
+import axios from "../axiosInstance";
 const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
   transports: ["websocket"],
 });
@@ -28,15 +28,25 @@ const UserMenu = () => {
 
 
   useEffect(() => { 
-    socket.emit("connectToOrder", {restaurantId: context.table.restaurantId});
-    socket.on(`getOrder-${context.table._id}`, (receivedOrder) => {
-      setOrder(receivedOrder);
-  })
+    axios
+      .get(`/order/${context.table._id}`)
+      .then((res) => {
+        setOrder(res.data);
+
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+        setState(null, false, error.response.data);
+      });
+  //   socket.emit("connectToOrder", {restaurantId: context.table.restaurantId});
+  //   socket.on(`getOrder-${context.table._id}`, (receivedOrder) => {
+  //     setOrder(receivedOrder);
+  // })
  }, []);
 
 
   useEffect(() => {
-    if(Object.keys(order).length !== 0){
+    if(order && Object.keys(order).length > 0){
       socket.disconnect();
       navigate('/user/order/confirmation');
     }
