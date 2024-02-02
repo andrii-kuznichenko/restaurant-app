@@ -167,6 +167,10 @@ io.on("connection", (socket) => {
           match: { hide: false },
         });
       io.emit(`getMenuUser-${socket.user.restaurantId}`, menuUser);
+      const { mealId } = meal;
+      const newMeal = await Meal.findById(mealId);
+
+      io.emit(`getMeal-${mealId}`, newMeal);
     } catch (error) {
       console.log(error);
       io.emit("getMenuError", error);
@@ -219,7 +223,7 @@ io.on("connection", (socket) => {
       socket.user.role === "admin" &&
       operation === "find"){
         const { orderId } = order;
-        const foundOrder = await Order.findById(orderId);
+        const foundOrder = await Order.findById(orderId).populate('tableNumberId').populate('meals.name');
 
         io.emit(`getOrder-${orderId}`, foundOrder);
       }
@@ -235,14 +239,19 @@ io.on("connection", (socket) => {
             restaurantId: user.restaurantId,
             tableNumberId: user._id,
             isClosed: false,
-          }).populate("meals.name");
+          }).populate('tableNumberId').populate("meals.name");
           io.emit(`getOrder-${user._id}`, orderInfo);
         }
       }
 
+      const { orderId } = order;
+      const foundOrder = await Order.findById(orderId).populate('tableNumberId').populate('meals.name');
+
+      io.emit(`getOrder-${orderId}`, foundOrder);
+
       const orders = await Order.find({
         restaurantId: socket.user.restaurantId,
-      }).populate("meals.name");
+      }).populate('tableNumberId').populate("meals.name");
       io.emit(`getOrders-${socket.user.restaurantId}`, orders);
     } catch (error) {
       console.log(error);
