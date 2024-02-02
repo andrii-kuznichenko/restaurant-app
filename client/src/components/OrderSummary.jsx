@@ -54,8 +54,6 @@ const SendOrderHandler = () => {
     operation: 'add'
   });
 
-  socket.disconnect();
-
   setTimeout( () => {
     navigate('/user/order/confirmation');
   }, 1000);

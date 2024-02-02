@@ -60,23 +60,35 @@ const AdminOrders = () => {
 
     socket.emit("connectToOrder", { restaurantId: admin.restaurantId });
     socket.on(`getOrders-${admin.restaurantId}`, (receivedOrders) => {
-      console.log(receivedOrders);
       // Check if there is a previous state and if the new orders array is longer
-      if (
-        prevOrdersRef.current &&
-        receivedOrders.length > prevOrdersRef.current.length
-      ) {
-        notify(); // Trigger the notification for a new order
-      }
+      // if (
+      //   prevOrdersRef.current &&
+      //   receivedOrders.length > prevOrdersRef.current.length
+      // ) {
+      //   notify(); // Trigger the notification for a new order
+      // }
 
-      // Update the previous orders ref with the current orders
-      prevOrdersRef.current = receivedOrders;
+      // // Update the previous orders ref with the current orders
+      // prevOrdersRef.current = receivedOrders;
       setOrders(receivedOrders);
       setTimeout(() => {
         SetOrdersLoading(false);
-   }, 600)
+      }, 600);
     });
   }, []);
+
+  useEffect(() => {
+    if(orders && orders.length > 0){
+      if (
+        prevOrdersRef.current &&
+        orders.length > prevOrdersRef.current.length
+      ) {
+        notify(); // Trigger the notification for a new order
+      }
+      prevOrdersRef.current = orders;
+    }
+
+  },[orders])
 
   const closeOrderHandler = (e) => {
     socket.emit("connectToOrder", {
@@ -117,16 +129,19 @@ const AdminOrders = () => {
     navigate(`admin/order/${id}`);
   };
 
-  const selectClass = "text-sm group flex items-center justify-center p-0.5 text-center font-medium relative focus:z-10 focus:outline-none text-gray-900 bg-white border border-gray-200 enabled:hover:bg-gray-100 enabled:hover:text-cyan-700 :ring-cyan-700 focus:text-cyan-700 dark:bg-transparent dark:text-gray-400 dark:border-gray-600 dark:enabled:hover:text-white dark:enabled:hover:bg-gray-700 rounded-lg focus:ring-2";
-  const selectedOptionClass = "flex items-center transition-all duration-200 rounded-md text-sm px-4 py-2"
+  const selectClass =
+    "text-sm group flex items-center justify-center p-0.5 text-center font-medium relative focus:z-10 focus:outline-none text-gray-900 bg-white border border-gray-200 enabled:hover:bg-gray-100 enabled:hover:text-cyan-700 :ring-cyan-700 focus:text-cyan-700 dark:bg-transparent dark:text-gray-400 dark:border-gray-600 dark:enabled:hover:text-white dark:enabled:hover:bg-gray-700 rounded-lg focus:ring-2";
+  const selectedOptionClass =
+    "flex items-center transition-all duration-200 rounded-md text-sm px-4 py-2";
 
   return (
     <div>
       <Timeline className="mx-4">
         <ToastContainer />
 
-        {ordersLoadind?<LoadingDots />
-        :orders.length === 0 ? (
+        {ordersLoadind ? (
+          <LoadingDots />
+        ) : orders.length === 0 ? (
           <h2>No orders yet</h2>
         ) : (
           orders.map((order, index) => (
@@ -153,58 +168,62 @@ const AdminOrders = () => {
                         ))}
                       </div>
                       <div className="flex flex-col">
-                        
                         <div>{order.status}</div>
                       </div>
                       <div className="flex flex-col">
-                        
                         <div>{order.isClosed ? "closed" : "active"}</div>
                       </div>
                       {/* <button onClick={changeOrderStatusHandler} name={order._id} className="border-2 hover:bg-blue-500">Change Status</button> */}
                       <div className="flex flex-col gap-2">
-                    <Button
-                    color="gray"
-                    onClick={() => OrderDetailHandler(order._id)}
-                  >
-                    Order Details
-                    <HiArrowNarrowRight className="ml-2 h-3 w-3" />
-                  </Button>
-                  <div>
-                  <select
-                  onChange={(e) => changeOrderStatusHandler(e)}
-                  defaultValue={order.status}
-                  className={selectClass} 
-                  name={order._id}
-                  type="button"
-                >
-                  <option value="in process" > <span className="in-process">In process</span></option>
-                  <option value="need to accept">Need to accept</option>
-                  <option value="waiting for payment">
-                    Waiting for payment
-                  </option>
-                  <option value="finished">Finished</option>
-                  <option value="order could not be processed">
-                    Order could not be processed
-                  </option>
-                </select>
-                </div>
-                  <Button
-                    color="red"
-                    onClick={closeOrderHandler}
-                    name={order._id}
-                  >
-                    Close
-                  </Button>
-                  </div>
+                        <Button
+                          color="gray"
+                          onClick={() => OrderDetailHandler(order._id)}
+                        >
+                          Order Details
+                          <HiArrowNarrowRight className="ml-2 h-3 w-3" />
+                        </Button>
+                        <div>
+                          <select
+                            onChange={(e) => changeOrderStatusHandler(e)}
+                            defaultValue={order.status}
+                            className={selectClass}
+                            name={order._id}
+                            type="button"
+                          >
+                            <option value="in process">
+                              {" "}
+                              <span className="in-process">In process</span>
+                            </option>
+                            <option value="need to accept">
+                              Need to accept
+                            </option>
+                            <option value="waiting for payment">
+                              Waiting for payment
+                            </option>
+                            <option value="finished">Finished</option>
+                            <option value="order could not be processed">
+                              Order could not be processed
+                            </option>
+                          </select>
+                        </div>
+                        <Button
+                          color="red"
+                          onClick={closeOrderHandler}
+                          name={order._id}
+                        >
+                          Close
+                        </Button>
+                      </div>
                     </div>
-                    <div><div className="font-bold">Total price: {order.totalPrice} EUR</div></div>
-          
+                    <div>
+                      <div className="font-bold">
+                        Total price: {order.totalPrice} EUR
+                      </div>
+                    </div>
                   </Timeline.Body>
-
-
                 </Timeline.Content>
               </Timeline.Item>
-              
+
               {/* <div key={index} className="p-2 grid grid-cols-6 justify-between">
                 <div className="flex flex-col">
                   <div className="font-bold">Table</div>{" "}
@@ -248,10 +267,7 @@ const AdminOrders = () => {
                 </select>
           
                 {/* <button onClick={changeOrderStatusHandler} name={order._id} className="border-2 hover:bg-blue-500">Change Status</button> */}
-              {/* </div> */} 
-              
-  
-             
+              {/* </div> */}
             </>
           ))
         )}
