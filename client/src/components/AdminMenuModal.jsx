@@ -50,6 +50,11 @@ function AdminMenuModal({ item, isOpen, closeModal }) {
                   Description: {item.description}
                 </p>
               </div>
+              <div className="mt-2">
+                <p className="text-sm text-gray-500">
+                  Allergens: {item.allergens}
+                </p>
+              </div>
             </div>
           </div>
           <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"></div>
