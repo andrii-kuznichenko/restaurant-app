@@ -50,13 +50,29 @@ function AdminMenu() {
   }, []);
 
   return (
-    <div>
+    <div className="bg-yellow-200 flex flex-col items-center">
       <h1 className="text-2xl font-bold mb-4">Admin Menu</h1>
-      <div>
-        <button className="mr-4" onClick={() => setTab("active")}>
+      <div className="flex border-b">
+        <button
+          className={`py-2 px-4 bg-white border-l border-t border-r rounded-t ${
+            tab === "active"
+              ? "text-black-500 border-yellow-600 bg-orange-200"
+              : "text-gray-500"
+          }`}
+          onClick={() => setTab("active")}
+        >
           Active Meals
         </button>
-        <button onClick={() => setTab("hidden")}>Hidden Meals</button>
+        <button
+          className={`py-2 px-4 bg-white border-l border-t border-r rounded-t ${
+            tab === "hidden"
+              ? "text-black-500 border-yellow-600 bg-orange-200"
+              : "text-gray-500"
+          }`}
+          onClick={() => setTab("hidden")}
+        >
+          Hidden Meals
+        </button>
       </div>
 
       {tab === "active" &&
@@ -87,16 +103,28 @@ function AdminMenu() {
                   </a>
                   <p className="mt-2 text-gray-500">{item.description}</p>
                   <div className="mt-4">
-                    <label className="font-bold text-xl mb-2">Hide</label>
-                    <input
-                      type="checkbox"
-                      className="mr-2 leading-tight"
-                      defaultChecked={item.hide}
-                      onChange={(e) => handleEdit(item, e.target.checked)}
-                    />
-                    <button onClick={() => openModal(item)}>
-                      Meal Details
-                    </button>
+                    <div className="flex items-center justify-center p-1">
+                      <button
+                        onClick={() => handleEdit(item, !item.hide)}
+                        className={`cursor-pointer px-4 py-2 rounded transition-colors duration-200 ease-in-out ${
+                          item.hide
+                            ? "bg-green-500 hover:bg-green-700 text-white"
+                            : "bg-red-400 hover:bg-gray-400 text-black-700"
+                        }`}
+                      >
+                        {item.hide
+                          ? "Meal Hidden from Menu"
+                          : "Hide Meal from Menu"}
+                      </button>
+                    </div>
+                    <div className="flex justify-center">
+                      <button
+                        onClick={() => openModal(item)}
+                        className="bg-orange-200 hover:bg-red-400 text-black font-bold py-2 px-4 rounded justify-center p-1"
+                      >
+                        Meal Details
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -137,19 +165,24 @@ function AdminMenu() {
                   </a>
                   <p className="mt-2 text-gray-500">{item.description}</p>
                   <div className="mt-4">
-                    <label className="font-bold text-xl mb-2">Hide</label>
-                    <input
-                      type="checkbox"
-                      className="mr-2 leading-tight"
-                      defaultChecked={item.hide}
-                      onChange={(e) => handleEdit(item, e.target.checked)}
-                    />
                     <button
-                      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                      onClick={() => OrderMealHandler(item._id)}
+                      onClick={() => handleEdit(item, !item.hide)}
+                      className={`mr-2 leading-tight font-bold py-2 px-4 rounded transition-colors duration-200 ease-in-out ${
+                        item.hide
+                          ? "bg-green-500 hover:bg-green-700 text-white"
+                          : "bg-gray-200 hover:bg-gray-400 text-gray-700"
+                      }`}
                     >
-                      Meal Details
+                      {item.hide ? "Put back on menu" : "Hide"}
                     </button>
+                    <div className="flex justify-center">
+                      <button
+                        onClick={() => openModal(item)}
+                        className="bg-orange-200 hover:bg-red-400 text-black font-bold py-2 px-4 rounded justify-center p-1"
+                      >
+                        Meal Details
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
