@@ -3,8 +3,8 @@ import QRCode from "react-qr-code";
 import * as htmlToImage from "html-to-image";
 import axios from "../axiosInstance";
 
-const CreateQrCode = ( {url, tableId} ) => {
-//   const [url, setUrl] = useState("");
+const CreateQrCode = ({ url, tableId }) => {
+  //   const [url, setUrl] = useState("");
   const [qrIsVisible, setQrIsVisible] = useState(false);
   const qrCodeRef = useRef(null);
 
@@ -21,7 +21,6 @@ const CreateQrCode = ( {url, tableId} ) => {
     setQrIsVisible(true);
   };
 
-  
   const downloadQRCode = () => {
     htmlToImage
       .toPng(qrCodeRef.current)
@@ -37,38 +36,61 @@ const CreateQrCode = ( {url, tableId} ) => {
   };
 
   const convertToImageAndUpload = () => {
-    htmlToImage.toPng(qrCodeRef.current)
+    htmlToImage
+      .toPng(qrCodeRef.current)
       .then((dataUrl) => {
         console.log("Generated Image URL:", dataUrl);
-        // Upload to Cloudinary
-        return axios.post('/auth/tables/qr-codes', { imageData: dataUrl })
-          .then(response => {
+        return axios
+          .post("/auth/tables/qr-codes", { imageData: dataUrl })
+          .then((response) => {
             console.log("Response from Cloudinary:", response.data);
-            // Update MongoDB document
             updateTableDocument(response.data.url);
           })
-          .catch(error => console.error("Error uploading to Cloudinary:", error));
+          .catch((error) =>
+            console.error("Error uploading to Cloudinary:", error)
+          );
       })
-      .catch(error => console.error("Error generating QR code:", error));
+      .catch((error) => console.error("Error generating QR code:", error));
   };
 
   const updateTableDocument = (qrCodeUrl) => {
-    console.log("Updating table with ID:", tableId, "and QRCode URL:", qrCodeUrl);
-    axios.post('/auth/tables/update-qr-code', { tableId, qrCodeUrl })
-      .then(response => console.log("Table updated", response.data))
-      .catch(error => console.error("Error updating table:", error));
+    console.log(
+      "Updating table with ID:",
+      tableId,
+      "and QRCode URL:",
+      qrCodeUrl
+    );
+    axios
+      .post("/auth/tables/update-qr-code", { tableId, qrCodeUrl })
+      .then((response) => console.log("Table updated", response.data))
+      .catch((error) => console.error("Error updating table:", error));
   };
-
-
 
   return (
     <div className="qrcode__container flex flex-row my-3">
-      <button onClick={handleQrCodeGenerator}>Generate QR Code</button>
+      <button
+        onClick={handleQrCodeGenerator}
+        className="pr-2 border-2 hover:bg-blue-500"
+      >
+        Generate new QR Code
+      </button>
       {qrIsVisible && (
-        <div className="qrcode__download" ref={qrCodeRef}>
-          <div className="qrcode__image">
-            <QRCode value={url} size={300} />
-            <button onClick={downloadQRCode}>Download QR Code</button>
+        <div className="qrcode__download py-2">
+          <div className="qrcode__image py-2">
+            <QRCode
+              value={url}
+              width={200}
+              height={200}
+              className="qr-code-new mb-2"
+              ref={qrCodeRef}
+            />
+            <div>QR code saved ✅</div>
+            <button
+              onClick={downloadQRCode}
+              className="border-2 hover:bg-blue-500"
+            >
+              Download QR Code
+            </button>
           </div>
         </div>
       )}

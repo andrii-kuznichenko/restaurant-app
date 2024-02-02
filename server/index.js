@@ -167,6 +167,10 @@ io.on("connection", (socket) => {
           match: { hide: false },
         });
       io.emit(`getMenuUser-${socket.user.restaurantId}`, menuUser);
+      const { mealId } = meal;
+      const newMeal = await Meal.findById(mealId);
+
+      io.emit(`getMeal-${mealId}`, newMeal);
     } catch (error) {
       console.log(error);
       io.emit("getMenuError", error);
@@ -174,8 +178,9 @@ io.on("connection", (socket) => {
   });
   //socket for post orders and there managment
   socket.on("connectToOrder", async (payload) => {
+    console.log(payload)
     try {
-      const { operation, ...order } = payload;
+      const { operation, tableNumberId, ...order } = payload;
       if (
         Object.keys(order).length !== 0 &&
         operation === "add" &&
@@ -183,11 +188,13 @@ io.on("connection", (socket) => {
       ) {
         //START ORDER
 
-        const newOrder = await Order.create({ ...order });
+        
+
+        const newOrder = await Order.create({ ...order, tableNumberId });
       } else if (Object.keys(order).length !== 0 && operation === "update") {
         //UPDATE ORDER STARTS HERE
 
-        const { orderId, ...order } = order;
+        const { orderId, tableNumberId, ...order } = order;
         const updatedOrder = await Order.findOneAndUpdate(
           { _id: orderId },
           { ...order }
@@ -219,7 +226,7 @@ io.on("connection", (socket) => {
       socket.user.role === "admin" &&
       operation === "find"){
         const { orderId } = order;
-        const foundOrder = await Order.findById(orderId);
+        const foundOrder = await Order.findById(orderId).populate('tableNumberId').populate('meals.name');
 
         io.emit(`getOrder-${orderId}`, foundOrder);
       }
@@ -235,17 +242,22 @@ io.on("connection", (socket) => {
             restaurantId: user.restaurantId,
             tableNumberId: user._id,
             isClosed: false,
-          }).populate("meals.name");
+          }).populate("meals.name").populate({path: "tableNumberId", select: "tableNumber"});
           io.emit(`getOrder-${user._id}`, orderInfo);
         }
       }
 
+      const { orderId } = order;
+      const foundOrder = await Order.findById(orderId).populate('tableNumberId').populate('meals.name');
+
+      io.emit(`getOrder-${orderId}`, foundOrder);
+
       const orders = await Order.find({
         restaurantId: socket.user.restaurantId,
-      }).populate("meals.name");
+      }).populate("meals.name").populate({path: "tableNumberId", select: "tableNumber"});
       io.emit(`getOrders-${socket.user.restaurantId}`, orders);
     } catch (error) {
-      console.log(error);
+      console.log("There is an error here:", error);
       io.emit("getOrderError", error);
     }
   });
