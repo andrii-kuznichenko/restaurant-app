@@ -4,6 +4,8 @@ import io from 'socket.io-client';
 import { AuthTableContext } from '../context/AuthTable';
 import { useNavigate } from 'react-router-dom';
 import "./OrderSummary.css";
+import "../index.css";
+
 const socket = io(import.meta.env.VITE_SERVER_BASE_URL, { transports: ['websocket'] });
 
 const OrderSummary = () => {
@@ -57,7 +59,7 @@ const SendOrderHandler = () => {
     <div className="flex items-center justify-center min-h-screen">
      <div className="order-summary-container"
      style={{
-      containerBackground: 'var(--color-buttonBackground)',
+      containerBackground: 'var(--color-containerBackground)',
      
     }}
      >

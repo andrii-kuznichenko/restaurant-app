@@ -5,8 +5,11 @@
 @tailwind utilities;
 
 :root {
-  --color-buttonBackground: #115e59;
+  --color-buttonBackground: #008891;
   --color-buttonText: #ffffff;
+  --color-footerBackground: #155e75;
+  
+  --color-containerBackground: #E7E7DE;
 }
 
 /*:root {

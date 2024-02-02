@@ -4,15 +4,7 @@ import { BiQr } from "react-icons/bi";
 
 function Footer() {
   return (
-    <div className="bg-orange-400 flex justify-between items-center p-4 bottom-0 w-full"
-       style={{
-        backgroundColor: 'var(--color-buttonBackground)',
-        color: 'var(--color-buttonText)',
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-      }}>
-
+    <div className="fixed bottom-0 bg-footerBackground flex justify-between items-center p-4 w-full">
       <div className="flex">
         <a href="#" className="text-white mx-2">
           <FaGithub size={24} />
