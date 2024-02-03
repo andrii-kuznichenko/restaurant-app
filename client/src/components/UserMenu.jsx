@@ -70,8 +70,8 @@ const getTotalPrice = (id)=>{
   }
 
   return (
-    <div className="user-menu-container mx-auto px-2 rounded-xl m-2 shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)]">
-      <h2 className="menu-title">Menu</h2>
+    <div className="user-menu-container bg-light-zinc-50  mx-auto px-2 rounded-xl m-2 shadow-[10px_20px_10px_-2px_rgba(0,0,0,0.15),-6px_-6px_10px_-2px_rgba(255,255,255,0.8)]">
+      <h2 className="menu-title text-black" style={{ fontFamily: 'Merienda, cursive', fontSize: '1.5rem', lineHeight: 1.5, fontWeight: 900, padding: '0.5rem 0rem' }}>Our Specialties</h2>
       <div className="menu-items text-black flex-col m-6 rounded-xl">
         {userMenu?.menu?.length > 0 ?userMenu.menu.map((item) => (
           <div key={item._id}>
@@ -99,7 +99,7 @@ const getTotalPrice = (id)=>{
                 <div className="meal-details relative m-2 flex-col w-full">
                   <p>{item.description}</p>
                   <p>Price: ${selectedItem.price.toFixed(2)}</p>
-                  <button class="bg-indigo-400 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded-full"
+                  <button class="bg-indigo1 hover:bg-blue-500 text-black font-bold py-2 px-4 rounded-full"
                   onClick={() => NavigateToDetails(item._id)}>
                   See Meal Details
                 </button>
@@ -177,9 +177,13 @@ const getTotalPrice = (id)=>{
       </div>
       <Link to="/user/order/summary">
         <button
-          className="order-summary-button menu-item-hover bg-indigo-400 relative shadow-[3px_6px_3px_-0.05px_rgba(0,0,0,0.05),-3px_-3px_5px_-0.05px_rgba(255,255,255,0.05)] text-black flex-col w-full rounded-xl"
-          style={{ fontFamily: "'Merienda', cursive" }}
-        >
+          className="order-summary-button menu-item-hover bg-indigo1 relative shadow-[3px_6px_3px_-0.05px_rgba(0,0,0,0.05),-3px_-3px_5px_-0.05px_rgba(255,255,255,0.05)] text-black flex-col w-full rounded-xl"
+          style={{ 
+            fontFamily: "'Merienda', cursive",
+            border: '4rem',
+            marginBottom: '4rem',
+            textAlign: 'center',
+            padding: '1rem 2rem'}}>
           See your order summary
         </button>
       </Link>

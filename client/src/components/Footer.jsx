@@ -4,7 +4,7 @@ import { BiQr } from "react-icons/bi";
 
 function Footer() {
   return (
-    <div className="fixed bottom-0 bg-indigo-400 flex justify-between items-center p-4 w-full">
+    <div className="fixed bottom-0 bg-indigo1 flex justify-between items-center p-4 w-full">
       <div className="flex">
         <a href="#" className="text-white mx-2">
           <FaGithub size={24} />

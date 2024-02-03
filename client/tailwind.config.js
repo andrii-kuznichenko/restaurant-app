@@ -35,8 +35,9 @@ module.exports = {
         'teal900': '#134e4a',
         'cyan800': '#155e75',
         'cyan900': '#164e63',
+       'indigo1':'#818cf8', 
+        
 
-       
 
       }
     },
