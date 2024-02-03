@@ -36,7 +36,6 @@ const BackHandler = () =>{
 
 useEffect(() => {
   if(order?.loading){
-    socket.disconnect();
       navigate('/user/order/confirmation');
   }
 },[order])
@@ -54,9 +53,7 @@ const SendOrderHandler = () => {
     operation: 'add'
   });
 
-  setTimeout( () => {
     navigate('/user/order/confirmation');
-  }, 1000);
 } 
 
 

@@ -12,11 +12,11 @@ function App() {
   const { table, loading } = useContext(AuthTableContext);
   return (
     <>
-    <Flowbite>
+    <div className="bg-white dark:bg-black flex flex-col h-screen justify-between">
     <>{!loading && <>{table ? <p></p> : <Header  />}</>}</>
       <Main />
       <Footer />
-    </Flowbite>  
+      </div>
     </>
   );
 }

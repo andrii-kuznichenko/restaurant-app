@@ -182,30 +182,6 @@ const AdminOrders = () => {
                           Order Details
                           <HiArrowNarrowRight className="ml-2 h-3 w-3" />
                         </Button>
-                        <div>
-                          <select
-                            onChange={(e) => changeOrderStatusHandler(e)}
-                            defaultValue={order.status}
-                            className={selectClass}
-                            name={order._id}
-                            type="button"
-                          >
-                            <option value="in process">
-                              {" "}
-                              <span className="in-process">In process</span>
-                            </option>
-                            <option value="need to accept">
-                              Need to accept
-                            </option>
-                            <option value="waiting for payment">
-                              Waiting for payment
-                            </option>
-                            <option value="finished">Finished</option>
-                            <option value="order could not be processed">
-                              Order could not be processed
-                            </option>
-                          </select>
-                        </div>
                         <Button
                           color="red"
                           onClick={closeOrderHandler}

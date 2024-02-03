@@ -519,6 +519,7 @@ function AdminOrderDetails() {
             ) : (
               <p></p>
             )}
+            
             <div className="flex mx-5">
               {order.isClosed ? (
                 <div></div>
