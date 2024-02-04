@@ -203,7 +203,7 @@ function UserConfirmation() {
               </h1>
               <div>
                 <p className="mb-10 text-lg font-normal text-gray-500 dark:text-gray-400">
-                  Сall the waiter when you're ready!
+                  Call the waiter when you're ready!
                 </p>
               </div>
               <Lottie

@@ -38,10 +38,6 @@ const UserMenu = () => {
         console.log(error.response.data);
         setState(null, false, error.response.data);
       });
-  //   socket.emit("connectToOrder", {restaurantId: context.table.restaurantId});
-  //   socket.on(`getOrder-${context.table._id}`, (receivedOrder) => {
-  //     setOrder(receivedOrder);
-  // })
  }, []);
 
 
