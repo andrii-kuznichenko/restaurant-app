@@ -98,14 +98,17 @@ const getTotalPrice = (id)=>{
             return(
               <tr key={item._id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td class="p-4">
-                  <img src={item.image} class="w-16 md:w-32 max-w-full max-h-full" alt={item.title}/>
+                  <img src={item.image} className="w-full max-w-full h-auto" 
+                  alt={item.title}
+                  style={{ height: 'auto' }}
+                  />
               </td>
               <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                   {item.title}
               </td>
               <td class="px-6 py-4">
-                  <div class="flex items-center">
-                      <button class="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" 
+                  <div class="flex flex-col items-center md:flex-row md:items-center">
+                      <button class="mb-2 md:mb-0 inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" 
                       type="button"
                       onClick={() => handleRemove(item)}>
                           <span class="sr-only">Quantity button</span>
@@ -113,7 +116,7 @@ const getTotalPrice = (id)=>{
                               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
                           </svg>
                       </button>
-                      <div>
+                      <div className="mb-2 md:mb-0">
                           <input type="number" value={getQuantity(item._id)} id="first_product" class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required/>
 
                          
@@ -131,7 +134,7 @@ const getTotalPrice = (id)=>{
               </td>
               <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                   {item.price} Euro
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Total: {getTotalPrice(item._id)} Euro</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 md:mt-0">Total: {getTotalPrice(item._id)} Euro</p>
               </td>
           </tr>
             )
