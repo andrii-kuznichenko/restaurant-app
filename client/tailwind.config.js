@@ -12,13 +12,20 @@ module.exports = {
         'dark-sapphire-blue': '#0F3057',
         'teal-blue': '#00587A',
         'cyan-azure': '#008891',
-        'off-white': '#E7E7DE',
-
+        
+        
+        /*very lights shades of gray-zinc*/
         'light-slate-50': '#f8fafc',
+        'light-slate-100': '#f1f5f9',
         'light-gray-50': '#f9fafb',
+        'light-gray-100': '#f3f4f6',
         'light-zinc-50': '#fafafa',
+        'light-zinc-100': '#f4f4f5',
         'light-neutral-50': '#fafafa',
+        'light-neutral-100': '#f5f5f5',
         'light-stone-50': '#fafaf9',
+        'light-stone-100': '#f5f5f4',
+
         
         'orange400':'#fb923c',
         'orange500':'#f97316',
@@ -28,13 +35,10 @@ module.exports = {
         'teal900': '#134e4a',
         'cyan800': '#155e75',
         'cyan900': '#164e63',
-
-        'light-gray': '#E7E7DE',
-        "dark-lime1": "#3f6212",
-        // buttonText: 'black',
-        'footerBackground': '#008891',
+       'indigo1':'#818cf8', 
         
-        // containerBackground: '#E7E7DE',
+
+
       }
     },
   },

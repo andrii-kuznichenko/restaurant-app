@@ -59,41 +59,32 @@ const SendOrderHandler = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-     <div className="order-summary-container"
-     style={{
-      containerBackground: 'var(--color-containerBackground)',
-     
-    }}
+     <div className="order-summary-container bg-light-zinc-50"
+   
      >
         <h1 className="font-merienda text-4xl mb-4">Order Summary</h1>
       <ul>
         { orderItems.length > 0 ? (
           orderItems.map((item) => (
             <li key={item._id}>
-              {item.quantity} x {item.title} - ${item.price * item.quantity}
+              {item.quantity} x {item.title} - {item.price * item.quantity} Euro
             </li>
           ))
         ) : (
           <li>No items in the order</li>
         )}
       </ul>
-      <p className="font-nunito-sans italic font-light mt-4">Total: ${total}</p>
+      <p className="font-nunito-sans italic font-light mt-4">Total price {total} Euro</p>
       <div className='flex mt-5 gap-5 justify-center'>
       <button 
-      className="btn-hoover rounded-full"
-      style={{
-        backgroundColor: 'var(--color-buttonBackground)',
-        color: 'var(--color-buttonText)',
-      }}
+      className="btn-hoover rounded-full bg-indigo1"
+     
       onClick={BackHandler}>
         Back
       </button>
       <button 
-      className="btn-hoover rounded-full"
-      style={{
-        backgroundColor: 'var(--color-buttonBackground)',
-        color: 'var(--color-buttonText)',
-      }}
+      className="btn-hoover rounded-full bg-indigo1"
+      
       onClick={SendOrderHandler}>
         Confirm Order
       </button>
