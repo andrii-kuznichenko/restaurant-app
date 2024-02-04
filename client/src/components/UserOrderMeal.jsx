@@ -32,7 +32,7 @@ const UserOrderMeal = ({ item, onAdd, onRemove, name, content, price }) => {
         <span style={{ marginRight: '10px' }} className="text-sm sm:text-base md:text-lg lg:text-xl">{quantity}</span>
         <button onClick={handleAdd} style={{ borderRadius: '50%', padding: '5px', width: '30px', height: '30px', marginRight: '10px', boxShadow: '0 3px 5px 2px rgba(0,0,0,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} className="text-sm sm:text-base md:text-lg lg:text-xl">+</button>
       </div>
-      <div className="text-xs sm:text-sm md:text-base lg:text-lg">Total Price: <strong>${totalPrice.toFixed(2)}</strong></div>
+      <div className="text-xs sm:text-sm md:text-base lg:text-lg">Total Price <strong>{totalPrice.toFixed(2)} Euro</strong></div>
     </div>
   );
 };

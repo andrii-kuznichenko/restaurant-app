@@ -65,14 +65,14 @@ const SendOrderHandler = () => {
         { orderItems.length > 0 ? (
           orderItems.map((item) => (
             <li key={item._id}>
-              {item.quantity} x {item.title} - ${item.price * item.quantity}
+              {item.quantity} x {item.title} - {item.price * item.quantity} Euro
             </li>
           ))
         ) : (
           <li>No items in the order</li>
         )}
       </ul>
-      <p className="font-nunito-sans italic font-light mt-4">Total: ${total}</p>
+      <p className="font-nunito-sans italic font-light mt-4">Total price {total} Euro</p>
       <div className='flex mt-5 gap-5 justify-center'>
       <button 
       className="btn-hoover rounded-full bg-indigo1"
