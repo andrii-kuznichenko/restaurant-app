@@ -75,13 +75,13 @@ const SendOrderHandler = () => {
       <p className="font-nunito-sans italic font-light mt-4">Total price {total} Euro</p>
       <div className='flex mt-5 gap-5 justify-center'>
       <button 
-      className="btn-hoover rounded-full bg-indigo1"
+      className="btn-hoover rounded-full bg-colour1 text-white"
      
       onClick={BackHandler}>
         Back
       </button>
       <button 
-      className="btn-hoover rounded-full bg-indigo1"
+      className="btn-hoover rounded-full bg-colour1 text-white"
       
       onClick={SendOrderHandler}>
         Confirm Order
