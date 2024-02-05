@@ -89,34 +89,40 @@ const getTotalPrice = (id)=>{
       categories.map(category => (
         <Accordion key={category}>
         <Accordion.Panel>
-        <Accordion.Title>{category}</Accordion.Title>
+        <Accordion.Title><span className="font-merienda font-bold">{category}</span></Accordion.Title>
         <Accordion.Content>
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 xxs:table-fixed">
+        <div className="relative overflow-x-auto shadow-md xxs:px-0 sm:rounded-lg">
+        <table class="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400 xxs:table-fixed xxs:px-0">
         {userMenu.menu.map(item => {
           if(item.category === category){
             return(
               <tr key={item._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <td className="p-0.1">
-                  <img src={item.image} className="w-full max-w-full h-auto rounded-xl" 
+              <td className="xxs:w-20 md:w-60">
+                  <img src={item.image} className="w-full max-w-full h-auto md:rounded-xl xxs:rounded-full" 
                   alt={item.title}
                   style={{ height: 'auto' }}
                   />
               </td>
-              <td className="px-6 py-4 m-2 flex flex-col items-center text-gray-900 dark:text-white">
-                 
-              <span className="font-merienda font-bold">{item.title}</span>
 
-                  <button className="bg-indigo1 text-center hover:bg-blue-500 text-black font-bold inline-flex items-center px-2 py-2 w-16 h-8 rounded-full"
+              <td className="px-6 py-4 m-2 flex-col items-center text-gray-900 dark:text-white">
+                 
+              <span className="font-merienda font-bold xxs:text-sm">{item.title}</span>
+              <td className="px-1 py-1 flex-col font-semibold xxs:text-xs text-gray-900 dark:text-white">
+                  <span>{item.price} Euro</span>
+              </td>
+
+                  <button className="bg-indigo1 text-center hover:bg-blue-500 text-black font-bold inline-flex items-center px-2 py-2 w-16 md:w-19 lg:w-24 h-8 rounded-full"
                   onClick={() => NavigateToDetails(item._id)}>
                   Details
                 </button>
 
               </td>
+             
+              <td className="px-2 py-2 flex flex-col items-center justify-center">
+                  
+                  <div class="flex flex-col items-center text-center md:flex-row md:items-center">
 
-              <td className="px-3 py-2">
-                  <div class="flex flex-col items-center md:flex-row md:items-center">
-                      <button className="mb-2 md:mb-0 inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" 
+                      <button className="mb-2 md:mb-0 inline-flex items-center justify-center p-1 me-3 xxs:me-0 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" 
                       type="button"
                       onClick={() => handleRemove(item)}>
                           <span class="sr-only">Quantity button</span>
@@ -124,25 +130,25 @@ const getTotalPrice = (id)=>{
                               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
                           </svg>
                       </button>
+                      
                       <div className="mb-2 md:mb-0">
-                          <input type="number" value={getQuantity(item._id)} id="first_product" class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required/>
-
-                         
+                          <input type="number" value={getQuantity(item._id)} id="first_product" class="bg-gray-50 w-14 xxs:w-8 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required/>
                       </div>
-                      <button className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" 
+
+                      <button className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 xxs:ms-0 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" 
                       type="button"
                       onClick={() => handleAdd(item)}>
                           <span className="sr-only">Quantity button</span>
                           <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
                           </svg>
-                      </button>
-                      
+                        </button>
                   </div>
-              </td>
-              <td className="px-1 py-1 flex-col font-semibold text-gray-900 dark:text-white">
-                  <span>{item.price} Euro</span>
-                  <p className="text-gray-900 dark:text-gray-400 mt-1 md:mt-0">Total: {getTotalPrice(item._id)} Euro</p>
+                      <div className="flex flex-col text-center text-gray-900 xxs:text-xs dark:text-gray-400 mt-1 md:mt-0">
+                        <span>Total: {getTotalPrice(item._id)}</span> 
+                        <span>Euro</span>
+                      </div>
+
               </td>
           </tr>
             )

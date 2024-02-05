@@ -36,6 +36,8 @@ module.exports = {
         'cyan800': '#155e75',
         'cyan900': '#164e63',
        'indigo1':'#818cf8', 
+
+       
         
 
 
@@ -45,13 +47,22 @@ module.exports = {
         xxs: "320px",
         xs: "425px",
         sm: "640px",
-        md: "768px",
+        md: "768px",//tablet
         lg: "1024px",
         xl: "1280px",
         "2xl": "1536px",
         xxxl: "2560px",
       },
     },
+
+    fontSize: {
+      'xs': '0.8rem',   // Extra small
+      'sm': '0.9rem',  // Small
+      'base': '1rem',   // Base (default)
+      'lg': '1.25rem', // Large
+      'xl': '1.4rem',  // Extra large
+    }
+
   },
   plugins: [
     require('flowbite/plugin'),
