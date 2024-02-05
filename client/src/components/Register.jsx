@@ -36,7 +36,7 @@ function Register() {
             <img
               src={ScanServeLogo}
               className="mr-4 h-11"
-              alt="FlowBite Logo"
+              alt="Scan&Serve Logo"
             />
             <span className="text-2xl font-bold">Scan & Serve</span>
           </div>
