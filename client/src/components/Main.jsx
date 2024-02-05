@@ -19,7 +19,7 @@ import AdminAddTable from './AdminAddTable';
 import UserMealDetails from './UserMealDetails';
 import AdminOrderDetails from './AdminOrderDetails';
 import AdminMealDetails from './AdminMealDetails';
-import RegisterNew from './RegisterNew'
+import LoginNew from './LoginNew'
 
 function Main() {
   return (
@@ -47,7 +47,6 @@ function Main() {
       </Route>
       <Route path="/login" element ={<Login />} />
       <Route path="/register" element ={<Register />} />
-      <Route path="registernew" element={<RegisterNew />} />
       </Routes>
     </main>
 
