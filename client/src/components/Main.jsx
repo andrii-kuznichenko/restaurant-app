@@ -19,7 +19,7 @@ import AdminAddTable from './AdminAddTable';
 import UserMealDetails from './UserMealDetails';
 import AdminOrderDetails from './AdminOrderDetails';
 import AdminMealDetails from './AdminMealDetails';
-import LoginNew from './LoginNew'
+import AdminSideBar from './AdminSideBar'
 
 function Main() {
   return (
@@ -37,12 +37,14 @@ function Main() {
       <Route path="" element={<AdminOrders />} />
       <Route path="admin/menu" element={<AdminMenu />} />
       <Route path="admin/menu/:id" element={<AdminMealDetails />} />
-      <Route path="admin/dashboard" element={<AdminDashboard />} /> 
+      <Route path="admin/dashboard" element={<AdminDashboard />} />
+      <Route path="admin/orders" element={<AdminOrders />} />
       <Route path="admin/newmeal" element={<AdminNewMeal />} />  
       <Route path="admin/restaurant" element ={<MyRestaurant />} />
       <Route path="admin/tables" element={<AdminTables />} />
       <Route path="admin/addtable" element={<AdminAddTable />} />
       <Route path="admin/order/:id" element ={<AdminOrderDetails />} />
+      <Route path="admin/sidebar" element ={<AdminSideBar />} />
       
       </Route>
       <Route path="/login" element ={<Login />} />
