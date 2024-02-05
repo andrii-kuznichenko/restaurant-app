@@ -91,24 +91,32 @@ const getTotalPrice = (id)=>{
         <Accordion.Panel>
         <Accordion.Title>{category}</Accordion.Title>
         <Accordion.Content>
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 xxs:table-fixed">
         {userMenu.menu.map(item => {
           if(item.category === category){
             return(
-              <tr key={item._id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <td class="p-4">
-                  <img src={item.image} className="w-full max-w-full h-auto" 
+              <tr key={item._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+              <td className="p-0.1">
+                  <img src={item.image} className="w-full max-w-full h-auto rounded-xl" 
                   alt={item.title}
                   style={{ height: 'auto' }}
                   />
               </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                  {item.title}
+              <td className="px-6 py-4 m-2 flex flex-col items-center text-gray-900 dark:text-white">
+                 
+              <span className="font-merienda font-bold">{item.title}</span>
+
+                  <button className="bg-indigo1 text-center hover:bg-blue-500 text-black font-bold inline-flex items-center px-2 py-2 w-16 h-8 rounded-full"
+                  onClick={() => NavigateToDetails(item._id)}>
+                  Details
+                </button>
+
               </td>
-              <td class="px-6 py-4">
+
+              <td className="px-3 py-2">
                   <div class="flex flex-col items-center md:flex-row md:items-center">
-                      <button class="mb-2 md:mb-0 inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" 
+                      <button className="mb-2 md:mb-0 inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" 
                       type="button"
                       onClick={() => handleRemove(item)}>
                           <span class="sr-only">Quantity button</span>
@@ -121,46 +129,44 @@ const getTotalPrice = (id)=>{
 
                          
                       </div>
-                      <button class="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" 
+                      <button className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" 
                       type="button"
                       onClick={() => handleAdd(item)}>
-                          <span class="sr-only">Quantity button</span>
-                          <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                          <span className="sr-only">Quantity button</span>
+                          <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
                           </svg>
                       </button>
                       
                   </div>
               </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                  {item.price} Euro
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 md:mt-0">Total: {getTotalPrice(item._id)} Euro</p>
+              <td className="px-1 py-1 flex-col font-semibold text-gray-900 dark:text-white">
+                  <span>{item.price} Euro</span>
+                  <p className="text-gray-900 dark:text-gray-400 mt-1 md:mt-0">Total: {getTotalPrice(item._id)} Euro</p>
               </td>
           </tr>
             )
           }  
         })}
         </table>
+       
         </div>
         </Accordion.Content>
       </Accordion.Panel>
+
     </Accordion>
       ))
       :<p></p>}
-      <Link to="/user/order/summary">
+
+    <div className="flex justify-center items-center"> 
+    <Link to="/user/order/summary">
     <button
-          className="order-summary-button menu-item-hover bg-indigo1 relative shadow-[3px_6px_3px_-0.05px_rgba(0,0,0,0.05),-3px_-3px_5px_-0.05px_rgba(255,255,255,0.05)] text-black flex-col w-full rounded-xl"
-          style={{ 
-            fontFamily: "'Merienda', cursive",
-            border: '4rem',
-            marginBottom: '4rem',
-            textAlign: 'center',
-            padding: '1rem 2rem'}}>
+        className="order-summary-button bg-indigo1 hover:bg-blue-500 text-black font-merienda font-bold inline-flex items-center px-2 py-2 text-black w-23 h-8 rounded-full mt-2 mb-16">
           See your order summary
         </button>
       </Link>
+    </div>
   </>
-   
    
   );
   }
