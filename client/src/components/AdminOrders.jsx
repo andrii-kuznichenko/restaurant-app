@@ -173,7 +173,7 @@ const AdminOrders = () => {
             <Table.HeadCell>Created at</Table.HeadCell>
             <Table.HeadCell>Order details</Table.HeadCell>
             <Table.HeadCell>Status</Table.HeadCell>
-            <Table.HeadCell>Status</Table.HeadCell>
+            <Table.HeadCell>Closed/open</Table.HeadCell>
             <Table.HeadCell>Price</Table.HeadCell>
             <Table.HeadCell>
               <span className="sr-only">Edit</span>
@@ -192,7 +192,7 @@ const AdminOrders = () => {
                 <Table.Cell>
                   <span class="bg-gray-100 text-gray-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded me-2 dark:bg-gray-700 dark:text-gray-400 border border-gray-500 ">
                     <svg
-                      class="w-2.5 h-2.5 me-1.5"
+                      class={`w-2.5 h-2.5 me-1.5 ${["in process", "need to accept", "waiting for payment"].includes(order.status) ? 'spin' : ''}`}
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="currentColor"
