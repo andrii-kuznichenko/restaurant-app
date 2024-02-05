@@ -6,6 +6,7 @@ import AdminTables from "./AdminTables";
 import { useNavigate } from "react-router-dom";
 import AdminMenuModal from "./AdminMenuModal";
 import axios from "axios";
+import AdminEditDeleteMeal from "./AdminUpdateMeal";
 
 const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
   transports: ["websocket"],
@@ -49,42 +50,6 @@ function AdminMenu() {
       setMenuItems(receivedMenu);
     });
   }, []);
-  const handleUpdate = async (item, value) => {
-    const updateMeal = {
-      restaurantId: admin.restaurantId,
-      mealId: item._id,
-      newValue: value,
-      operation: "update",
-    };
-
-    try {
-      await axios.put(
-        `${import.meta.env.VITE_SERVER_BASE_URL}/${item._id}`,
-        updateMeal
-      );
-      socket.emit("updateMenu", updateMeal);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleDelete = async (item) => {
-    const deleteMeal = {
-      restaurantId: admin.restaurantId,
-      mealId: item._id,
-      operation: "delete",
-    };
-
-    try {
-      await axios.delete(
-        `${import.meta.env.VITE_SERVER_BASE_URL}/${item._id}`,
-        { data: deleteMeal }
-      );
-      socket.emit("deleteFromMenu", deleteMeal);
-    } catch (error) {
-      console.error(error);
-    }
-  };
   return (
     <div className="bg-yellow-200 flex flex-col items-center">
       <h1 className="text-2xl mb-4 bg-black text-white rounded-lg p-2">
@@ -149,18 +114,6 @@ function AdminMenu() {
                     }`}
                   >
                     {item.hide ? "Meal Hidden from Menu" : "Remove from menu"}
-                  </button>
-                  <button
-                    onClick={() => handleUpdate(item, !item.hide)} // assuming you want to use the same function for editing
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(item)} // assuming you want to use the same function for deleting
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                  >
-                    Delete
                   </button>
                   <button
                     onClick={() => openModal(item)}
