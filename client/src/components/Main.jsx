@@ -19,6 +19,7 @@ import AdminAddTable from './AdminAddTable';
 import UserMealDetails from './UserMealDetails';
 import AdminOrderDetails from './AdminOrderDetails';
 import AdminMealDetails from './AdminMealDetails';
+import RegisterNew from './RegisterNew'
 
 function Main() {
   return (
@@ -42,9 +43,11 @@ function Main() {
       <Route path="admin/tables" element={<AdminTables />} />
       <Route path="admin/addtable" element={<AdminAddTable />} />
       <Route path="admin/order/:id" element ={<AdminOrderDetails />} />
+      
       </Route>
       <Route path="/login" element ={<Login />} />
       <Route path="/register" element ={<Register />} />
+      <Route path="registernew" element={<RegisterNew />} />
       </Routes>
     </main>
 
