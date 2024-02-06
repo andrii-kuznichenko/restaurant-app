@@ -114,9 +114,33 @@ function AuthTableProvider({ children }) {
     setTotal((prevTotal) => prevTotal + item.price);
   };
 
+  const removeOrderItems = (item) => {
+    const existingItem = orderItems.find((orderItem) => orderItem._id === item._id);
+    if( existingItem && item.quantity !== 0){
+      if (existingItem) {
+        setOrderItems((prevItems) =>
+          prevItems.map((orderItem) =>
+            orderItem._id === item._id
+              ? { ...orderItem, quantity: orderItem.quantity - 1 }
+              : orderItem
+          )
+        );
+      } else {
+        setOrderItems((prevItems) => [...prevItems, { ...item, quantity: 0 }]);
+      }
+  
+      setTotal((prevTotal) => prevTotal - item.price);
+    }
+    const notOrderedItem = orderItems.find((orderItem) => orderItem._id === item._id);
+    if(notOrderedItem.quantity === 1){
+      const index = orderItems.indexOf(notOrderedItem);
+      orderItems.splice(index, 1);
+    }
+  };
+
 
   return (
-    <AuthTableContext.Provider value={{ table, errors, loadingTable, register, login, logout, selectedItem, userMenu, orderItems, total, updateSelectedItem, updateOrderItems, categories}}>
+    <AuthTableContext.Provider value={{ table, errors, loadingTable, register, login, logout, selectedItem, userMenu, orderItems, total, updateSelectedItem, updateOrderItems, removeOrderItems, categories}}>
       {children}
     </AuthTableContext.Provider>
   );

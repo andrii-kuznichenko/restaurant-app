@@ -23,6 +23,7 @@ const UserMenu = () => {
     selectedItem,
     updateSelectedItem,
     updateOrderItems,
+    removeOrderItems,
     orderItems,
     categories
   } = useContext(AuthTableContext);
@@ -83,7 +84,7 @@ const getTotalPrice = (id)=>{
   };
 
   const handleRemove = (item) => {
-    updateOrderItems(item);
+    removeOrderItems(item);
   };
 
   const NavigateToDetails = (id) => {
