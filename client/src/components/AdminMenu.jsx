@@ -51,7 +51,7 @@ function AdminMenu() {
     });
   }, []);
   return (
-    <div className="bg-yellow-200 flex flex-col items-center">
+    <div className="bg-grey-200 flex flex-col items-center">
       <h1 className="text-2xl mb-4 bg-black text-white rounded-lg p-2">
         Active and OOS menu items
       </h1>
