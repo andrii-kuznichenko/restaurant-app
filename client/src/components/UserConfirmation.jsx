@@ -19,6 +19,8 @@ function UserConfirmation() {
   const [order, setOrder] = useState({ loading: false });
   const [orderId, setOrderId] = useState("");
   const [currency, setCurrency] = useState("");
+  const [minutes, setMinutes] = useState(0);
+  const [secs, setSecs] = useState(0);
   const navigate = useNavigate();
   const defaultOptions = {
     loop: true,
@@ -87,6 +89,13 @@ function UserConfirmation() {
       .catch((error) => {
         console.log(error);
       });
+
+      const interval = setInterval(() => {
+
+        
+      }, getMinutes());
+
+
   }, []);
 
   useEffect(() => {
