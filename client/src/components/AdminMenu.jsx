@@ -82,40 +82,42 @@ function AdminMenu() {
             ?.map((item, index) => (
               <div
                 key={index}
-                className="mx-auto bg-green-100 rounded-xl shadow-md overflow-hidden m-3 md:grid flex flex-col h-full w-full"
+                className="mx-auto bg-off-white rounded-xl shadow-md overflow-hidden m-3 md:grid flex flex-col h-full w-full"
               >
-                <div className="p-2">
-                  <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold text-center pb-2">
-                    {item.category}
+                <div className="p-2 flex flex-col justify-between">
+                  <div>
+                    <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold text-center pb-2">
+                      {item.category}
+                    </div>
+                    <div className="md:flex-shrink-0 pb-2">
+                      <img
+                        className="h-48 w-full object-cover rounded-lg"
+                        src={item.image}
+                        alt={item.title}
+                      />
+                    </div>
+                    <a
+                      href="#"
+                      className="block mt-1 text-lg leading-tight font-medium text-black hover:underline text-center"
+                    >
+                      {item.title}
+                    </a>
+                    <p className="mt-2 text-gray-600">{item.description}</p>
                   </div>
-                  <div className="md:flex-shrink-0 pb-2">
-                    <img
-                      className="h-48 w-full object-cover rounded-lg"
-                      src={item.image}
-                      alt={item.title}
-                    />
-                  </div>
-                  <a
-                    href="#"
-                    className="block mt-1 text-lg leading-tight font-medium text-black hover:underline text-center"
-                  >
-                    {item.title}
-                  </a>
-                  <p className="mt-2 text-gray-600">{item.description}</p>
                   <div className="mt-4 flex justify-between">
                     <button
                       onClick={() => handleEdit(item, !item.hide)}
                       className={`cursor-pointer px-3 py-2 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 ${
                         item.hide
                           ? "bg-green-200 hover:bg-green-300 text-black"
-                          : "bg-red-200 hover:bg-red-300 text-black"
+                          : "bg-red-100 hover:bg-red-300 text-black"
                       }`}
                     >
                       {item.hide ? "Meal Hidden from Menu" : "Remove from menu"}
                     </button>
                     <button
                       onClick={() => openModal(item)}
-                      className="bg-green-200 hover:bg-green-300 text-black font-bold py-2 px-4 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                      className="bg-green-100 hover:bg-green-300 text-black font-bold py-2 px-4 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
                     >
                       Meal Details
                     </button>
@@ -136,40 +138,42 @@ function AdminMenu() {
             .map((item, index) => (
               <div
                 key={index}
-                className="mx-auto bg-green-100 rounded-xl shadow-md overflow-hidden m-3 md:grid flex flex-col h-full w-full"
+                className="mx-auto bg-off-white rounded-xl shadow-md overflow-hidden m-3 md:grid flex flex-col h-full w-full"
               >
-                <div className="p-8">
-                  <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold text-center pb-2">
-                    {item.category}
+                <div className="p-2 flex flex-col justify-between">
+                  <div>
+                    <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold text-center pb-2">
+                      {item.category}
+                    </div>
+                    <div className="md:flex-shrink-0 pb-2">
+                      <img
+                        className="h-48 w-full object-cover rounded-lg"
+                        src={item.image}
+                        alt={item.title}
+                      />
+                    </div>
+                    <a
+                      href="#"
+                      className="block mt-1 text-lg leading-tight font-medium text-black hover:underline text-center"
+                    >
+                      {item.title}
+                    </a>
+                    <p className="mt-2 text-gray-600">{item.description}</p>
                   </div>
-                  <div className="md:flex-shrink-0 pb-2">
-                    <img
-                      className="h-48 w-full object-cover rounded-lg"
-                      src={item.image}
-                      alt={item.title}
-                    />
-                  </div>
-                  <a
-                    href="#"
-                    className="block mt-1 text-lg leading-tight font-medium text-black hover:underline text-center"
-                  >
-                    {item.title}
-                  </a>
-                  <p className="mt-2 text-gray-600">{item.description}</p>
                   <div className="mt-4 flex justify-between">
                     <button
                       onClick={() => handleEdit(item, !item.hide)}
                       className={`cursor-pointer px-4 py-2 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 ${
                         item.hide
                           ? "bg-green-200 hover:bg-green-300 text-black"
-                          : "bg-red-200 hover:bg-red-300 text-black"
+                          : "bg-red-100 hover:bg-red-300 text-black"
                       }`}
                     >
                       {item.hide ? "Put back on menu" : "Hide"}
                     </button>
                     <button
                       onClick={() => openModal(item)}
-                      className="bg-green-200 hover:bg-green-300 text-black font-bold py-2 px-4 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                      className="bg-green-100 hover:bg-green-300 text-black py-2 px-4 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
                     >
                       Meal Details
                     </button>
