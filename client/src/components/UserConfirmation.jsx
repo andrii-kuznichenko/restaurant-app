@@ -309,7 +309,7 @@ function UserConfirmation() {
                     order.meals.map((item) => (
                       <tr
                         key={item.name._id}
-                        className="bg-white border-dashed border-2 border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                        className="bg-white border-dashed border-gray-300 border-2 border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                       >
                         <td class="p-4">
                           <img

@@ -13,6 +13,7 @@ import { Button, Timeline } from "flowbite-react";
 import { HiArrowNarrowRight } from "react-icons/hi";
 import { Dropdown } from "flowbite-react";
 import LoadingDots from "./LoadingDots";
+import { Table } from "flowbite-react";
 
 const AdminOrders = () => {
   const { admin, loading } = useContext(AuthContext);
@@ -126,7 +127,52 @@ const AdminOrders = () => {
   };
 
   const OrderDetailHandler = (id) => {
-    navigate(`admin/order/${id}`);
+    navigate(`/admin/order/${id}`);
+  };
+
+  const getStatusMessage = (status) => {
+    if (status === "in process") {
+      return (
+        <div className="flex items-center gap-2">
+          <span class="flex w-2 h-2 bg-yellow-300 rounded-full"></span>
+
+          <span>In process...</span>
+        </div>
+      );
+    } else if (status === "need to accept") {
+      return (
+        <div className="flex items-center gap-2">
+          <span class="flex w-2 h-2 bg-yellow-300 rounded-full"></span>
+
+          <span>Needs acceptance</span>
+        </div>
+      );
+    } else if (status === "waiting for payment") {
+      return (
+        <div className="flex items-center gap-2">
+          <span class="flex w-2 h-2 bg-yellow-300 rounded-full"></span>
+
+          <span>Awaiting payment</span>
+        </div>
+      );
+    } else if (status === "finished") {
+      return (
+        <div className="flex items-center gap-2">
+          <span class="flex w-2 h-2 bg-green-600 rounded-full"></span>
+
+          <span>Order completed</span>
+        </div>
+      );
+    } else if (status === "order could not be processed") {
+      return (
+        <div className="flex items-center gap-2">
+          <span class="flex w-2 h-2 bg-red-600 rounded-full"></span>
+          <span>Order failed</span>
+        </div>
+      );
+    } else {
+      return status; // default case
+    }
   };
 
   const selectClass =
@@ -135,120 +181,95 @@ const AdminOrders = () => {
     "flex items-center transition-all duration-200 rounded-md text-sm px-4 py-2";
 
   return (
-    <div>
-      <Timeline className="mx-4">
-        <ToastContainer />
-
-        {ordersLoadind ? (
-          <LoadingDots />
-        ) : orders.length === 0 ? (
-          <h2>No orders yet</h2>
-        ) : (
-          orders.map((order, index) => (
-            <>
-              <Timeline.Item className="border-b-2">
-                <Timeline.Point />
-                <Timeline.Content>
-                  <Timeline.Time>{timeSince(order.createdAt)}</Timeline.Time>
-                  <Timeline.Title>
-                    Table {order.tableNumberId.tableNumber}
-                  </Timeline.Title>
-                  <Timeline.Body>
-                    <div
-                      key={index}
-                      className="p-2 grid grid-cols-4 justify-between"
+    <>
+      <div className="overflow-x-auto mt-4">
+        <Table striped>
+          <Table.Head>
+            <Table.HeadCell>Order</Table.HeadCell>
+            <Table.HeadCell>Table</Table.HeadCell>
+            <Table.HeadCell>Created at</Table.HeadCell>
+            <Table.HeadCell>Order details</Table.HeadCell>
+            <Table.HeadCell>Status</Table.HeadCell>
+            <Table.HeadCell>Closed/open</Table.HeadCell>
+            <Table.HeadCell>Price</Table.HeadCell>
+            <Table.HeadCell>
+              <span className="sr-only">Edit</span>
+            </Table.HeadCell>
+          </Table.Head>
+          <Table.Body className="divide-y">
+            {orders.map((order, index) => (
+              <Table.Row
+                className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                key={index}
+              >
+                <Table.Cell>#{index + 1}</Table.Cell>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  #{order.tableNumberId.tableNumber}
+                </Table.Cell>
+                <Table.Cell>
+                  <span class="bg-gray-100 text-gray-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded me-2 dark:bg-gray-700 dark:text-gray-400 border border-gray-500 ">
+                    <svg
+                      class={`w-2.5 h-2.5 me-1.5 ${["in process", "need to accept", "waiting for payment"].includes(order.status) ? 'spin' : ''}`}
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
                     >
-                      <div className="flex flex-col">
-                        {order.meals.map((meal, index) => (
-                          <div>
-                            <div key={index}>
-                              ●{meal.name.title} {meal.quantity}x
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="flex flex-col">
-                        <div>{order.status}</div>
-                      </div>
-                      <div className="flex flex-col">
-                        <div>{order.isClosed ? "closed" : "active"}</div>
-                      </div>
-                      {/* <button onClick={changeOrderStatusHandler} name={order._id} className="border-2 hover:bg-blue-500">Change Status</button> */}
-                      <div className="flex flex-col gap-2">
-                        <Button
-                          color="gray"
-                          onClick={() => OrderDetailHandler(order._id)}
-                        >
-                          Order Details
-                          <HiArrowNarrowRight className="ml-2 h-3 w-3" />
-                        </Button>
-                        <Button
-                          color="red"
-                          onClick={closeOrderHandler}
-                          name={order._id}
-                        >
-                          Close
-                        </Button>
-                      </div>
-                    </div>
-                    <div>
-                      <div className="font-bold">
-                        Total price: {order.totalPrice} EUR
-                      </div>
-                    </div>
-                  </Timeline.Body>
-                </Timeline.Content>
-              </Timeline.Item>
-
-              {/* <div key={index} className="p-2 grid grid-cols-6 justify-between">
-                <div className="flex flex-col">
-                  <div className="font-bold">Table</div>{" "}
-                  <div>{order.tableNumberId.tableNumber}</div>
-                  <div>{timeSince(order.createdAt)}</div>
-                </div>
-                <div className="flex flex-col">
-                  <div className="font-bold pl-2">Order</div>
+                      <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z" />
+                    </svg>
+                    {timeSince(order.createdAt)}
+                  </span>
+                </Table.Cell>
+                <Table.Cell>
                   {order.meals.map((meal, index) => (
                     <div>
                       <div key={index}>
-                        ●{meal.name.title} {meal.quantity}x
+                        {meal.quantity} x {meal.name.title}
                       </div>
                     </div>
                   ))}
-                  <div>Total price: {order.totalPrice} EUR</div>
-                </div>
-                <div className="flex flex-col">
-                  <div className="font-bold">Status</div>{" "}
-                  <div>{order.status}</div>
-                </div>
-                <div className="flex flex-col">
-                  <div className="font-bold">Closed/active</div>{" "}
-                  <div>{order.isClosed ? "closed" : "active"}</div>
-                </div>
-                <select
-                  onChange={(e) => changeOrderStatusHandler(e)}
-                  defaultValue={order.status}
-                  className="border-2 hover:bg-blue-500"
-                  name={order._id}
-                >
-                  <option value="in process">In process</option>
-                  <option value="need to accept">Need to accept</option>
-                  <option value="waiting for payment">
-                    Waiting for payment
-                  </option>
-                  <option value="finished">Finished</option>
-                  <option value="order could not be processed">
-                    Order could not be processed
-                  </option>
-                </select>
-          
-                {/* <button onClick={changeOrderStatusHandler} name={order._id} className="border-2 hover:bg-blue-500">Change Status</button> */}
-              {/* </div> */}
-            </>
-          ))
-        )}
-      </Timeline>
-    </div>
+                </Table.Cell>
+                <Table.Cell>{getStatusMessage(order.status)}</Table.Cell>
+                <Table.Cell>
+                  {order.isClosed ? (
+                    <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                      closed
+                    </span>
+                  ) : (
+                    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">
+                      open
+                    </span>
+                  )}
+                </Table.Cell>
+                <Table.Cell>{order.totalPrice} €</Table.Cell>
+                <Table.Cell>
+                  <div
+                    onClick={() => OrderDetailHandler(order._id)}
+                    className="cursor-pointer font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                  >
+                    <svg
+                      class="w-6 h-6 text-gray-800 dark:text-white"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 12H5m14 0-4 4m4-4-4-4"
+                      />
+                    </svg>
+                  </div>
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      </div>
+    </>
   );
 };
 

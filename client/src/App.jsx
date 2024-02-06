@@ -13,7 +13,7 @@ function App() {
   return (
     <>
     <div className="bg-white dark:bg-black flex flex-col h-screen justify-between">
-    <>{!loading && <>{table ? <p></p> : <Header  />}</>}</>
+    {/* <>{!loading && <>{table ? <p></p> : <Header  />}</>}</> */}
       <Main />
       <Footer />
       </div>
