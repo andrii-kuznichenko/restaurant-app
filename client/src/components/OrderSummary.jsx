@@ -35,7 +35,7 @@ const BackHandler = () =>{
 }
 
 useEffect(() => {
-  if(order?.loading){
+  if(order && order.loading){
       navigate('/user/order/confirmation');
   }
 },[order])
@@ -53,7 +53,7 @@ const SendOrderHandler = () => {
     operation: 'add'
   });
 
-    navigate('/user/order/confirmation');
+ navigate('/user/order/confirmation');
 } 
 
 

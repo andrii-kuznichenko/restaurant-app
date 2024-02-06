@@ -163,7 +163,7 @@ function AdminOrderDetails() {
                       <div class="z-10 flex items-center justify-center w-6 h-6 bg-teal-200 rounded-full ring-0 ring-white dark:bg-teal-900 sm:ring-8 dark:ring-gray-900 shrink-0">
                         <span class="flex w-3 h-3 bg-teal-600 rounded-full"></span>
                       </div>
-                      <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+                      <div class="flex w-full bg-gray-300 h-0.5 dark:bg-gray-700"></div>
                     </div>
                   ) : (
                     <div class="flex items-center">
@@ -184,7 +184,7 @@ function AdminOrderDetails() {
                           />
                         </svg>
                       </div>
-                      <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+                      <div class="flex w-full bg-gray-300 h-0.5 dark:bg-gray-700"></div>
                     </div>
                   )}
                   <div class="mt-3">
@@ -196,7 +196,7 @@ function AdminOrderDetails() {
                 <li class="relative w-full mb-6">
                   {order.status === "need to accept" ? (
                     <div class="flex items-center">
-                      <div class="z-10 flex items-center justify-center w-6 h-6 bg-gray-200 rounded-full ring-0 ring-white dark:bg-gray-700 sm:ring-8 dark:ring-gray-900 shrink-0">
+                      <div class="z-10 flex items-center justify-center w-6 h-6 bg-gray-300 rounded-full ring-0 ring-white dark:bg-gray-700 sm:ring-8 dark:ring-gray-900 shrink-0">
                         <svg
                           class="w-2.5 h-2.5 text-gray-900 dark:text-white"
                           aria-hidden="true"
@@ -213,7 +213,7 @@ function AdminOrderDetails() {
                           />
                         </svg>
                       </div>
-                      <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+                      <div class="flex w-full bg-gray-300 h-0.5 dark:bg-gray-700"></div>
                     </div>
                   ) : order.status === "order could not be processed" ? (
                     <div class="flex items-center">
@@ -234,21 +234,21 @@ function AdminOrderDetails() {
                           />
                         </svg>
                       </div>
-                      <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+                      <div class="flex w-full bg-gray-300 h-0.5 dark:bg-gray-700"></div>
                     </div>
                   ) : order.status === "in process" && !order.isClosed ? (
                     <div class="flex items-center">
                       <div class="z-10 flex items-center justify-center w-6 h-6 bg-teal-200 rounded-full ring-0 ring-white dark:bg-teal-900 sm:ring-8 dark:ring-gray-900 shrink-0">
                         <span class="flex w-3 h-3 bg-teal-600 rounded-full"></span>
                       </div>
-                      <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+                      <div class="flex w-full bg-gray-300 h-0.5 dark:bg-gray-700"></div>
                     </div>
                   ) : order.status === "in process" && order.isClosed ? (
                     <div class="flex items-center">
                       <div class="z-10 flex items-center justify-center w-6 h-6 bg-red-200 rounded-full ring-0 ring-white dark:bg-red-900 sm:ring-8 dark:ring-red-900 shrink-0">
                         <span class="flex w-3 h-3 bg-red-600 rounded-full"></span>
                       </div>
-                      <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+                      <div class="flex w-full bg-gray-300 h-0.5 dark:bg-gray-700"></div>
                     </div>
                   ) : (
                     <div class="flex items-center">
@@ -269,7 +269,7 @@ function AdminOrderDetails() {
                           />
                         </svg>
                       </div>
-                      <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+                      <div class="flex w-full bg-gray-300 h-0.5 dark:bg-gray-700"></div>
                     </div>
                   )}
                   <div class="mt-3">
@@ -282,7 +282,7 @@ function AdminOrderDetails() {
                   {order.status === "need to accept" ||
                   order.status === "in process" ? (
                     <div class="flex items-center">
-                      <div class="z-10 flex items-center justify-center w-6 h-6 bg-gray-200 rounded-full ring-0 ring-white dark:bg-gray-700 sm:ring-8 dark:ring-gray-900 shrink-0">
+                      <div class="z-10 flex items-center justify-center w-6 h-6 bg-gray-300 rounded-full ring-0 ring-white dark:bg-gray-700 sm:ring-8 dark:ring-gray-900 shrink-0">
                         <svg
                           class="w-2.5 h-2.5 text-gray-900 dark:text-white"
                           aria-hidden="true"
@@ -299,7 +299,7 @@ function AdminOrderDetails() {
                           />
                         </svg>
                       </div>
-                      <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+                      <div class="flex w-full bg-gray-300 h-0.5 dark:bg-gray-700"></div>
                     </div>
                   ) : order.status === "order could not be processed" ||
                     (order.status === "in process" && order.isClosed) ? (
@@ -321,7 +321,7 @@ function AdminOrderDetails() {
                           />
                         </svg>
                       </div>
-                      <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+                      <div class="flex w-full bg-gray-300 h-0.5 dark:bg-gray-700"></div>
                     </div>
                   ) : order.status === "waiting for payment" &&
                     !order.isClosed ? (
@@ -329,7 +329,7 @@ function AdminOrderDetails() {
                       <div class="z-10 flex items-center justify-center w-6 h-6 bg-teal-200 rounded-full ring-0 ring-white dark:bg-teal-900 sm:ring-8 dark:ring-gray-900 shrink-0">
                         <span class="flex w-3 h-3 bg-teal-600 rounded-full"></span>
                       </div>
-                      <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+                      <div class="flex w-full bg-gray-300 h-0.5 dark:bg-gray-700"></div>
                     </div>
                   ) : order.status === "waiting for payment" &&
                     order.isClosed ? (
@@ -337,7 +337,7 @@ function AdminOrderDetails() {
                       <div class="z-10 flex items-center justify-center w-6 h-6 bg-red-200 rounded-full ring-0 ring-white dark:bg-red-900 sm:ring-8 dark:ring-red-900 shrink-0">
                         <span class="flex w-3 h-3 bg-red-600 rounded-full"></span>
                       </div>
-                      <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+                      <div class="flex w-full bg-gray-300 h-0.5 dark:bg-gray-700"></div>
                     </div>
                   ) : (
                     <div class="flex items-center">
@@ -358,7 +358,7 @@ function AdminOrderDetails() {
                           />
                         </svg>
                       </div>
-                      <div class="flex w-full bg-gray-200 h-0.5 dark:bg-gray-700"></div>
+                      <div class="flex w-full bg-gray-300 h-0.5 dark:bg-gray-700"></div>
                     </div>
                   )}
                   <div class="mt-3">
@@ -390,7 +390,7 @@ function AdminOrderDetails() {
                     </div>
                   ) : (
                     <div class="flex items-center">
-                      <div class="z-10 flex items-center justify-center w-6 h-6 bg-gray-200 rounded-full ring-0 ring-white dark:bg-gray-700 sm:ring-8 dark:ring-gray-900 shrink-0">
+                      <div class="z-10 flex items-center justify-center w-6 h-6 bg-gray-300 rounded-full ring-0 ring-white dark:bg-gray-700 sm:ring-8 dark:ring-gray-900 shrink-0">
                         <svg
                           class="w-2.5 h-2.5 text-gray-900 dark:text-white"
                           aria-hidden="true"
@@ -459,17 +459,17 @@ function AdminOrderDetails() {
             {order.status === "need to accept" ? (
               <>
                 <h2 className="flex flex-row flex-nowrap items-center mt-15">
-                  <span className="flex-grow block border-t border-gray-200"></span>
-                  <span className="flex-none block mx-4 px-4 py-2.5 text-xl rounded leading-none font-medium bg-gray-200 text-gray-700">
+                  <span className="flex-grow block border-t border-gray-300"></span>
+                  <span className="flex-none block mx-4 px-4 py-2.5 text-xl rounded leading-none font-medium bg-gray-300 text-gray-700">
                     Choose Order Duration
                   </span>
-                  <span class="flex-grow block border-t border-gray-200"></span>
+                  <span class="flex-grow block border-t border-gray-300"></span>
                 </h2>
                 <div className="flex justify-center  mt-7 items-center">
                   <button
                     type="button"
                     name="5min"
-                    class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                    class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                     onClick={TimePickerHandler}
                   >
                     5 min
@@ -477,7 +477,7 @@ function AdminOrderDetails() {
                   <button
                     type="button"
                     name="10min"
-                    class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                    class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                     onClick={TimePickerHandler}
                   >
                     10 min
@@ -485,7 +485,7 @@ function AdminOrderDetails() {
                   <button
                     type="button"
                     name="15min"
-                    class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                    class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                     onClick={TimePickerHandler}
                   >
                     15 min
@@ -493,7 +493,7 @@ function AdminOrderDetails() {
                   <button
                     type="button"
                     name="20min"
-                    class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                    class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                     onClick={TimePickerHandler}
                   >
                     20 min
@@ -501,7 +501,7 @@ function AdminOrderDetails() {
                   <button
                     type="button"
                     name="30min"
-                    class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                    class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                     onClick={TimePickerHandler}
                   >
                     30 min
@@ -509,7 +509,7 @@ function AdminOrderDetails() {
                   <button
                     type="button"
                     name="45min"
-                    class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                    class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                     onClick={TimePickerHandler}
                   >
                     45 min

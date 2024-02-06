@@ -19,6 +19,8 @@ function UserConfirmation() {
   const [order, setOrder] = useState({ loading: false });
   const [orderId, setOrderId] = useState("");
   const [currency, setCurrency] = useState("");
+  const [elapsedTime, setElapsedTime] = useState(0); // State to track elapsed time
+  const [flag, setFlag] = useState(false);
   const navigate = useNavigate();
   const defaultOptions = {
     loop: true,
@@ -68,10 +70,8 @@ function UserConfirmation() {
       .then((res) => {
         console.log(res.data);
         if (res.data && Object.keys(res.data).length > 0) {
-          console.log("222");
           setOrderId(res.data?._id);
         } else if (res.data === null) {
-          console.log("111");
           navigate("/user");
         }
       })
@@ -104,21 +104,27 @@ function UserConfirmation() {
     }
   }, [orderId]);
 
-  const getMinutes = (dateString) => {
-    const createdAt = new Date(order.updatedAt);
-    const now = new Date();
-    const differenceInSeconds = Math.floor((now - createdAt) / 1000);
-    return `${Math.floor((parseInt(order.orderTime) - differenceInSeconds / 60))}`;
-  };
+  useEffect(() => {
+    // Start the timer when the order status is "in process"
+    if (order.status === "in process" && !order.isClosed) {
+        const createdAt = new Date(order.updatedAt);
+        const now = new Date();
+        const differenceInSeconds = Math.floor((now - createdAt) / 1000);
+        console.log('111');
 
-  const getSec = () => {
-    const createdAt = new Date(order.updatedAt);
-    const now = new Date();
-    const differenceInSeconds = Math.floor((now - createdAt) / 1000);
-    return `${Math.round(
-      (parseInt(order.orderTime) * 60 - differenceInSeconds) % 60
-    )}`;
-  };
+      setElapsedTime(order.orderTime * 60 - differenceInSeconds);
+      setFlag(true);
+    }
+  }, [order.status]);
+
+  useEffect(() => {
+    if (order.status === "in process" && !order.isClosed) {
+      setInterval(() => {
+        // Update elapsed time every second
+        setElapsedTime((prevElapsedTime) => prevElapsedTime - 1);
+      }, 1000);
+    }
+  }, [flag]);
 
   return (
     <div className="bg-white dark:bg-black">
@@ -271,27 +277,25 @@ function UserConfirmation() {
             <LoadingDots />
           </h1>
         )}
-        {order.status === "in process" && !order.isClosed ? (
+        {order.status === "in process" && !order.isClosed && (
           <>
             <div className="flex gap-5">
               <div className="text-gray-800">
-                <span className="countdown font-mono text-4xl">
+                <span className="countdown font-mono text-5xl">
                   <span
-                    style={{ "--value": getMinutes(order.updatedAt) }}
+                    style={{ "--value": Math.floor(elapsedTime / 60) }}
                   ></span>
                 </span>
                 min
               </div>
               <div className="text-gray-800">
-                <span className="countdown font-mono text-4xl">
-                  <span style={{ "--value": getSec(order.updatedAt) }}></span>
+                <span className="countdown font-mono text-5xl">
+                  <span style={{ "--value": elapsedTime % 60 }}></span>
                 </span>
                 sec
               </div>
             </div>
           </>
-        ) : (
-          <p></p>
         )}
         {order && !order.loading ? (
           <p></p>

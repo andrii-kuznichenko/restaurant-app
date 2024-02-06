@@ -19,9 +19,9 @@ function AuthTableProvider({ children }) {
   const [userMenu, setUserMenu] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  const setState = (table, loading, errors) => {
+  const setState = (table, loadingTable, errors) => {
     setTable(table);
-    setLoading(loading);
+    setLoading(loadingTable);
     setErrors(errors);
   };
 
@@ -38,6 +38,9 @@ function AuthTableProvider({ children }) {
   }, []);
 
   useEffect(() => {
+    const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
+      transports: ["websocket"],
+    });
     if(table) {
       socket.emit("connectToMenu", {restaurantId: table.restaurantId});
       socket.on(`getMenuUser-${table.restaurantId}`, (receivedMenu) => {
