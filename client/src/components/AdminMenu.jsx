@@ -84,7 +84,7 @@ function AdminMenu() {
                 key={index}
                 className="mx-auto bg-green-100 rounded-xl shadow-md overflow-hidden m-3 md:grid flex flex-col h-full w-full"
               >
-                <div className="p-8">
+                <div className="p-2">
                   <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold text-center pb-2">
                     {item.category}
                   </div>
@@ -105,7 +105,7 @@ function AdminMenu() {
                   <div className="mt-4 flex justify-between">
                     <button
                       onClick={() => handleEdit(item, !item.hide)}
-                      className={`cursor-pointer px-4 py-2 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 ${
+                      className={`cursor-pointer px-3 py-2 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 ${
                         item.hide
                           ? "bg-green-200 hover:bg-green-300 text-black"
                           : "bg-red-200 hover:bg-red-300 text-black"
