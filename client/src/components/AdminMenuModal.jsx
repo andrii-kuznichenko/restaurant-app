@@ -1,6 +1,8 @@
 import React from "react";
+import AdminEditDeleteMeal from "./AdminUpdateMeal";
 
 function AdminMenuModal({ item, isOpen, closeModal }) {
+    console.log(item);
   if (!isOpen) {
     return null;
   }
@@ -50,6 +52,12 @@ function AdminMenuModal({ item, isOpen, closeModal }) {
                   Description: {item.description}
                 </p>
               </div>
+              <div className="mt-2">
+                <p className="text-sm text-gray-500">
+                  Allergens: {item.allergens}
+                </p>
+              </div>
+              <AdminEditDeleteMeal meal={item} />
             </div>
           </div>
           <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"></div>
