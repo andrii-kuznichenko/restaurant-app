@@ -75,14 +75,14 @@ function AdminMenu() {
           Off the menu
         </button>
       </div>
-      <div className="mx-auto m-3 md:grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="mx-auto m-3 md:grid md:grid-cols-1 lg:grid-cols-2 gap-2 xl:grid-cols-3">
         {tab === "active" &&
           menuItems.menu
             ?.filter((item) => !item.hide)
             ?.map((item, index) => (
               <div
                 key={index}
-                className="mx-auto bg-green-100 rounded-xl shadow-md overflow-hidden m-3 md:grid flex flex-col"
+                className="mx-auto bg-green-100 rounded-xl shadow-md overflow-hidden m-3 md:grid flex flex-col h-full w-full"
               >
                 <div className="p-8">
                   <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold text-center pb-2">
@@ -136,7 +136,7 @@ function AdminMenu() {
             .map((item, index) => (
               <div
                 key={index}
-                className="mx-auto bg-green-100 rounded-xl shadow-md overflow-hidden m-3 md:grid flex flex-col"
+                className="mx-auto bg-green-100 rounded-xl shadow-md overflow-hidden m-3 md:grid flex flex-col h-full w-full"
               >
                 <div className="p-8">
                   <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold text-center pb-2">
