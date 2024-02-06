@@ -65,11 +65,22 @@ const getAllOrders = async (req, res) => {
   }
 }
 
+const getRestaurantById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const restaurant = await Restaurant.findById(id);
+    res.json(restaurant);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching orders', error });
+  }
+}
+
 module.exports = {
   getRestaurantInfo,
   createRestaurant,
   getAllRestaurants,
   getAllOrders,
+  getRestaurantById,
 };
 
 //const getAllInfoFromRestaurant = async (req, res) => {

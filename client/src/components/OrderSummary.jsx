@@ -1,6 +1,7 @@
 
 import React, { useContext, useEffect, useState } from 'react';
 import io from 'socket.io-client';
+import axios from '../axiosInstance'
 import { AuthTableContext } from '../context/AuthTable';
 import { useNavigate } from 'react-router-dom';
 import "./OrderSummary.css";
@@ -16,12 +17,16 @@ const OrderSummary = () => {
   const { orderItems, total } = useContext(AuthTableContext);
 
  useEffect(() => {
-    socket.emit("connectToOrder", {restaurantId: context.table.restaurantId});
-    socket.on(`getOrder-${context.table._id}`, (receivedOrder) => {
-      if(receivedOrder?.length > 0){
-        setOrder({loading: true});
-      }
-    });
+  axios
+  .get(`/order/${context.table._id}`)
+  .then((res) => {
+    setOrder(res.data);
+
+  })
+  .catch((error) => {
+    console.log(error.response.data);
+    setState(null, false, error.response.data);
+  });
 
 }, []);
 
@@ -31,8 +36,7 @@ const BackHandler = () =>{
 
 useEffect(() => {
   if(order?.loading){
-    socket.disconnect();
-    navigate('/user/order/confirmation');
+      navigate('/user/order/confirmation');
   }
 },[order])
 
@@ -49,49 +53,38 @@ const SendOrderHandler = () => {
     operation: 'add'
   });
 
-  socket.disconnect();
-
-  navigate('/user/order/confirmation');
+    navigate('/user/order/confirmation');
 } 
 
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-     <div className="order-summary-container"
-     style={{
-      containerBackground: 'var(--color-containerBackground)',
-     
-    }}
+     <div className="order-summary-container bg-light-zinc-50"
+   
      >
         <h1 className="font-merienda text-4xl mb-4">Order Summary</h1>
       <ul>
         { orderItems.length > 0 ? (
           orderItems.map((item) => (
             <li key={item._id}>
-              {item.quantity} x {item.title} - ${item.price * item.quantity}
+              {item.quantity} x {item.title} - {item.price * item.quantity} Euro
             </li>
           ))
         ) : (
           <li>No items in the order</li>
         )}
       </ul>
-      <p className="font-nunito-sans italic font-light mt-4">Total: ${total}</p>
+      <p className="font-nunito-sans italic font-light mt-4">Total price {total} Euro</p>
       <div className='flex mt-5 gap-5 justify-center'>
       <button 
-      className="btn-hoover rounded-full"
-      style={{
-        backgroundColor: 'var(--color-buttonBackground)',
-        color: 'var(--color-buttonText)',
-      }}
+      className="btn-hoover rounded-full bg-indigo1"
+     
       onClick={BackHandler}>
         Back
       </button>
       <button 
-      className="btn-hoover rounded-full"
-      style={{
-        backgroundColor: 'var(--color-buttonBackground)',
-        color: 'var(--color-buttonText)',
-      }}
+      className="btn-hoover rounded-full bg-indigo1"
+      
       onClick={SendOrderHandler}>
         Confirm Order
       </button>

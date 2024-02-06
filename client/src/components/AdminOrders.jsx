@@ -12,11 +12,13 @@ import AdminOrderTimeline from "./AdminOrderTimeline";
 import { Button, Timeline } from "flowbite-react";
 import { HiArrowNarrowRight } from "react-icons/hi";
 import { Dropdown } from "flowbite-react";
+import LoadingDots from "./LoadingDots";
 import { Table } from "flowbite-react";
 
 const AdminOrders = () => {
   const { admin, loading } = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
+  const [ordersLoadind, SetOrdersLoading] = useState(true);
   const notify = () => toast("New order!💰");
   const prevOrdersRef = useRef();
   const navigate = useNavigate();
@@ -59,20 +61,35 @@ const AdminOrders = () => {
 
     socket.emit("connectToOrder", { restaurantId: admin.restaurantId });
     socket.on(`getOrders-${admin.restaurantId}`, (receivedOrders) => {
-      console.log(receivedOrders);
       // Check if there is a previous state and if the new orders array is longer
+      // if (
+      //   prevOrdersRef.current &&
+      //   receivedOrders.length > prevOrdersRef.current.length
+      // ) {
+      //   notify(); // Trigger the notification for a new order
+      // }
+
+      // // Update the previous orders ref with the current orders
+      // prevOrdersRef.current = receivedOrders;
+      setOrders(receivedOrders);
+      setTimeout(() => {
+        SetOrdersLoading(false);
+      }, 600);
+    });
+  }, []);
+
+  useEffect(() => {
+    if(orders && orders.length > 0){
       if (
         prevOrdersRef.current &&
-        receivedOrders.length > prevOrdersRef.current.length
+        orders.length > prevOrdersRef.current.length
       ) {
         notify(); // Trigger the notification for a new order
       }
+      prevOrdersRef.current = orders;
+    }
 
-      // Update the previous orders ref with the current orders
-      prevOrdersRef.current = receivedOrders;
-      setOrders(receivedOrders);
-    });
-  }, []);
+  },[orders])
 
   const closeOrderHandler = (e) => {
     socket.emit("connectToOrder", {
@@ -110,7 +127,7 @@ const AdminOrders = () => {
   };
 
   const OrderDetailHandler = (id) => {
-    navigate(`admin/order/${id}`);
+    navigate(`/admin/order/${id}`);
   };
 
   const getStatusMessage = (status) => {
@@ -180,7 +197,7 @@ const AdminOrders = () => {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {orders.reverse().map((order, index) => (
+            {orders.map((order, index) => (
               <Table.Row
                 className="bg-white dark:border-gray-700 dark:bg-gray-800"
                 key={index}

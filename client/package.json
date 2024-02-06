@@ -16,13 +16,16 @@
     "flowbite": "^2.2.1",
     "flowbite-react": "^0.7.2",
     "html-to-image": "^1.11.11",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
+    "react-lottie": "^1.2.4",
     "react-qr-code": "^2.0.12",
     "react-router-dom": "^6.21.3",
     "react-toastify": "^10.0.4",
-    "socket.io-client": "^4.7.4"
+    "socket.io-client": "^4.7.4",
+    "tailwind": "^4.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
