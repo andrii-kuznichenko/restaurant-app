@@ -4,6 +4,7 @@ import { AuthContext } from "../context/Auth";
 import CreateQrCode from "./CreateQrCode";
 import QRCode from "react-qr-code";
 import * as htmlToImage from "html-to-image";
+import AdminAddTable from "./AdminAddTable";
 
 const AdminTables = () => {
   const { admin } = useContext(AuthContext);
@@ -11,6 +12,7 @@ const AdminTables = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const qrCodeRef = useRef(null);
+  const [tableAddedCount, setTableAddedCount] = useState(0);
 
   useEffect(() => {
     if (admin.restaurantId) {
@@ -33,7 +35,11 @@ const AdminTables = () => {
           setLoading(false);
         });
     }
-  }, []);
+  }, [tableAddedCount]);
+
+  const onTableAdded = () => {
+    setTableAddedCount((count) => count + 1);
+  };
 
   const downloadQRCode = () => {
     htmlToImage
@@ -56,7 +62,7 @@ const AdminTables = () => {
       {tables.length === 0 ? (
         <p>No tables found for this restaurant.</p>
       ) : (
-        <div className="grid grid-cols-3 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-3 md:grid-cols-4 gap-4 mb-10">
           {tables.map((table) => (
             <div
               key={table._id}
@@ -75,11 +81,10 @@ const AdminTables = () => {
                   <div className="flex flex-col justify-center items-center gap-1 pt-2">
                     <QRCode
                       value={table.QRCode}
-                    //   width={130}
-                    //   height={130}
+                      //   width={130}
+                      //   height={130}
                       className="qr-code-new mb-2"
                       ref={qrCodeRef}
-                    
                     />
                     {/* <img
                       src={table.QRCode}
@@ -113,6 +118,8 @@ const AdminTables = () => {
         //     ))}
         // </ul>
       )}
+      <h2 className="text-2xl text-center">Add a table</h2>
+      <AdminAddTable onTableAdded={onTableAdded}/>
     </div>
   );
 };
