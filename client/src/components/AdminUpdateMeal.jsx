@@ -58,13 +58,15 @@ function AdminEditDeleteMeal({ meal }) {
       return;
     }
 
-    const deleteMeal = {
-      restaurantId: admin.restaurantId,
-      mealId: meal._id,
-      operation: "delete",
-    };
-    console.log(deleteMeal);
-    socket.emit("connectToMenu", deleteMeal);
+    if (window.confirm("Are you sure you want to delete this meal?")) {
+      const deleteMeal = {
+        restaurantId: admin.restaurantId,
+        mealId: meal._id,
+        operation: "delete",
+      };
+      console.log(deleteMeal);
+      socket.emit("connectToMenu", deleteMeal);
+    }
   };
 
   // try {
