@@ -2,9 +2,7 @@ import axios from "../axiosInstance";
 import React, { useState, useEffect, useContext, useRef } from "react";
 import io from "socket.io-client";
 import { AuthContext } from "../context/Auth";
-const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
-  transports: ["websocket"],
-});
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -58,28 +56,33 @@ const AdminOrders = () => {
     //   adminSocket.off("new order");
     //   socket.disconnect();
     // };
-
-    socket.emit("connectToOrder", { restaurantId: admin.restaurantId });
-    socket.on(`getOrders-${admin.restaurantId}`, (receivedOrders) => {
-      // Check if there is a previous state and if the new orders array is longer
-      // if (
-      //   prevOrdersRef.current &&
-      //   receivedOrders.length > prevOrdersRef.current.length
-      // ) {
-      //   notify(); // Trigger the notification for a new order
-      // }
-
-      // // Update the previous orders ref with the current orders
-      // prevOrdersRef.current = receivedOrders;
-      setOrders(receivedOrders);
-      setTimeout(() => {
-        SetOrdersLoading(false);
-      }, 600);
+    const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
+      transports: ["websocket"],
     });
-  }, []);
+    console.log(admin);
+    if (admin) {
+      socket.emit("connectToOrder", { restaurantId: admin.restaurantId });
+      socket.on(`getOrders-${admin.restaurantId}`, (receivedOrders) => {
+        // Check if there is a previous state and if the new orders array is longer
+        // if (
+        //   prevOrdersRef.current &&
+        //   receivedOrders.length > prevOrdersRef.current.length
+        // ) {
+        //   notify(); // Trigger the notification for a new order
+        // }
+
+        // // Update the previous orders ref with the current orders
+        // prevOrdersRef.current = receivedOrders;
+        setOrders(receivedOrders);
+        setTimeout(() => {
+          SetOrdersLoading(false);
+        }, 600);
+      });
+    }
+  }, [admin]);
 
   useEffect(() => {
-    if(orders && orders.length > 0){
+    if (orders && orders.length > 0) {
       if (
         prevOrdersRef.current &&
         orders.length > prevOrdersRef.current.length
@@ -88,8 +91,7 @@ const AdminOrders = () => {
       }
       prevOrdersRef.current = orders;
     }
-
-  },[orders])
+  }, [orders]);
 
   const closeOrderHandler = (e) => {
     socket.emit("connectToOrder", {
@@ -134,7 +136,7 @@ const AdminOrders = () => {
     if (status === "in process") {
       return (
         <div className="flex items-center gap-2">
-          <span class="flex w-2 h-2 bg-yellow-300 rounded-full"></span>
+          <span className="flex w-2 h-2 bg-yellow-300 rounded-full"></span>
 
           <span>In process...</span>
         </div>
@@ -142,7 +144,7 @@ const AdminOrders = () => {
     } else if (status === "need to accept") {
       return (
         <div className="flex items-center gap-2">
-          <span class="flex w-2 h-2 bg-yellow-300 rounded-full"></span>
+          <span className="flex w-2 h-2 bg-yellow-300 rounded-full"></span>
 
           <span>Needs acceptance</span>
         </div>
@@ -150,7 +152,7 @@ const AdminOrders = () => {
     } else if (status === "waiting for payment") {
       return (
         <div className="flex items-center gap-2">
-          <span class="flex w-2 h-2 bg-yellow-300 rounded-full"></span>
+          <span className="flex w-2 h-2 bg-yellow-300 rounded-full"></span>
 
           <span>Awaiting payment</span>
         </div>
@@ -158,7 +160,7 @@ const AdminOrders = () => {
     } else if (status === "finished") {
       return (
         <div className="flex items-center gap-2">
-          <span class="flex w-2 h-2 bg-green-600 rounded-full"></span>
+          <span className="flex w-2 h-2 bg-green-600 rounded-full"></span>
 
           <span>Order completed</span>
         </div>
@@ -166,7 +168,7 @@ const AdminOrders = () => {
     } else if (status === "order could not be processed") {
       return (
         <div className="flex items-center gap-2">
-          <span class="flex w-2 h-2 bg-red-600 rounded-full"></span>
+          <span className="flex w-2 h-2 bg-red-600 rounded-full"></span>
           <span>Order failed</span>
         </div>
       );
@@ -207,9 +209,17 @@ const AdminOrders = () => {
                   #{order.tableNumberId.tableNumber}
                 </Table.Cell>
                 <Table.Cell>
-                  <span class="bg-gray-100 text-gray-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded me-2 dark:bg-gray-700 dark:text-gray-400 border border-gray-500 ">
+                  <span className="bg-gray-100 text-gray-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded me-2 dark:bg-gray-700 dark:text-gray-400 border border-gray-500 ">
                     <svg
-                      class={`w-2.5 h-2.5 me-1.5 ${["in process", "need to accept", "waiting for payment"].includes(order.status) ? 'spin' : ''}`}
+                      className={`w-2.5 h-2.5 me-1.5 ${
+                        [
+                          "in process",
+                          "need to accept",
+                          "waiting for payment",
+                        ].includes(order.status)
+                          ? "spin"
+                          : ""
+                      }`}
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="currentColor"
@@ -232,11 +242,11 @@ const AdminOrders = () => {
                 <Table.Cell>{getStatusMessage(order.status)}</Table.Cell>
                 <Table.Cell>
                   {order.isClosed ? (
-                    <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                    <span className="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">
                       closed
                     </span>
                   ) : (
-                    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">
+                    <span className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">
                       open
                     </span>
                   )}
@@ -248,7 +258,7 @@ const AdminOrders = () => {
                     className="cursor-pointer font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                   >
                     <svg
-                      class="w-6 h-6 text-gray-800 dark:text-white"
+                      className="w-6 h-6 text-gray-800 dark:text-white"
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -256,9 +266,9 @@ const AdminOrders = () => {
                     >
                       <path
                         stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
                         d="M19 12H5m14 0-4 4m4-4-4-4"
                       />
                     </svg>
