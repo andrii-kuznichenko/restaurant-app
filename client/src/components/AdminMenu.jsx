@@ -52,26 +52,26 @@ function AdminMenu() {
   }, []);
   
   return (
-    <div className="bg-yellow-200 flex flex-col items-center">
+    <div className="bg-grey-200 flex flex-col items-center">
       <h1 className="text-2xl mb-4 bg-black text-white rounded-lg p-2">
         Active and OOS menu items
       </h1>
       <div className="flex border-b">
         <button
-          className={`py-2 px-4 bg-white border-l border-t border-r rounded-t ${
+          className={`py-2 px-4 bg-grey-200 border-l border-t border-r rounded-t ${
             tab === "active"
-              ? "text-black-500 border-yellow-600 bg-orange-200"
-              : "text-gray-500"
+              ? "text-black font border-green-500 bg-green-200"
+              : "text-white"
           }`}
           onClick={() => setTab("active")}
         >
           Active Meals
         </button>
         <button
-          className={`py-2 px-4 bg-white border-l border-t border-r rounded-t ${
+          className={`py-2 px-4 bg-grey-200 border-l border-t border-r rounded-t ${
             tab === "hidden"
-              ? "text-black-500 border-yellow-600 bg-orange-200"
-              : "text-gray-500"
+              ? "text-black font border-green-500 bg-green-200"
+              : "text-white"
           }`}
           onClick={() => setTab("hidden")}
         >
@@ -85,7 +85,7 @@ function AdminMenu() {
           ?.map((item, index) => (
             <div
               key={index}
-              className="w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto bg-white rounded-xl shadow-md overflow-hidden m-3"
+              className="w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto bg-green-100 rounded-xl shadow-md overflow-hidden m-3"
             >
               <div className="p-8">
                 <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold text-center pb-2">
@@ -139,7 +139,7 @@ function AdminMenu() {
           .map((item, index) => (
             <div
               key={index}
-              className="w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto bg-white rounded-xl shadow-md overflow-hidden m-3"
+              className="w-full md:w-1/2 lg:w-1/2 xl:w-1/3 mx-auto bg-green-100 rounded-xl shadow-md overflow-hidden m-3"
             >
               <div className="p-8">
                 <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold text-center">

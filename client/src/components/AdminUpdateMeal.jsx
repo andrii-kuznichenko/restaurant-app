@@ -79,13 +79,13 @@ function AdminEditDeleteMeal({ meal }) {
       <div className="flex justify-center items-center space-x-4">
         <button
           onClick={handleEdit}
-          className="bg-orange-400 font-bold text-black hover:bg-black hover:text-white rounded-lg p-0.5"
+          className="bg-orange-300 font-bold text-black hover:bg-black hover:text-white rounded-lg p-0.5"
         >
           Edit Meal
         </button>
         <button
           onClick={handleDelete}
-          className="bg-red-600 font-bold text-black hover:bg-black hover:text-red-600 rounded-lg p-0.5"
+          className="bg-red-500 font-bold text-black hover:bg-black hover:text-red-600 hover:text-white rounded-lg p-0.5"
         >
           Delete Meal
         </button>
