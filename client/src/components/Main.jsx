@@ -23,7 +23,7 @@ import AdminSideBar from './AdminSideBar'
 
 function Main() {
   return (
-    <main>
+    <main className="bg-white dark:bg-black mb-auto">
       <Routes>
       <Route path="/user" element={<ProtectedTables />}>
         <Route path="" element={<UserMenu />} />

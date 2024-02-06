@@ -17,6 +17,7 @@ function AuthTableProvider({ children }) {
   const [orderItems, setOrderItems] = useState([]);
   const [total, setTotal] = useState(0);
   const [userMenu, setUserMenu] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const setState = (table, loading, errors) => {
     setTable(table);
@@ -43,7 +44,15 @@ function AuthTableProvider({ children }) {
         setUserMenu(receivedMenu);
       });
     }
-  })
+  }, [table])
+
+  useEffect(() => {
+    if(userMenu.menu && userMenu.menu.length > 0){
+      const newArrayCategories = userMenu.menu.map(meal => meal.category);
+      const uniqCategories = [...new Set(newArrayCategories)]
+      setCategories(uniqCategories);
+    }
+  }, [userMenu])
 
   const login = table => {
     setLoading(true);
@@ -104,7 +113,7 @@ function AuthTableProvider({ children }) {
 
 
   return (
-    <AuthTableContext.Provider value={{ table, errors, loadingTable, register, login, logout, selectedItem, userMenu, orderItems, total, updateSelectedItem, updateOrderItems}}>
+    <AuthTableContext.Provider value={{ table, errors, loadingTable, register, login, logout, selectedItem, userMenu, orderItems, total, updateSelectedItem, updateOrderItems, categories}}>
       {children}
     </AuthTableContext.Provider>
   );
