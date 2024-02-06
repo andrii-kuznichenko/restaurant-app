@@ -19,8 +19,8 @@ function UserConfirmation() {
   const [order, setOrder] = useState({ loading: false });
   const [orderId, setOrderId] = useState("");
   const [currency, setCurrency] = useState("");
-  const [minutes, setMinutes] = useState(0);
-  const [secs, setSecs] = useState(0);
+  const [elapsedTime, setElapsedTime] = useState(0); // State to track elapsed time
+  const [flag, setFlag] = useState(false);
   const navigate = useNavigate();
   const defaultOptions = {
     loop: true,
@@ -90,12 +90,7 @@ function UserConfirmation() {
         console.log(error);
       });
 
-      const interval = setInterval(() => {
-
-        
-      }, getMinutes());
-
-
+    return () => clearInterval(timerId); // Cleanup function
   }, []);
 
   useEffect(() => {
@@ -113,21 +108,24 @@ function UserConfirmation() {
     }
   }, [orderId]);
 
-  const getMinutes = (dateString) => {
-    const createdAt = new Date(order.updatedAt);
-    const now = new Date();
-    const differenceInSeconds = Math.floor((now - createdAt) / 1000);
-    return `${Math.floor((parseInt(order.orderTime) - differenceInSeconds / 60))}`;
-  };
+  useEffect(() => {
+    // Start the timer when the order status is "in process"
+    if(order.status === "in process" && !order.isClosed ){
+      const createdAt = new Date(order.updatedAt);
+      const now = new Date();
+      const differenceInSeconds = Math.floor((now - createdAt) / 1000);
+    }
+    if (order.status === "in process" && !order.isClosed) {
+      
+      setElapsedTime()
+      const timerId = setInterval(() => {
+        // Update elapsed time every second
+        setElapsedTime((prevElapsedTime) => prevElapsedTime + 1);
+      }, 1000);
 
-  const getSec = () => {
-    const createdAt = new Date(order.updatedAt);
-    const now = new Date();
-    const differenceInSeconds = Math.floor((now - createdAt) / 1000);
-    return `${Math.round(
-      (parseInt(order.orderTime) * 60 - differenceInSeconds) % 60
-    )}`;
-  };
+      return () => clearInterval(timerId); // Cleanup function to stop the timer
+    }
+  }, [order.status, order.isClosed]);
 
   return (
     <div className="bg-white dark:bg-black">
@@ -280,27 +278,23 @@ function UserConfirmation() {
             <LoadingDots />
           </h1>
         )}
-        {order.status === "in process" && !order.isClosed ? (
+ {order.status === "in process" && !order.isClosed && (
           <>
             <div className="flex gap-5">
               <div className="text-gray-800">
                 <span className="countdown font-mono text-4xl">
-                  <span
-                    style={{ "--value": getMinutes(order.updatedAt) }}
-                  ></span>
+                  {Math.floor(elapsedTime / 60)} {/* Minutes */}
                 </span>
                 min
               </div>
               <div className="text-gray-800">
                 <span className="countdown font-mono text-4xl">
-                  <span style={{ "--value": getSec(order.updatedAt) }}></span>
+                  {elapsedTime % 60} {/* Seconds */}
                 </span>
                 sec
               </div>
             </div>
           </>
-        ) : (
-          <p></p>
         )}
         {order && !order.loading ? (
           <p></p>

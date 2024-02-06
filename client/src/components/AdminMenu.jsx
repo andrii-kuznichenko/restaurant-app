@@ -50,7 +50,7 @@ function AdminMenu() {
       setMenuItems(receivedMenu);
     });
   }, []);
-  
+
   return (
     <div className="bg-grey-200 flex flex-col items-center">
       <h1 className="text-2xl mb-4 bg-black text-white rounded-lg p-2">
@@ -58,20 +58,20 @@ function AdminMenu() {
       </h1>
       <div className="flex border-b">
         <button
-          className={`py-2 px-4 bg-grey-200 border-l border-t border-r rounded-t ${
+          className={`text-black py-2 px-4 bg-grey-200 border-l border-t border-r rounded-t ${
             tab === "active"
-              ? "text-black font border-green-500 bg-green-200"
-              : "text-white"
+              ? "text-black border-green-500 bg-green-200"
+              : "text-gray-500"
           }`}
           onClick={() => setTab("active")}
         >
           Active Meals
         </button>
         <button
-          className={`py-2 px-4 bg-grey-200 border-l border-t border-r rounded-t ${
+          className={`text-black py-2 px-4 bg-grey-200 border-l border-t border-r rounded-t ${
             tab === "hidden"
-              ? "text-black font border-green-500 bg-green-200"
-              : "text-white"
+              ? "text-black border-green-500 bg-green-200"
+              : "text-gray-500"
           }`}
           onClick={() => setTab("hidden")}
         >
@@ -108,17 +108,17 @@ function AdminMenu() {
                 <div className="mt-4 flex justify-between">
                   <button
                     onClick={() => handleEdit(item, !item.hide)}
-                    className={`cursor-pointer px-4 py-2 rounded transition-colors duration-200 ease-in-out ${
+                    className={`cursor-pointer px-4 py-2 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 ${
                       item.hide
-                        ? "bg-green-500 hover:bg-green-700 text-white"
-                        : "bg-red-400 hover:bg-gray-400 text-black-700"
+                        ? "bg-green-200 hover:bg-green-300 text-black"
+                        : "bg-red-200 hover:bg-red-300 text-black"
                     }`}
                   >
                     {item.hide ? "Meal Hidden from Menu" : "Remove from menu"}
                   </button>
                   <button
                     onClick={() => openModal(item)}
-                    className="bg-orange-200 hover:bg-red-400 text-black font-bold py-2 px-4 rounded justify-center p-1"
+                    className="bg-green-200 hover:bg-green-300 text-black font-bold py-2 px-4 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
                   >
                     Meal Details
                   </button>
@@ -162,17 +162,17 @@ function AdminMenu() {
                 <div className="mt-4 flex justify-between">
                   <button
                     onClick={() => handleEdit(item, !item.hide)}
-                    className={`mr-2 leading-tight font-bold py-2 px-4 rounded transition-colors duration-200 ease-in-out ${
+                    className={`mr-2 leading-tight font-bold py-2 px-4 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 ${
                       item.hide
-                        ? "bg-green-500 hover:bg-green-700 text-white"
-                        : "bg-gray-200 hover:bg-gray-400 text-gray-700"
+                        ? "bg-blue-200 hover:bg-blue-300 text-black"
+                        : "bg-gray-200 hover:bg-gray-300 text-black"
                     }`}
                   >
                     {item.hide ? "Put back on menu" : "Hide"}
                   </button>
                   <button
                     onClick={() => openModal(item)}
-                    className="bg-orange-200 hover:bg-red-400 text-black font-bold py-2 px-4 rounded justify-center p-1"
+                    className="bg-green-200 hover:bg-green-300 text-black font-bold py-2 px-4 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
                   >
                     Meal Details
                   </button>
