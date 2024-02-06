@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "flowbite/dist/flowbite.js";
 import AdminOrders from "./AdminOrders"
 
-const AdminDashboard = () => {
+const AdminSideBar = () => {
   return (
     <>
       {/* <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -1165,4 +1165,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default AdminSideBar;
