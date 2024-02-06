@@ -34,10 +34,6 @@ const AdminOrders = () => {
   // );
 
   useEffect(() => {
-    const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
-      transports: ["websocket"],
-    });
-    
     // axios
     // axios.get(`/dashboard/orders/${restaurantId}`)
     // .then((res) => {
