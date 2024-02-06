@@ -30,19 +30,25 @@ function AdminEditDeleteMeal({ meal }) {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-  
+
     try {
       const formData = new FormData();
       Object.keys(mealData).forEach((key) => {
         formData.append(key, mealData[key]);
       });
-  
-      const response = await axios.put(`/menu/update/${admin.restaurantId}/${meal._id}`, formData);
-      setMessage('Meal updated successfully');
+
+      const response = await axios.put(
+        `/menu/update/${admin.restaurantId}/${meal._id}`,
+        formData
+      );
+      setMessage("Meal updated successfully");
       navigate("/");
     } catch (error) {
-      console.error('Error updating meal:', error);
-      setMessage('Error updating meal: ' + (error.response?.data?.message || error.message));
+      console.error("Error updating meal:", error);
+      setMessage(
+        "Error updating meal: " +
+          (error.response?.data?.message || error.message)
+      );
     }
   };
   const handleDelete = () => {
@@ -61,31 +67,31 @@ function AdminEditDeleteMeal({ meal }) {
     socket.emit("connectToMenu", deleteMeal);
   };
 
-    // try {
-    //   await axios.delete(`/menu/delete/${admin.restaurantId}/${meal._id}`);
-    //   setMessage("Meal deleted successfully");
-    //   navigate("/");
-    // } catch (error) {
-    //   console.error("Error deleting meal:", error);
-    //   setMessage(
-    //     "Error deleting meal: " +
-    //       (error.response?.data?.message || error.message)
-    //   );
-    // }
+  // try {
+  //   await axios.delete(`/menu/delete/${admin.restaurantId}/${meal._id}`);
+  //   setMessage("Meal deleted successfully");
+  //   navigate("/");
+  // } catch (error) {
+  //   console.error("Error deleting meal:", error);
+  //   setMessage(
+  //     "Error deleting meal: " +
+  //       (error.response?.data?.message || error.message)
+  //   );
+  // }
   // };
 
   return (
     <div>
-      <div className="flex justify-center items-center space-x-4">
+      <div className="flex justify-center items-center space-x-4 py-2">
         <button
           onClick={handleEdit}
-          className="bg-orange-300 font-bold text-black hover:bg-black hover:text-white rounded-lg p-0.5"
+          className="bg-blue-200 hover:bg-blue-300 font-bold text-black rounded-full py-1 px-3 shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
         >
           Edit Meal
         </button>
         <button
           onClick={handleDelete}
-          className="bg-red-500 font-bold text-black hover:bg-black hover:text-red-600 hover:text-white rounded-lg p-0.5"
+          className="bg-red-400 hover:bg-red-500 font-bold text-black rounded-full py-1 px-3 shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
         >
           Delete Meal
         </button>
