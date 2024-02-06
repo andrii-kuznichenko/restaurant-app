@@ -13,7 +13,7 @@ function App() {
   return (
     <>
     <Flowbite>
-    <>{!loading && <>{table ? <p></p> : <Header  />}</>}</>
+    {/* <>{!loading && <>{table ? <p></p> : <Header  />}</>}</> */}
       <Main />
       <Footer />
     </Flowbite>  
