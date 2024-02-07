@@ -7,12 +7,15 @@ import { useNavigate } from "react-router-dom";
 import AdminMenuModal from "./AdminMenuModal";
 import axios from "axios";
 import AdminEditDeleteMeal from "./AdminUpdateMeal";
+import Lottie from "react-lottie";
+import animationData from "../animations/hideAnimation.json";
 
 const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
   transports: ["websocket"],
 });
 
 function AdminMenu() {
+  const [isAnimating, setIsAnimating] = useState(false);
   const { admin, loading } = useContext(AuthContext);
   const [menuItems, setMenuItems] = useState([]);
   const navigate = useNavigate();
@@ -30,15 +33,20 @@ function AdminMenu() {
   };
 
   const handleEdit = (item, value) => {
-    const hideMeal = {
-      restaurantId: admin.restaurantId,
-      mealId: item._id,
-      hide: value,
-      operation: "hide",
-    };
-    console.log(hideMeal);
-    socket.emit("connectToMenu", hideMeal);
+    setAnimatingItems((prevState) => ({ ...prevState, [item._id]: true }));
+    setTimeout(() => {
+      setAnimatingItems((prevState) => ({ ...prevState, [item._id]: false }));
+      const hideMeal = {
+        restaurantId: admin.restaurantId,
+        mealId: item._id,
+        hide: value,
+        operation: "hide",
+      };
+      console.log(hideMeal);
+      socket.emit("connectToMenu", hideMeal);
+    }, 1000);
   };
+  const [animatingItems, setAnimatingItems] = useState({});
 
   const OrderMealHandler = (id) => {
     navigate(`${id}`);
@@ -82,8 +90,16 @@ function AdminMenu() {
             ?.map((item, index) => (
               <div
                 key={index}
-                className="mx-auto bg-off-white rounded-xl shadow-md overflow-hidden m-3 md:grid flex flex-col h-full w-full"
+                className="mx-auto bg-off-white rounded-xl shadow-md overflow-hidden m-3 md:grid flex flex-col h-full w-full relative"
               >
+                {animatingItems[item._id] && (
+                  <div className="absolute inset-0 z-10 h-full w-full">
+                    <Lottie
+                      options={{ animationData, loop: false, autoplay: true }}
+                      className="h-full w-full"
+                    />
+                  </div>
+                )}
                 <div className="p-2 flex flex-col justify-between">
                   <div>
                     <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold text-center pb-2">
