@@ -39,8 +39,9 @@ function AdminEditDeleteMeal({ meal }) {
         restaurantId: admin.restaurantId,
         mealId: meal._id,
         operation: "update",
-        data: { ...mealData },
+         ...mealData,
       };
+      console.log("1111", updateMeal);
 
       socket.emit("connectToMenu", updateMeal);
 
