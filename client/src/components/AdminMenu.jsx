@@ -76,8 +76,8 @@ function AdminMenu() {
   }, [mealAddedCount]);
 
   return (
-    <div className="mx-auto m-3 mt-16">
-      <div className="flex border-b">
+    <div className="mx-auto m-3 mt-16 flex flex-col  ">
+      <div className="flex border-b justify-center">
         <button
           className={`text-black py-2 px-4 bg-grey-200 border-l border-t border-r rounded-t ${
             tab === "active"
@@ -99,13 +99,16 @@ function AdminMenu() {
           Off the menu
         </button>
       </div>
+<div className="flex justify-end mt-4">
       <button
           type="button"
-          className="text-white bg-footerBackground bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          className="justify-end text-white bg-footerBackground bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
           onClick={openAdminNewMealModal}
         >
           Add item
         </button>
+        </div>
+   
       <div className="mx-auto m-3 md:grid md:grid-cols-1 lg:grid-cols-2 gap-2 xl:grid-cols-3">
         
         {tab === "active" &&
