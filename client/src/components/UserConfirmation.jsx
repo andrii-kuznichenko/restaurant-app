@@ -126,9 +126,12 @@ function UserConfirmation() {
     }
   }, [flag]);
 
+  const openMealDetailsHandler = (id) => {
+    navigate(`/user/order/meal/${id}`)
+  }
+
   return (
-    <div className="bg-white dark:bg-black h-full">
-      <div className="flex flex-col items-center justify-between">
+      <div className="flex flex-col items-center justify-center h-full">
         {order.loading && !order.isClose ? (
           order.status === "order could not be processed" ? (
             <>
@@ -154,6 +157,7 @@ function UserConfirmation() {
             </>
           ) : order.status === "need to accept" ? (
             <>
+            <div className="flex flex-col text-center">
               <h1 class="text-2xl mt-10 font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
                 Order{" "}
                 <span class="text-footerBackground dark:text-footerBackground">
@@ -162,9 +166,10 @@ function UserConfirmation() {
                 succesfully.
               </h1>
               <div>
-                <p className="mb-10 text-lg font-normal text-gray-500 dark:text-gray-400">
+                <p className="text-lg font-normal text-gray-500 dark:text-gray-400">
                   Please wait for acception
                 </p>
+                </div>  
               </div>
               <Lottie
                 options={defaultOptions}
@@ -279,7 +284,7 @@ function UserConfirmation() {
         )}
         {order.status === "in process" && !order.isClosed && (
           <>
-            <div className="flex gap-5">
+            <div className="flex gap-5 mt-8 mb-8">
               <div className="text-gray-800">
                 <span className="countdown font-mono text-5xl">
                   <span
@@ -307,13 +312,14 @@ function UserConfirmation() {
               </h2>
             </div>
             <div className="flex flex-col justify-center mx-3">
-              <table class="w-100 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+              <table class="w-100 text-sm text-left rtl:text-right border-dashed border-2 border-gray-300 text-gray-500 dark:text-gray-400">
                 <tbody>
                   {order.meals?.length > 0 ? (
                     order.meals.map((item) => (
                       <tr
                         key={item.name._id}
                         className="bg-white border-dashed border-gray-300 border-2 border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                        onClick={() => openMealDetailsHandler(item._id)}
                       >
                         <td class="p-4">
                           <img
@@ -373,7 +379,6 @@ function UserConfirmation() {
           </>
         )}
       </div>
-    </div>
   );
 }
 

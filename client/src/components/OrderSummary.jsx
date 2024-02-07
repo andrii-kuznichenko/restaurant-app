@@ -63,19 +63,27 @@ const OrderSummary = () => {
     navigate("/user/order/confirmation");
   };
 
+  const openMealDetailsHandler = (id) => {
+    navigate(`/user/order/meal/${id}`)
+  }
+
   return (
     <>
-      <div className="flex flex-col items-center justify-between">
-      <h1 class="mb-2 text-3xl  mt-10 font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl lg:text-5xl dark:text-white">
+      <div className="flex flex-col items-center justify-center mx-3 h-full">
+        <div>
+      <h1 class="mb-2 text-3xl  text-center mt-10 font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl lg:text-5xl dark:text-white">
         Order <span class="text-footerBackground dark:text-footerBackground">details.</span></h1>
-        <p class=" mb-10 mt-1 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Check your order. If you are sure that everything is correct, confirm it.</p>
-        <table class="w-100 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <p class="mt-1 mb-10 text-center font-normal text-gray-500 lg:text-xl dark:text-gray-400">Check your order. If you are sure that everything is correct, confirm it.</p>
+        </div>
+        <div>
+        <table class="w-100 text-sm text-left border-dashed border-2 border-gray-300 rtl:text-right text-gray-500 dark:text-gray-400">
           <tbody>
             {orderItems.length > 0 ? (
               orderItems.map((item) => (
                 <tr
                   key={item._id}
                   className="bg-white border-dashed border-gray-300 border-2 border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                  onClick={() => openMealDetailsHandler(item._id)}
                 >
                   <td class="p-4">
                     <img
@@ -123,6 +131,16 @@ const OrderSummary = () => {
             )}
           </tbody>
         </table>
+        <div className="flex justify-evenly">
+              <h5 class="text-xl text-gray-700  mb-10 font-bold dark:text-white mt-5">
+                Total:
+              </h5>
+              <h5 class="text-xl text-gray-700  mb-10 font-bold dark:text-white mt-5">
+                {total}
+                <span className="text-lg text-gray-700font-bold dark:text-white"> EUR</span>
+              </h5>
+            </div>
+            </div>
         <div>
           <div class="inline-flex mt-7 mb-3">
             <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-l" onClick={BackHandler}>
