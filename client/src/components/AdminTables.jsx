@@ -13,6 +13,8 @@ const AdminTables = () => {
   const [error, setError] = useState("");
   const qrCodeRef = useRef(null);
   const [tableAddedCount, setTableAddedCount] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
     if (admin.restaurantId) {
@@ -55,10 +57,29 @@ const AdminTables = () => {
       });
   };
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   console.log(tables);
+
+
   return (
-    <div className="my-4">
-      <h2 className="text-center py-4">Your tables</h2>
+    <div className="my-4 mt-20">
+      <div className="flex flex-row justify-between items-center">
+        <h1 className="mx-4 py-4 text-3xl font-bold">Your tables</h1>
+        <button
+          type="button"
+          className="text-white bg-footerBackground bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          onClick={openModal}
+        >
+          Add table
+        </button>
+      </div>
       {tables.length === 0 ? (
         <p>No tables found for this restaurant.</p>
       ) : (
@@ -105,21 +126,13 @@ const AdminTables = () => {
             </div>
           ))}
         </div>
-
-        // <ul>
-        //     {tables.map(table => (
-        //         <li key={table._id} className='grid grid-cols-3 border-2'>
-        //             <div className='flex justify-center items-center font-bold'>Table {table.tableNumber}</div>
-        //             <div className='py-2'>QR Code:
-        //             <img src={table.QRCode} alt="QRCode" width={200} height={200} />
-        //             </div>
-        //             <CreateQrCode url={table.url} tableId={table._id} />
-        //         </li>
-        //     ))}
-        // </ul>
       )}
-      <h2 className="text-2xl text-center">Add a table</h2>
-      <AdminAddTable onTableAdded={onTableAdded}/>
+      {/* <AdminAddTable
+        isOpen={isModalOpen}
+        closeModal={closeModal}
+        onTableAdded={onTableAdded}
+      /> */}
+      <AdminAddTable onTableAdded={onTableAdded} isModalOpen={isModalOpen} closeModal={closeModal} className="mt-20 z-50"/>
     </div>
   );
 };
