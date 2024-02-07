@@ -24,7 +24,7 @@ import AdminAddTable2 from "./AdminAddTable2"
 
 function Main() {
   return (
-    <main className="bg-white dark:bg-black mb-auto">
+    <main className="bg-white dark:bg-black mb-auto flex-grow">
       <Routes>
       <Route path="/user" element={<ProtectedTables />}>
         <Route path="" element={<UserMenu />} />
