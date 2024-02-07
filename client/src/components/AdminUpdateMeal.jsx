@@ -85,9 +85,9 @@ function AdminEditDeleteMeal({ meal }) {
           </button>
         )}
         {isEditing && (
-          <form onSubmit={handleEdit} className ="mt-4 w-full">
+          <form onSubmit={handleEdit} className="mt-4 w-full">
             <label className="block">
-              <span className="text-gray-700">Name:</span>
+              <span className="text-gray-700 flex justify-center">Name:</span>
               <input
                 type="text"
                 name="title"
@@ -97,7 +97,7 @@ function AdminEditDeleteMeal({ meal }) {
               />
             </label>
             <label className="block">
-              <span className="text-gray-700">Description:</span>
+              <span className="text-gray-700 flex justify-center">Description:</span>
               <input
                 type="text"
                 name="description"
@@ -107,7 +107,7 @@ function AdminEditDeleteMeal({ meal }) {
               />
             </label>
             <label className="block">
-              <span className="text-gray-700">Price:</span>
+              <span className="text-gray-700 flex justify-center">Price:</span>
               <input
                 type="number"
                 name="price"
@@ -117,7 +117,7 @@ function AdminEditDeleteMeal({ meal }) {
               />
             </label>
             <label className="block">
-              <span className="text-gray-700">Allergens:</span>
+              <span className="text-gray-700 flex justify-center">Allergens:</span>
               <input
                 type="text"
                 name="allergens"
@@ -127,11 +127,13 @@ function AdminEditDeleteMeal({ meal }) {
               />
             </label>
 
-            <input
-              type="submit"
-              value="Submit"
-              className="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-            />
+            <div className="flex justify-center">
+              <input
+                type="submit"
+                value="Submit"
+                className="mt-2 bg-green-300 hover:bg-green-400 hover:cursor-pointer text-white font-bold py-1 px-3 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+              />
+            </div>
           </form>
         )}
       </div>
@@ -143,7 +145,6 @@ function AdminEditDeleteMeal({ meal }) {
           Delete Meal
         </button>
       )}
-{message && <p>{message}</p>}
     </div>
   );
 }
