@@ -127,12 +127,12 @@ function UserConfirmation() {
   }, [flag]);
 
   return (
-    <div className="bg-white dark:bg-black mx-3">
+    <div className="bg-white dark:bg-black h-full">
       <div className="flex flex-col items-center justify-between">
         {order.loading && !order.isClose ? (
           order.status === "order could not be processed" ? (
             <>
-              <h1 className="text-3xl mt-10 font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl lg:text-5xl dark:text-white">
+              <h1 className="text-2xl mt-10 font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
                 Order was{" "}
                 <span className="text-red-700 dark:text-footerBackground">
                   declined.
@@ -154,7 +154,7 @@ function UserConfirmation() {
             </>
           ) : order.status === "need to accept" ? (
             <>
-              <h1 class="text-3xl font-extrabold mt-10 leading-none tracking-tight text-gray-900 md:text-4xl lg:text-5xl dark:text-white">
+              <h1 class="text-2xl mt-10 font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
                 Order{" "}
                 <span class="text-footerBackground dark:text-footerBackground">
                   placed
@@ -177,7 +177,7 @@ function UserConfirmation() {
             </>
           ) : order.status === "in process" ? (
             <>
-              <h1 class="text-2xl font-extrabold mt-10 leading-none tracking-tight text-gray-900 md:text-4xl lg:text-5xl dark:text-white">
+              <h1 class="text-2xl mt-10 font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
                 Order{" "}
                 <span class="text-footerBackground dark:text-footerBackground">
                   confirmed
@@ -200,7 +200,7 @@ function UserConfirmation() {
             </>
           ) : order.status === "waiting for payment" ? (
             <>
-              <h1 class="text-2xl font-extrabold mt-10 leading-none tracking-tight text-gray-900 md:text-4xl lg:text-5xl dark:text-white">
+              <h1 class="text-2xl mt-10 font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
                 Waiting{" "}
                 <span class="text-footerBackground dark:text-footerBackground">
                   for
@@ -223,7 +223,7 @@ function UserConfirmation() {
             </>
           ) : order.isClose ? (
             <>
-              <h1 class="text-3xl font-extrabold mt-10 leading-none tracking-tight text-gray-900 md:text-4xl lg:text-5xl dark:text-white">
+              <h1 class="text-2xl mt-10 font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
                 Thank you{" "}
                 <span class="text-footerBackground dark:text-footerBackground">
                   for your
@@ -251,7 +251,7 @@ function UserConfirmation() {
           )
         ) : order.isClose ? (
           <>
-            <h1 class="text-3xl font-extrabold mt-10 leading-none tracking-tight text-gray-900 md:text-4xl lg:text-5xl dark:text-white">
+            <h1 class="text-2xl mt-10 font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
               Thank you{" "}
               <span class="text-footerBackground dark:text-footerBackground">
                 for your
@@ -318,7 +318,7 @@ function UserConfirmation() {
                         <td class="p-4">
                           <img
                             src={item.name.image}
-                            class="w-17 md:w-20 max-w-full max-h-full rounded-full"
+                            class="w-18 md:w-20 max-w-full max-h-full rounded-full"
                             alt={item.name.title}
                           />
                         </td>
