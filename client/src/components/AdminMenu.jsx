@@ -9,6 +9,7 @@ import axios from "axios";
 import AdminEditDeleteMeal from "./AdminUpdateMeal";
 import Lottie from "react-lottie";
 import animationData from "../animations/hideAnimation.json";
+import AdminNewMeal from "./AdminNewMeal";
 
 const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
   transports: ["websocket"],
@@ -22,7 +23,9 @@ function AdminMenu() {
   const navigate = useNavigate();
   const [tab, setTab] = useState("active");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAdminNewMealModalOpen, setIsAdminNewMealModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [mealAddedCount, setMealAddedCount] = useState(0);
 
   const openModal = (item) => {
     setSelectedItem(item);
@@ -32,6 +35,19 @@ function AdminMenu() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  const openAdminNewMealModal = () => {
+    setIsAdminNewMealModalOpen(true);
+  };
+
+  const closeAdminNewMealModal = () => {
+    setIsAdminNewMealModalOpen(false);
+  };
+
+  const onMealAdded = () => {
+    setMealAddedCount((count) => count + 1);
+  };
+  
 
   const handleEdit = (item, value) => {
     setAnimatingItems((prevState) => ({ ...prevState, [item._id]: true }));
@@ -62,11 +78,11 @@ function AdminMenu() {
     socket.on(`getMenuAdmin-${admin.restaurantId}`, (receivedMenu) => {
       setMenuItems(receivedMenu);
     });
-  }, []);
+  }, [mealAddedCount]);
 
   return (
-    <div className="mx-auto m-3 mt-16">
-      <div className="flex border-b">
+    <div className="mx-auto m-3 mt-16 flex flex-col  ">
+      <div className="flex border-b justify-center">
         <button
           className={`text-black py-2 px-4 bg-grey-200 border-l border-t border-r rounded-t ${
             tab === "active"
@@ -88,7 +104,18 @@ function AdminMenu() {
           Off the menu
         </button>
       </div>
+<div className="flex justify-end mt-4">
+      <button
+          type="button"
+          className="justify-end text-white bg-footerBackground bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          onClick={openAdminNewMealModal}
+        >
+          Add item
+        </button>
+        </div>
+   
       <div className="mx-auto m-3 md:grid md:grid-cols-1 lg:grid-cols-2 gap-2 xl:grid-cols-3">
+        
         {tab === "active" &&
           menuItems.menu
             ?.filter((item) => !item.hide)
@@ -152,6 +179,8 @@ function AdminMenu() {
           isOpen={isModalOpen}
           closeModal={closeModal}
         />
+
+        <AdminNewMeal isAdminNewMealModalOpen={isAdminNewMealModalOpen} closeAdminNewMealModal={closeAdminNewMealModal} onMealAdded={onMealAdded} />
 
         {tab === "hidden" &&
           menuItems.menu
