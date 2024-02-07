@@ -74,7 +74,7 @@ const AdminTables = () => {
         <h1 className="mx-4 py-4 text-3xl font-bold">Your tables</h1>
         <button
           type="button"
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          className="text-white bg-footerBackground bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
           onClick={openModal}
         >
           Add table
@@ -132,7 +132,7 @@ const AdminTables = () => {
         closeModal={closeModal}
         onTableAdded={onTableAdded}
       /> */}
-      <AdminAddTable isModalOpen={isModalOpen} closeModal={closeModal} className="mt-20 z-50"/>
+      <AdminAddTable onTableAdded={onTableAdded} isModalOpen={isModalOpen} closeModal={closeModal} className="mt-20 z-50"/>
     </div>
   );
 };

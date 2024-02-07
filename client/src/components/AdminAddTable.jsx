@@ -131,7 +131,7 @@ const AdminAddTable = ({ onTableAdded, isModalOpen, closeModal }) => {
       <div
         className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center"
       >
-        <div className="modal-content bg-white p-4 rounded-lg">
+        <div className="modal-content bg-white p-4 rounded-lg flex flex-col justify-center">
           <form
             onSubmit={handleSubmit}
             className="flex flex-col justify-center items-center my-2 gap-2"
