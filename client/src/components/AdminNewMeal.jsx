@@ -3,7 +3,7 @@ import axios from "../axiosInstance";
 import { AuthContext } from "../context/Auth";
 import { useNavigate } from "react-router-dom";
 
-function AdminNewMeal() {
+function AdminNewMeal({isAdminNewMealModalOpen, closeAdminNewMealModal, onMealAdded}) {
   const navigate = useNavigate();
   const { admin } = useContext(AuthContext);
   const [mealData, setMealData] = useState({
@@ -73,10 +73,19 @@ function AdminNewMeal() {
         console.error('Error adding meal:', error);
         setMessage('Error adding meal: ' + (error.response?.data?.message || error.message));
     }
-    navigate("/")
+    // navigate("/")
+    onMealAdded();
 };
 
+
+
+if (!isAdminNewMealModalOpen) return null;
+
   return (
+    <div
+        className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center"
+      >
+        <div className="modal-content bg-white p-4 rounded-lg flex flex-col justify-center">
     <div>
       <h2>Add a New Meal</h2>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -141,6 +150,11 @@ function AdminNewMeal() {
         </button>
       </form>
       {message && <p>{message}</p>}
+    </div>
+    <button onClick={closeAdminNewMealModal} className="m-4">
+            Close
+          </button>
+    </div>
     </div>
   );
 }
