@@ -10,10 +10,6 @@ import AdminEditDeleteMeal from "./AdminUpdateMeal";
 import Lottie from "react-lottie";
 import animationData from "../animations/hideAnimation.json";
 
-const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
-  transports: ["websocket"],
-});
-
 function AdminMenu() {
   const [isAnimating, setIsAnimating] = useState(false);
   const { admin, loading } = useContext(AuthContext);
@@ -53,6 +49,10 @@ function AdminMenu() {
   };
 
   useEffect(() => {
+    const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
+      transports: ["websocket"],
+    });
+    
     socket.emit("connectToMenu", { restaurantId: admin.restaurantId });
     socket.on(`getMenuAdmin-${admin.restaurantId}`, (receivedMenu) => {
       setMenuItems(receivedMenu);

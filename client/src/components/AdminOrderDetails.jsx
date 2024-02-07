@@ -5,15 +5,15 @@ import { AuthContext } from "../context/Auth";
 import { Badge, Progress } from "flowbite-react";
 import { HiCheck, HiClock } from "react-icons/hi";
 import LoadingDots from "./LoadingDots";
-const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
-  transports: ["websocket"],
-});
 
 function AdminOrderDetails() {
   const { id } = useParams();
   const [order, setOrder] = useState({ loading: true });
   const [orderTime, setOrderTime] = useState("");
   const { admin, loading } = useContext(AuthContext);
+  const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
+    transports: ["websocket"],
+  });
 
   const prevOrdersRef = useRef();
 

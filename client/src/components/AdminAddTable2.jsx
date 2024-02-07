@@ -7,9 +7,11 @@ import "react-toastify/dist/ReactToastify.css";
 import QRCode from "react-qr-code";
 import * as htmlToImage from "html-to-image";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
-const AdminAddTable = ({ onTableAdded }) => {
+
+const AdminAddTable2 = (  ) => {
   const { admin } = useContext(AuthContext);
   const [tableNumber, setTableNumber] = useState("");
   const [qrCodeURL, setQRCodeURL] = useState("");
@@ -19,6 +21,7 @@ const AdminAddTable = ({ onTableAdded }) => {
   const qrCodeRef = useRef(null);
   const [captureQRCode, setCaptureQRCode] = useState(false);
   const [tableId, setTableId] = useState(null);
+  const navigate = useNavigate();
   //   const [qrCodeVisible, setQrCodeVisible] = useState(false);
 
   useEffect(() => {
@@ -29,11 +32,11 @@ const AdminAddTable = ({ onTableAdded }) => {
         setCaptureQRCode(false);
         
         setSuccessMessage("Table created and QR code updated successfully.");
-        onTableAdded();
+        navigate("/admin/tables")
       };
       capture().catch(console.error);
     }
-  }, [captureQRCode, tableId, onTableAdded]);
+  }, [captureQRCode, tableId]);
 
   const createTableAndGetId = async () => {
     try {
@@ -84,6 +87,7 @@ const AdminAddTable = ({ onTableAdded }) => {
 
       //   await axios.post("auth/tables/update-qr-code", { tableId, qrCodeUrl });
       //   setSuccessMessage("Table created and QR code updated successfully.");
+      
     } catch (error) {
       console.log(error);
       setErrorMessage(
@@ -93,10 +97,11 @@ const AdminAddTable = ({ onTableAdded }) => {
   };
 
   return (
-    <>
+    <div className="my-20 ">
+        <h2 className="text-2xl text-center mb-5">Add a table</h2>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col justify-center items-center my-2 gap-2"
+        className="flex flex-col justify-center items-center gap-2"
       >
         <input
           type="number"
@@ -138,8 +143,8 @@ const AdminAddTable = ({ onTableAdded }) => {
       )}
 
       {/* {successMessage && <div className="text-center">{successMessage}</div>}{" "} */}
-    </>
+    </div>
   );
 };
 
-export default AdminAddTable;
+export default AdminAddTable2;
