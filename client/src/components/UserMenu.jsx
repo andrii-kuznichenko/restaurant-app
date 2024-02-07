@@ -97,7 +97,7 @@ const getTotalPrice = (id)=>{
       categories.map(category => (
         <Accordion key={category}>
         <Accordion.Panel>
-        <Accordion.Title className><span className='font-Poppins font-bold text-center inline-block w-full'>{category}</span></Accordion.Title>
+        <Accordion.Title className='relative flex items-center justify-center'>{category}</Accordion.Title>
         <Accordion.Content>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
