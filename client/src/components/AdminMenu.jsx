@@ -8,10 +8,6 @@ import AdminMenuModal from "./AdminMenuModal";
 import axios from "axios";
 import AdminEditDeleteMeal from "./AdminUpdateMeal";
 
-const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
-  transports: ["websocket"],
-});
-
 function AdminMenu() {
   const { admin, loading } = useContext(AuthContext);
   const [menuItems, setMenuItems] = useState([]);
@@ -45,6 +41,10 @@ function AdminMenu() {
   };
 
   useEffect(() => {
+    const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
+      transports: ["websocket"],
+    });
+    
     socket.emit("connectToMenu", { restaurantId: admin.restaurantId });
     socket.on(`getMenuAdmin-${admin.restaurantId}`, (receivedMenu) => {
       setMenuItems(receivedMenu);

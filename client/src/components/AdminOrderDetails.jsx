@@ -5,9 +5,6 @@ import { AuthContext } from "../context/Auth";
 import { Badge, Progress } from "flowbite-react";
 import { HiCheck, HiClock } from "react-icons/hi";
 import LoadingDots from "./LoadingDots";
-const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
-  transports: ["websocket"],
-});
 
 function AdminOrderDetails() {
   const { id } = useParams();
@@ -18,6 +15,9 @@ function AdminOrderDetails() {
   const prevOrdersRef = useRef();
 
   useEffect(() => {
+    const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
+      transports: ["websocket"],
+    });
     socket.emit("connectToOrder", {
       restaurantId: admin.restaurantId,
       operation: "find",
