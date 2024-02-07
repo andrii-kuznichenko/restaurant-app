@@ -11,13 +11,13 @@ function AdminOrderDetails() {
   const [order, setOrder] = useState({ loading: true });
   const [orderTime, setOrderTime] = useState("");
   const { admin, loading } = useContext(AuthContext);
+  const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
+    transports: ["websocket"],
+  });
 
   const prevOrdersRef = useRef();
 
   useEffect(() => {
-    const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
-      transports: ["websocket"],
-    });
     socket.emit("connectToOrder", {
       restaurantId: admin.restaurantId,
       operation: "find",
