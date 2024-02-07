@@ -8,6 +8,7 @@ const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
   transports: ["websocket"],
 });
 
+
 function AdminEditDeleteMeal({ meal }) {
   const navigate = useNavigate();
   const { admin } = useContext(AuthContext);
@@ -28,6 +29,7 @@ function AdminEditDeleteMeal({ meal }) {
     setMealData({ ...mealData, hide: e.target.checked });
   };
 
+  
   const handleEdit = async (e) => {
     e.preventDefault();
 
@@ -37,12 +39,18 @@ function AdminEditDeleteMeal({ meal }) {
         formData.append(key, mealData[key]);
       });
 
-      const response = await axios.put(
-        `/menu/update/${admin.restaurantId}/${meal._id}`,
-        formData
-      );
+      const updateMeal = {
+        restaurantId: admin.restaurantId,
+        mealId: meal._id,
+        operation: "update",
+        data: formData,
+      };
+
+      socket.emit("connectToMenu", updateMeal);
+
       setMessage("Meal updated successfully");
-      navigate("/");
+      // Update the meal data in the state with the new data
+      setMeal(mealData);
     } catch (error) {
       console.error("Error updating meal:", error);
       setMessage(
