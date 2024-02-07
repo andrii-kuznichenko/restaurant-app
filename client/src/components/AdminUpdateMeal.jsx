@@ -39,13 +39,14 @@ function AdminEditDeleteMeal({ meal }) {
         restaurantId: admin.restaurantId,
         mealId: meal._id,
         operation: "update",
-         ...mealData,
+        ...mealData,
       };
       console.log("1111", updateMeal);
 
       socket.emit("connectToMenu", updateMeal);
 
       setMessage("Meal updated successfully");
+      setIsEditing(false);
     } catch (error) {
       console.error("Error updating meal:", error);
       setMessage(
@@ -73,60 +74,76 @@ function AdminEditDeleteMeal({ meal }) {
   };
 
   return (
-    <div className="justify-space-between">
-      <button
-        onClick={handleEditClick}
-        className="bg-green-200 text-black font-semibold rounded-full py-1 px-2 shadow-md transition duration-500 ease-in-out transform hover:bg-green-300 hover:-translate-y-1 hover:scale-110"
-      >
-        Edit Meal
-      </button>
-      {isEditing && (
-        <form onSubmit={handleEdit} className="mt-4">
-          <label className="block">
-            <span className="text-gray-700">Name:</span>
+    <div className={isEditing ? "" : "flex justify-between"}>
+      <div>
+        {!isEditing && (
+          <button
+            onClick={handleEditClick}
+            className="bg-green-200 text-black font-semibold rounded-full py-1 px-2 shadow-md transition duration-500 ease-in-out transform hover:bg-green-300 hover:-translate-y-1 hover:scale-110"
+          >
+            Edit Meal
+          </button>
+        )}
+        {isEditing && (
+          <form onSubmit={handleEdit} className ="mt-4 w-full">
+            <label className="block">
+              <span className="text-gray-700">Name:</span>
+              <input
+                type="text"
+                name="title"
+                value={mealData.title}
+                onChange={handleChange}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              />
+            </label>
+            <label className="block">
+              <span className="text-gray-700">Description:</span>
+              <input
+                type="text"
+                name="description"
+                value={mealData.description}
+                onChange={handleChange}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              />
+            </label>
+            <label className="block">
+              <span className="text-gray-700">Price:</span>
+              <input
+                type="number"
+                name="price"
+                value={mealData.price}
+                onChange={handleChange}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              />
+            </label>
+            <label className="block">
+              <span className="text-gray-700">Allergens:</span>
+              <input
+                type="text"
+                name="allergens"
+                value={mealData.allergens}
+                onChange={handleChange}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              />
+            </label>
+
             <input
-              type="text"
-              name="title"
-              value={mealData.title}
-              onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              type="submit"
+              value="Submit"
+              className="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
             />
-          </label>
-          <label className="block">
-            <span className="text-gray-700">Description:</span>
-            <input
-              type="text"
-              name="title"
-              value={mealData.description}
-              onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-            />
-          </label>
-          <label className="block">
-            <span className="text-gray-700">Price:</span>
-            <input
-              type="number"
-              name="price"
-              value={mealData.price}
-              onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-            />
-          </label>
-          
-          <input
-            type="submit"
-            value="Submit"
-            className="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-          />
-        </form>
+          </form>
+        )}
+      </div>
+      {!isEditing && (
+        <button
+          onClick={handleDelete}
+          className="bg-red-600 text-white font-semibold rounded-full py-1 px-2 shadow-md transition duration-500 ease-in-out transform hover:bg-red-700 hover:-translate-y-1 hover:scale-110"
+        >
+          Delete Meal
+        </button>
       )}
-      <button
-        onClick={handleDelete}
-        className="bg-red-600 text-white font-semibold rounded-full py-2 px-4 shadow-md transition duration-500 ease-in-out transform hover:bg-red-700 hover:-translate-y-1 hover:scale-110"
-      >
-        Delete Meal
-      </button>
-      {message && <p>{message}</p>}
+{message && <p>{message}</p>}
     </div>
   );
 }
