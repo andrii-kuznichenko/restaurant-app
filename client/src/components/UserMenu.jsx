@@ -93,12 +93,17 @@ const getTotalPrice = (id)=>{
 
   return (
     <>
+   
+
       {categories && categories.length > 0?
       categories.map(category => (
+        
         <Accordion key={category}>
+          
         <Accordion.Panel>
-        <Accordion.Title className='relative flex items-center justify-center'>{category}</Accordion.Title>
-        <Accordion.Content>
+          
+        <Accordion.Title className='font-Poppins font-bold text-xl relative flex items-center justify-center'>{category}</Accordion.Title>
+        <Accordion.Content className="xxs:p-1 md:p-6 xl:p-12">
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         {userMenu.menu.map(item => {
@@ -107,17 +112,24 @@ const getTotalPrice = (id)=>{
               <tr key={item._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
              
              {/*Meal image, meal title*/}
-              <td className="p-4">
-                  <img src={item.image} className="w-16 md:w-32 max-w-full max-h-full" alt={item.title}/>
+              <td className="p-1">
+                  <img src={item.image} className="max-w-full w-full xxs:w-20 xxs:rounded-full" alt={item.title}/>
               </td>
-              <td className="px-6 py-4 font-Poppins font-semibold text-gray-900 dark:text-white">
+              <td className="px-2 py-2 flex flex-col font-Poppins font-bold text-base xxs:text-sm text-gray-800 dark:text-white">
+              <span
+                onClick={() => NavigateToDetails(item._id)}
+                  className="cursor-pointer hover:text-gray-500 transition duration-300 ease-in-out">
                   {item.title}
+              </span>
+              <span className='font-semibold'>{item.price} Euro</span>
               </td>
 
-              {/*Add quantity*/}
-              <td className="px-6 py-4">
-                  <div className="flex items-center">
-                      <button className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" 
+              {/*Add quantity; Total*/}
+              <td className="px-2 py-2 text-center align-middle xxs:text-xs">
+                  
+                  <div className="flex items-center justify-center">
+                      
+                      <button className="inline-flex items-center justify-center p-1 me-3 xxs:me-1 text-sm font-medium h-6 w-6 text-gray-800 bg-white border border-gray-50 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" 
                       type="button"
                       onClick={() => handleRemove(item)}>
                           <span className="sr-only">Quantity button</span>
@@ -125,13 +137,13 @@ const getTotalPrice = (id)=>{
                               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
                           </svg>
                       </button>
+
                       <div>
                           <p classNameName="bg-gray-50 w-14 border text-center border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             {getQuantity(item._id)}</p>
-
-                         
                       </div>
-                      <button className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" 
+
+                      <button className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 xxs:ms-1 text-sm font-medium text-gray-800 bg-white border border-gray-50 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" 
                       type="button"
                       onClick={() => handleAdd(item)}>
                           <span className="sr-only">Quantity button</span>
@@ -139,15 +151,12 @@ const getTotalPrice = (id)=>{
                               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
                           </svg>
                       </button>
-                      
-                  </div>
-              </td>
 
-              {/*Meal price; total price*/}
-              <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                  {item.price} Euro
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Total: {getTotalPrice(item._id)} Euro</p>
+                  </div>
+
+                  <span className="text-gray-800 dark:text-gray-400 text-center"> {getTotalPrice(item._id)} Euro</span>
               </td>
+              
           </tr>
             )
           }  
@@ -160,16 +169,11 @@ const getTotalPrice = (id)=>{
       ))
       :<p></p>}
       <Link to="/user/order/summary">
-    <button
-          className="order-summary-button menu-item-hover bg-indigo1 relative shadow-[3px_6px_3px_-0.05px_rgba(0,0,0,0.05),-3px_-3px_5px_-0.05px_rgba(255,255,255,0.05)] text-black flex-col w-full rounded-xl"
-          style={{ 
-            fontFamily: "'Merienda', cursive",
-            border: '4rem',
-            marginBottom: '4rem',
-            textAlign: 'center',
-            padding: '1rem 2rem'}}>
+    <div className="flex items-center justify-center">
+    <button className="bg-colour1 font-Poppins font-bold text-base items-center justify-center text-white rounded-2xl w-23 h-12 mt-2 mb-10">
           See your order summary
-        </button>
+    </button>
+    </div>
       </Link>
   </>
    
