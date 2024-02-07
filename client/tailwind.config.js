@@ -8,34 +8,44 @@ module.exports = {
   ],
   theme: {
     extend: {
+
+      fontFamily: {
+        poppins: ['Poppins', 'sans-serif'],
+      }, 
+      
       colors: {
         "dark-sapphire-blue": "#0F3057",
         "teal-blue": "#00587A",
         "cyan-azure": "#008891",
         "off-white": "#E7E7DE",
-
-        "light-slate-50": "#f8fafc",
-        "light-gray-50": "#f9fafb",
-        "light-zinc-50": "#fafafa",
-        "light-neutral-50": "#fafafa",
-        "light-stone-50": "#fafaf9",
-
-        orange400: "#fb923c",
-        orange500: "#f97316",
-        yellow300: "#fde047",
-
-        teal800: "#115e59",
-        teal900: "#134e4a",
-        cyan800: "#155e75",
-        cyan900: "#164e63",
+        
 
         "light-gray": "#E7E7DE",
         "dark-lime1": "#3f6212",
-        // buttonText: 'black',
         footerBackground: "#008891",
 
-        // containerBackground: '#E7E7DE',
+        'colour1':'#008891',
       },
+
+      screens: {
+        xxs: "320px",
+        xs: "425px",
+        sm: "640px",
+        md: "768px",//tablet
+        lg: "1024px",
+        xl: "1280px",
+        "2xl": "1536px",
+        xxxl: "2560px",
+      },
+
+      fontSize: {
+        'xs': '0.8rem',   // Extra small
+        'sm': '0.9rem',  // Small
+        'base': '1rem',   // Base (default)
+        'lg': '1.15rem', // Large
+        'xl': '1.25rem',  // Extra large
+      }
+
     },
   },
   plugins: [require("flowbite/plugin"), require("daisyui")],
