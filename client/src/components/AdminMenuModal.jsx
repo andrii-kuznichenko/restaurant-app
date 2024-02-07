@@ -60,7 +60,6 @@ function AdminMenuModal({ item, isOpen, closeModal }) {
               <AdminEditDeleteMeal meal={item} />
             </div>
           </div>
-          <div className="bg-green-200 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"></div>
         </div>
       </div>
     </div>
