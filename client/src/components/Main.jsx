@@ -20,6 +20,7 @@ import UserMealDetails from './UserMealDetails';
 import AdminOrderDetails from './AdminOrderDetails';
 import AdminMealDetails from './AdminMealDetails';
 import AdminSideBar from './AdminSideBar'
+import AdminAddTable2 from "./AdminAddTable2"
 
 function Main() {
   return (
@@ -42,7 +43,7 @@ function Main() {
       <Route path="admin/newmeal" element={<AdminNewMeal />} />  
       <Route path="admin/restaurant" element ={<MyRestaurant />} />
       <Route path="admin/tables" element={<AdminTables />} />
-      <Route path="admin/addtable" element={<AdminAddTable />} />
+      <Route path="admin/addtable" element={<AdminAddTable2 />} />
       <Route path="admin/order/:id" element ={<AdminOrderDetails />} />
       <Route path="admin/sidebar" element ={<AdminSideBar />} />
       

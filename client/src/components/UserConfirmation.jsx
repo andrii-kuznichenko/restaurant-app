@@ -127,7 +127,7 @@ function UserConfirmation() {
   }, [flag]);
 
   return (
-    <div className="bg-white dark:bg-black">
+    <div className="bg-white dark:bg-black mx-3">
       <div className="flex flex-col items-center justify-between">
         {order.loading && !order.isClose ? (
           order.status === "order could not be processed" ? (
@@ -306,7 +306,7 @@ function UserConfirmation() {
                 Here is your receipt!
               </h2>
             </div>
-            <div className="flex justify-center">
+            <div className="flex flex-col justify-center mx-3">
               <table class="w-100 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <tbody>
                   {order.meals?.length > 0 ? (
@@ -360,12 +360,15 @@ function UserConfirmation() {
                   )}
                 </tbody>
               </table>
-            </div>
-            <div className="flex justify-center">
-              <h5 class="text-xl text-gray-900  mb-10 font-bold dark:text-white mt-5">
-                Total: {order?.totalPrice}
-                {currency}
+              <div className="flex justify-evenly">
+              <h5 class="text-xl text-gray-700  mb-10 font-bold dark:text-white mt-5">
+                Total:
               </h5>
+              <h5 class="text-xl text-gray-700  mb-10 font-bold dark:text-white mt-5">
+                {order?.totalPrice}
+                <span className="text-lg text-gray-700font-bold dark:text-white"> {currency}</span>
+              </h5>
+            </div>
             </div>
           </>
         )}

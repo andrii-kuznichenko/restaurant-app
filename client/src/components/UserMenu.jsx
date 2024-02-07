@@ -8,15 +8,15 @@ import { AuthTableContext } from "../context/AuthTable";
 import io from "socket.io-client";
 import axios from "../axiosInstance";
 import { Accordion } from 'flowbite-react';
-const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
-  transports: ["websocket"],
-});
 
 const UserMenu = () => {
 
   const context = useContext(AuthTableContext);
   const navigate = useNavigate();
   const [order, setOrder] = useState({});
+  const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
+    transports: ["websocket"],
+  });
 
   const {
     userMenu,
