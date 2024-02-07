@@ -112,8 +112,10 @@ const getTotalPrice = (id)=>{
               <tr key={item._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
              
              {/*Meal image, meal title*/}
-              <td className="p-1">
-                  <img src={item.image} className="max-w-full w-full xxs:w-20 xxs:rounded-full" alt={item.title}/>
+              <td className="p-4 xxs:p-1">
+              <div className="xxs:w-16 xxs:h-16 xs:w-20 xs:h-20 s:w-20 s:h-20 md:w-28 md:h-28 overflow-hidden rounded-full">
+                  <img src={item.image} className="w-full h-full object-cover" alt={item.title}/>
+            </div>
               </td>
               <td className="px-2 py-2 flex flex-col font-Poppins font-bold text-base xxs:text-sm text-gray-800 dark:text-white">
               <span
@@ -170,7 +172,7 @@ const getTotalPrice = (id)=>{
       :<p></p>}
       <Link to="/user/order/summary">
     <div className="flex items-center justify-center">
-    <button className="bg-colour1 font-Poppins font-bold text-base items-center justify-center text-white rounded-2xl w-23 h-12 mt-2 mb-10">
+    <button className="bg-colour1 font-Poppins font-bold text-base items-center justify-center text-white rounded-2xl h-10 mt-2 mb-10 p-2">
           See your order summary
     </button>
     </div>
