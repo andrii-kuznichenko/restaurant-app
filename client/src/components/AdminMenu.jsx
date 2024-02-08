@@ -92,7 +92,7 @@ function AdminMenu() {
   const groupedItems = menuItems.menu ? groupByCategory(menuItems.menu) : {};
 
   return (
-    <div className="mx-auto m-3 mt-16 flex flex-col  ">
+    <div className="mx-auto flex flex-col  ">
       <div className="flex border-b justify-center">
         <button
           className={`text-black py-2 px-4 bg-grey-200 border-l border-t border-r rounded-t ${
