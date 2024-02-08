@@ -125,146 +125,165 @@ function AdminMenu() {
         </button>
       </div>
 
-      <div className="mx-auto m-3">
-        {tab === "active" &&
-          Object.keys(groupedItems).map((category) => (
-              <div className="md:grid md:grid-cols-1 lg:grid-cols-2 gap-2 xl:grid-cols-3 p-3">
-                {groupedItems[category]
-                  .filter((item) => !item.hide)
-                  .map((item, index) => (
-                    <div
-                      key={index}
-                      className="bg-footerBackground/[.25] rounded-xl shadow-md overflow-hidden md:grid flex flex-col h-full w-full relative"
-                    >
-                      {animatingItems[item._id] && (
-                        <div className="absolute inset-0 z-10 h-full w-full">
-                          <Lottie
-                            options={{
-                              animationData,
-                              loop: false,
-                              autoplay: true,
-                            }}
-                            className="h-full w-full"
-                          />
-                        </div>
-                      )}
-                      <div className="p-2 flex flex-col justify-between">
-                        <div>
-                          <div className="uppercase tracking-wide text-sm text-footerBackground font-semibold text-center pb-2">
-                            {item.category}
+
+        {tab === "active" && (
+          <Accordion>
+            {Object.keys(groupedItems).map((category) => (
+              <AccordionPanel title={category} key={category}>
+                <Accordion.Title className="font-Poppins font-bold text-xl relative flex items-center justify-center">
+                  {category}
+                </Accordion.Title>
+                <Accordion.Content className="xxs:p-1 md:p-6 xl:p-12">
+                  <div className="md:grid md:grid-cols-1 lg:grid-cols-2 gap-2 xl:grid-cols-3 p-3">
+                    {groupedItems[category]
+                      .filter((item) => !item.hide)
+                      .map((item, index) => (
+                        <div
+                          key={index}
+                          className="bg-footerBackground/[.25] rounded-xl shadow-md overflow-hidden md:grid flex flex-col h-full w-full relative"
+                        >
+                          {animatingItems[item._id] && (
+                            <div className="absolute inset-0 z-10 h-full w-full">
+                              <Lottie
+                                options={{
+                                  animationData,
+                                  loop: false,
+                                  autoplay: true,
+                                }}
+                                className="h-full w-full"
+                              />
+                            </div>
+                          )}
+                          <div className="p-2 flex flex-col justify-between">
+                            <div>
+                              <div className="uppercase tracking-wide text-sm text-footerBackground font-semibold text-center pb-2">
+                                {item.category}
+                              </div>
+                              <div className="md:flex-shrink-0 pb-2">
+                                <img
+                                  className="h-48 w-full object-cover rounded-lg"
+                                  src={item.image}
+                                  alt={item.title}
+                                />
+                              </div>
+                              <a
+                                href="#"
+                                className="block mt-1 text-lg leading-tight font-medium text-black hover:underline text-center"
+                              >
+                                {item.title}
+                              </a>
+                              <p className="mt-2 text-gray-600">
+                                {item.description}
+                              </p>
+                            </div>
+                            <div className="mt-4 flex justify-between">
+                              <button
+                                onClick={() => handleEdit(item, !item.hide)}
+                                className={`cursor-pointer px-3 py-2 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 ${
+                                  item.hide
+                                    ? "bg-green-200 hover:bg-green-300 text-black"
+                                    : "bg-red-100 hover:bg-red-300 text-black"
+                                }`}
+                              >
+                                {item.hide
+                                  ? "Meal Hidden from Menu"
+                                  : "Remove from menu"}
+                              </button>
+                              <button
+                                onClick={() => openModal(item)}
+                                className="bg-green-100 hover:bg-green-300 text-black font-bold py-2 px-4 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                              >
+                                Meal Details
+                              </button>
+                            </div>
                           </div>
-                          <div className="md:flex-shrink-0 pb-2">
-                            <img
-                              className="h-48 w-full object-cover rounded-lg"
-                              src={item.image}
-                              alt={item.title}
-                            />
-                          </div>
-                          <a
-                            href="#"
-                            className="block mt-1 text-lg leading-tight font-medium text-black hover:underline text-center"
-                          >
-                            {item.title}
-                          </a>
-                          <p className="mt-2 text-gray-600">
-                            {item.description}
-                          </p>
                         </div>
-                        <div className="mt-4 flex justify-between">
-                          <button
-                            onClick={() => handleEdit(item, !item.hide)}
-                            className={`cursor-pointer px-3 py-2 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 ${
-                              item.hide
-                                ? "bg-green-200 hover:bg-green-300 text-black"
-                                : "bg-red-100 hover:bg-red-300 text-black"
-                            }`}
-                          >
-                            {item.hide
-                              ? "Meal Hidden from Menu"
-                              : "Remove from menu"}
-                          </button>
-                          <button
-                            onClick={() => openModal(item)}
-                            className="bg-green-100 hover:bg-green-300 text-black font-bold py-2 px-4 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-                          >
-                            Meal Details
-                          </button>
+                      ))}
+                  </div>
+                </Accordion.Content>
+              </AccordionPanel>
+            ))}
+          </Accordion>
+        )}
+
+
+      <AdminMenuModal
+        item={selectedItem}
+        isOpen={isModalOpen}
+        closeModal={closeModal}
+      />
+
+      <AdminNewMeal
+        isAdminNewMealModalOpen={isAdminNewMealModalOpen}
+        closeAdminNewMealModal={closeAdminNewMealModal}
+        onMealAdded={onMealAdded}
+      />
+
+      {tab === "hidden" && (
+        <Accordion>
+          {Object.keys(groupedItems).map((category) => (
+            <AccordionPanel title={category} key={category}>
+              <Accordion.Title className="font-Poppins font-bold text-xl relative flex items-center justify-center">
+                {category}
+              </Accordion.Title>
+              <Accordion.Content className="xxs:p-1 md:p-6 xl:p-12">
+                <div className="md:grid md:grid-cols-1 lg:grid-cols-2 gap-2 xl:grid-cols-3 p-3">
+                  {groupedItems[category]
+                    .filter((item) => item.hide)
+                    .map((item, index) => (
+                      <div
+                        key={index}
+                        className="bg-footerBackground/[.25] rounded-xl shadow-md overflow-hidden md:grid flex flex-col h-full w-full relative"
+                      >
+                        <div className="p-2 flex flex-col justify-between">
+                          <div>
+                            <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold text-center pb-2">
+                              {item.category}
+                            </div>
+                            <div className="md:flex-shrink-0 pb-2">
+                              <img
+                                className="h-48 w-full object-cover rounded-lg"
+                                src={item.image}
+                                alt={item.title}
+                              />
+                            </div>
+                            <a
+                              href="#"
+                              className="block mt-1 text-lg leading-tight font-medium text-black hover:underline text-center"
+                            >
+                              {item.title}
+                            </a>
+                            <p className="mt-2 text-gray-600">
+                              {item.description}
+                            </p>
+                          </div>
+                          <div className="mt-4 flex justify-between">
+                            <button
+                              onClick={() => handleEdit(item, !item.hide)}
+                              className={`cursor-pointer px-3 py-2 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 ${
+                                item.hide
+                                  ? "bg-green-200 hover:bg-green-300 text-black"
+                                  : "bg-red-100 hover:bg-red-300 text-black"
+                              }`}
+                            >
+                              {item.hide ? "Put back on menu" : "Hide"}
+                            </button>
+                            <button
+                              onClick={() => openModal(item)}
+                              className="bg-green-100 hover:bg-green-300 text-black font-bold py-2 px-4 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                            >
+                              Meal Details
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-              </div>
-          ))}
-
-        <AdminMenuModal
-          item={selectedItem}
-          isOpen={isModalOpen}
-          closeModal={closeModal}
-        />
-
-        <AdminNewMeal
-          isAdminNewMealModalOpen={isAdminNewMealModalOpen}
-          closeAdminNewMealModal={closeAdminNewMealModal}
-          onMealAdded={onMealAdded}
-        />
-
-{tab === "hidden" &&
-  Object.keys(groupedItems).map((category) => (
-
-      <div className="md:grid md:grid-cols-1 lg:grid-cols-2 gap-2 xl:grid-cols-3 p-3">
-        {groupedItems[category]
-          .filter((item) => item.hide)
-          .map((item, index) => (
-            <div
-              key={index}
-              className="bg-footerBackground/[.25]  rounded-xl shadow-md overflow-hidden md:grid flex flex-col h-full w-full relative"
-            >
-              <div className="p-2 flex flex-col justify-between">
-                <div>
-                  <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold text-center pb-2">
-                    {item.category}
-                  </div>
-                  <div className="md:flex-shrink-0 pb-2">
-                    <img
-                      className="h-48 w-full object-cover rounded-lg"
-                      src={item.image}
-                      alt={item.title}
-                    />
-                  </div>
-                  <a
-                    href="#"
-                    className="block mt-1 text-lg leading-tight font-medium text-black hover:underline text-center"
-                  >
-                    {item.title}
-                  </a>
-                  <p className="mt-2 text-gray-600">
-                    {item.description}
-                  </p>
+                    ))}
                 </div>
-                <div className="mt-4 flex justify-between">
-                  <button
-                    onClick={() => handleEdit(item, !item.hide)}
-                    className={`cursor-pointer px-3 py-2 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 ${
-                      item.hide
-                        ? "bg-green-200 hover:bg-green-300 text-black"
-                        : "bg-red-100 hover:bg-red-300 text-black"
-                    }`}
-                  >
-                    {item.hide ? "Put back on menu" : "Hide"}
-                  </button>
-                  <button
-                    onClick={() => openModal(item)}
-                    className="bg-green-100 hover:bg-green-300 text-black font-bold py-2 px-4 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-                  >
-                    Meal Details
-                  </button>
-                </div>
-              </div>
-            </div>
+              </Accordion.Content>
+            </AccordionPanel>
           ))}
-      </div>
-  ))}
-      </div>
+        </Accordion>
+      )}
     </div>
   );
 }
