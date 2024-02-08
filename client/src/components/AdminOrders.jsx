@@ -3,8 +3,8 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import io from "socket.io-client";
 import { AuthContext } from "../context/Auth";
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 import { Navigate, useNavigate } from "react-router-dom";
 import AdminOrderTimeline from "./AdminOrderTimeline";
 import { Button, Timeline } from "flowbite-react";
@@ -12,16 +12,18 @@ import { HiArrowNarrowRight } from "react-icons/hi";
 import { Dropdown } from "flowbite-react";
 import LoadingDots from "./LoadingDots";
 import { Table } from "flowbite-react";
+import { useNotification } from '../context/Notification';
 
 
 const AdminOrders = () => {
   const { admin, loading } = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
   const [ordersLoadind, SetOrdersLoading] = useState(true);
-  const notify = () => toast("New order!💰");
+  // const notify = () => toast("New order!💰");
   const prevOrdersRef = useRef();
   const navigate = useNavigate();
   const [timeElapsed, setTimeElapsed] = useState("");
+  const { notify } = useNotification();
 
   // const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
   //   transports: ["websocket"],
@@ -82,17 +84,17 @@ const AdminOrders = () => {
     }
   }, [admin]);
 
-  useEffect(() => {
-    if (orders && orders.length > 0) {
-      if (
-        prevOrdersRef.current &&
-        orders.length > prevOrdersRef.current.length
-      ) {
-        notify(); // Trigger the notification for a new order
-      }
-      prevOrdersRef.current = orders;
-    }
-  }, [orders]);
+  // useEffect(() => {
+  //   if (orders && orders.length > 0) {
+  //     if (
+  //       prevOrdersRef.current &&
+  //       orders.length > prevOrdersRef.current.length
+  //     ) {
+  //       notify();
+  //     }
+  //     prevOrdersRef.current = orders;
+  //   }
+  // }, [orders]);
 
   const closeOrderHandler = (e) => {
     socket.emit("connectToOrder", {
@@ -188,7 +190,9 @@ const AdminOrders = () => {
       {ordersLoadind ? (
         <LoadingDots />
       ) : (
+        
         <div className="overflow-x-auto mt-4">
+          {/* <ToastContainer /> */}
           <Table striped>
             <Table.Head>
               <Table.HeadCell>Order</Table.HeadCell>
@@ -208,7 +212,7 @@ const AdminOrders = () => {
                   className="bg-white dark:border-gray-700 dark:bg-gray-800"
                   key={index}
                 >
-                  <Table.Cell>#{index + 1}</Table.Cell>
+                  <Table.Cell>#{orders.length - index}</Table.Cell>
                   <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                     #{order.tableNumberId.tableNumber}
                   </Table.Cell>
