@@ -29,7 +29,7 @@ function Protected() {
             <>
               {/* Navbar */}
 
-              <nav className="fixed z-40 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+              <nav className="fixed z-40 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 h-16">
                 <div className="px-3 py-3 lg:px-5 lg:pl-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center justify-start">
@@ -537,7 +537,7 @@ function Protected() {
 
               {/* Dashboard Inhalt */}
 
-              <div className={`p-4 transition-margin duration-300 ${isSidebarOpen ? "md:ml-64" : "md:ml-0"}`}>
+              <div className={`mt-16 p-4 transition-margin duration-300 ${isSidebarOpen ? "md:ml-64" : "md:ml-0"}`}>
                 <Outlet />
               </div>
 
