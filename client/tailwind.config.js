@@ -7,6 +7,7 @@ module.exports = {
     "node_modules/flowbite-react/lib/esm/**/*.js",
     "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
 
