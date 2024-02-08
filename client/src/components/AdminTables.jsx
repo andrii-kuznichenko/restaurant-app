@@ -43,19 +43,37 @@ const AdminTables = () => {
     setTableAddedCount((count) => count + 1);
   };
 
-  const downloadQRCode = () => {
-    htmlToImage
-      .toPng(qrCodeRef.current)
-      .then(function (dataUrl) {
-        const link = document.createElement("a");
-        link.href = dataUrl;
-        link.download = "qr-code.png";
-        link.click();
-      })
-      .catch(function (error) {
-        console.error("Error generating QR code:", error);
-      });
+  const downloadQRCode = async (qrCodeUrl, tableNumber) => {
+    try {
+      const response = await fetch(qrCodeUrl);
+      if (!response.ok) throw new Error('Network response was not ok');
+      const blob = await response.blob();
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = `qr-code-table-${tableNumber}.png`; // You can dynamically set the filename if needed
+      document.body.appendChild(link); 
+      link.click();
+      document.body.removeChild(link); 
+      window.URL.revokeObjectURL(downloadUrl); 
+    } catch (error) {
+      console.error("Error downloading QR code:", error);
+    }
   };
+
+  // const downloadQRCode = () => {
+  //   htmlToImage
+  //     .toPng(qrCodeRef.current)
+  //     .then(function (dataUrl) {
+  //       const link = document.createElement("a");
+  //       link.href = dataUrl;
+  //       link.download = "qr-code.png";
+  //       link.click();
+  //     })
+  //     .catch(function (error) {
+  //       console.error("Error generating QR code:", error);
+  //     });
+  // };
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -116,7 +134,7 @@ const AdminTables = () => {
                     /> */}
                     <button
                       className="text-white font-bold"
-                      onClick={downloadQRCode}
+                      onClick={() => downloadQRCode(table.QRCode, table.tableNumber)}
                     >
                       Download QR
                     </button>
