@@ -5,6 +5,7 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}", // src folder, for example
     "./index.html",
     "node_modules/flowbite-react/lib/esm/**/*.js",
+    "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js",
   ],
   theme: {
     extend: {

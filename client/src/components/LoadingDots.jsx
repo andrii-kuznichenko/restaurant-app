@@ -13,14 +13,11 @@ function LoadingDots() {
   };
 
   return (
-    <div className="flex space-x-2 justify-center items-center bg-white h-screen dark:invert">
+    <div className="flex justify-center items-center bg-white h-screen dark:invert">
       <Lottie
         options={defaultOptions}
-        height={200}
+        height={300}
         width={700}
-        style={{
-          width: "80%",
-        }}
       />
     </div>
   );

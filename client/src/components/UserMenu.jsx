@@ -8,6 +8,8 @@ import { AuthTableContext } from "../context/AuthTable";
 import io from "socket.io-client";
 import axios from "../axiosInstance";
 import { Accordion } from 'flowbite-react';
+import UserMealDetails from "./UserMealDetails";
+import LoadingDots from "./LoadingDots";
 
 const UserMenu = () => {
 
@@ -17,6 +19,13 @@ const UserMenu = () => {
   const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
     transports: ["websocket"],
   });
+  const [showMeal, setShowMeal] = useState(false);
+  const [mealDetailsId, setMealDetailsId] = useState("");
+
+  const openMealDetailsHandler = (id) => {
+    setMealDetailsId(id);
+    setShowMeal(!showMeal);
+  };
 
   const {
     userMenu,
@@ -91,6 +100,15 @@ const getTotalPrice = (id)=>{
   }
 
   return (
+    <>
+    {showMeal && (
+      <>
+        <div>
+          <UserMealDetails id={mealDetailsId} isMenu={true} setShowMeal={setShowMeal} />
+        </div>
+      </>
+    )}
+    
     <div className="mx-auto max-w-screen-md font-Poppins">
    
       {categories && categories.length > 0?
@@ -111,14 +129,14 @@ const getTotalPrice = (id)=>{
              
              {/*Meal image, meal title*/}
               <td className="p-4 xxs:p-1 md:p-3 xxs:w-16 xs:w-20 s:w-28 md:w-48">
-              <div className="xxs:w-16 xxs:h-16 xs:w-20 xs:h-20 s:w-24 s:h-24 md:w-36 md:h-36 overflow-hidden rounded-full">
+              <div className="xxs:w-15 xs:w-18 s:w-24  md:w-36  overflow-hidden rounded-full">
                   <img src={item.image} className="w-full h-full object-cover" alt={item.title}/>
               </div>
               </td>
 
-              <td className="px-2 py-2 flex flex-col font-bold text-base xxs:text-sm md:text-l lg:text-l xl:text-l text-gray-800 dark:text-white">
+              <td className="px-2 py-2 flex flex-col font-bold text-base xxs:text-sm md:text-l lg:text-l xl:text-l text-gray-800 dark:text-white" onClick={() => openMealDetailsHandler(item._id)}>
               <span
-                onClick={() => NavigateToDetails(item._id)}
+                onClick={() => openMealDetailsHandler(item._id)}
                   className="cursor-pointer hover:text-gray-500 transition duration-300 ease-in-out">
                   {item.title}
               </span>
@@ -168,15 +186,16 @@ const getTotalPrice = (id)=>{
       </Accordion.Panel>
     </Accordion>
       ))
-      :<p></p>}
+      :<LoadingDots/>}
       <Link to="/user/order/summary">
     <div className="flex items-center justify-center">
-    <button className="bg-colour1 font-bold text-base items-center justify-center text-white rounded h-10 mt-2 mb-10 p-2">
+    <button className="bg-colour1 font-bold text-base items-center justify-center text-white rounded h-10 mt-5 mb-10 p-2">
           See your order summary
     </button>
     </div>
       </Link>
   </div>
+  </>
    
    
   );

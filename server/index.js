@@ -247,7 +247,11 @@ io.on("connection", (socket) => {
       io.emit(`getOrder-${orderId}`, foundOrder);
 
       const orders = await Order.find({
-        restaurantId: socket.user.restaurantId,
+        "restaurantId": socket.user.restaurantId,
+        "createdAt": {
+          $gte: new Date(new Date().setHours(0, 0, 0, 0)),
+          $lt: new Date(new Date().setHours(24, 0, 0, 0))
+      },
       }).populate("meals.name").populate({path: "tableNumberId", select: "tableNumber"}).sort({createdAt: -1});
       io.emit(`getOrders-${socket.user.restaurantId}`, orders);
     } catch (error) {
