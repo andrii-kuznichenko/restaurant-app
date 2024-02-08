@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import UserOrderMeal from "./UserOrderMeal";
@@ -7,16 +7,19 @@ import "./UserMenu.css";
 import { AuthTableContext } from "../context/AuthTable";
 import io from "socket.io-client";
 import axios from "../axiosInstance";
-import { Accordion } from 'flowbite-react';
+import { Accordion } from "flowbite-react";
+import UserMealDetails from "./UserMealDetails";
+import LoadingDots from "./LoadingDots";
 
 const UserMenu = () => {
-
   const context = useContext(AuthTableContext);
   const navigate = useNavigate();
   const [order, setOrder] = useState({});
   const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
     transports: ["websocket"],
   });
+  const [showMeal, setShowMeal] = useState(false);
+  const [mealDetailsId, setMealDetailsId] = useState("");
 
   const {
     userMenu,
@@ -25,56 +28,56 @@ const UserMenu = () => {
     updateOrderItems,
     removeOrderItems,
     orderItems,
-    categories
+    categories,
   } = useContext(AuthTableContext);
   const [isAccordionExpanded, setIsAccordionExpanded] = useState(false);
 
-  useEffect(() => { 
+  useEffect(() => {
     axios
       .get(`/order/${context.table._id}`)
       .then((res) => {
         setOrder(res.data);
-
       })
       .catch((error) => {
         console.log(error.response.data);
         setState(null, false, error.response.data);
       });
-
-
- }, []);
+  }, []);
 
   useEffect(() => {
-    if(order && order && Object.keys(order).length > 0){
+    if (order && order && Object.keys(order).length > 0) {
       socket.disconnect();
-      navigate('/user/order/confirmation');
+      navigate("/user/order/confirmation");
     }
-  },[order])
+  }, [order]);
 
   useEffect(() => {
     console.log(categories);
-  },[categories])
+  }, [categories]);
 
-  
-const getCategories = () => {
-  if(userMenu.menu && userMenu.menu.length > 0){
-    console.log('1111');
-    const newArrayCategories = userMenu.menu.map(meal => meal.category);
-    setCategories(newArrayCategories.filter((category, index) => newArrayCategories.indexOf(category) !== index));
-  }
-}
-const getQuantity = (id)=>{
-   return orderItems.find(item=>item._id === id)?.quantity || 0
-}
-const getTotalPrice = (id)=>{
-  const item = orderItems.find(item=>item._id === id)
-  const quantity = item?.quantity || 0
-  const price = item?.price || 0
-  const total = price*quantity
-  return total.toFixed(2)
-}
+  const getCategories = () => {
+    if (userMenu.menu && userMenu.menu.length > 0) {
+      console.log("1111");
+      const newArrayCategories = userMenu.menu.map((meal) => meal.category);
+      setCategories(
+        newArrayCategories.filter(
+          (category, index) => newArrayCategories.indexOf(category) !== index
+        )
+      );
+    }
+  };
+  const getQuantity = (id) => {
+    return orderItems.find((item) => item._id === id)?.quantity || 0;
+  };
+  const getTotalPrice = (id) => {
+    const item = orderItems.find((item) => item._id === id);
+    const quantity = item?.quantity || 0;
+    const price = item?.price || 0;
+    const total = price * quantity;
+    return total.toFixed(2);
+  };
   const handleAccordionClick = (category) => {
-    const newArrayMeal = userMenu
+    const newArrayMeal = userMenu;
     updateSelectedItem(item);
     setIsAccordionExpanded((prev) => !prev);
   };
@@ -88,8 +91,13 @@ const getTotalPrice = (id)=>{
   };
 
   const NavigateToDetails = (id) => {
-    navigate(`order/meal/${id}`)
-  }
+    navigate(`order/meal/${id}`);
+  };
+
+  const openMealDetailsHandler = (id) => {
+    setMealDetailsId(id);
+    setShowMeal(!showMeal);
+  };
 
   return (
     <>
@@ -127,50 +135,85 @@ const getTotalPrice = (id)=>{
               <span className='font-semibold'>{item.price} Euro</span>
               </td>
 
-              {/*Add quantity; Total*/}
-              <td className="px-2 py-2 text-center align-middle xxs:text-xs">
-                  
-                  <div className="flex items-center justify-center">
-                      
-                      <button className="inline-flex items-center justify-center p-1 me-3 xxs:me-1 text-sm font-medium h-6 w-6 text-gray-800 bg-white border border-gray-50 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" 
-                      type="button"
-                      onClick={() => handleRemove(item)}>
-                          <span className="sr-only">Quantity button</span>
-                          <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
-                          </svg>
-                      </button>
+                              {/*Add quantity; Total*/}
+                              <td className="px-2 py-2 text-center align-middle xxs:text-xs">
+                                <div className="flex items-center justify-center">
+                                  <button
+                                    className="inline-flex items-center justify-center p-1 me-3 xxs:me-1 text-sm font-medium h-6 w-6 text-gray-800 bg-white border border-gray-50 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                    type="button"
+                                    onClick={() => handleRemove(item)}
+                                  >
+                                    <span className="sr-only">
+                                      Quantity button
+                                    </span>
+                                    <svg
+                                      className="w-3 h-3"
+                                      aria-hidden="true"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      fill="none"
+                                      viewBox="0 0 18 2"
+                                    >
+                                      <path
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M1 1h16"
+                                      />
+                                    </svg>
+                                  </button>
 
-                      <div>
-                          <p classNameName="bg-gray-50 w-14 border text-center border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            {getQuantity(item._id)}</p>
-                      </div>
+                                  <div>
+                                    <p classNameName="bg-gray-50 w-14 border text-center border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                      {getQuantity(item._id)}
+                                    </p>
+                                  </div>
 
-                      <button className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 xxs:ms-1 text-sm font-medium text-gray-800 bg-white border border-gray-50 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" 
-                      type="button"
-                      onClick={() => handleAdd(item)}>
-                          <span className="sr-only">Quantity button</span>
-                          <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-                          </svg>
-                      </button>
+                                  <button
+                                    className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 xxs:ms-1 text-sm font-medium text-gray-800 bg-white border border-gray-50 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                    type="button"
+                                    onClick={() => handleAdd(item)}
+                                  >
+                                    <span className="sr-only">
+                                      Quantity button
+                                    </span>
+                                    <svg
+                                      className="w-3 h-3"
+                                      aria-hidden="true"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      fill="none"
+                                      viewBox="0 0 18 18"
+                                    >
+                                      <path
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M9 1v16M1 9h16"
+                                      />
+                                    </svg>
+                                  </button>
+                                </div>
 
-                  </div>
-
-                  <span className="text-gray-800 dark:text-gray-400 text-center"> {getTotalPrice(item._id)} Euro</span>
-              </td>
-              
-          </tr>
-            )
-          }  
-        })}
-        </table>
-        </div>
-        </Accordion.Content>
-      </Accordion.Panel>
-    </Accordion>
-      ))
-      :<p></p>}
+                                <span className="text-gray-800 dark:text-gray-400 text-center">
+                                  {" "}
+                                  {getTotalPrice(item._id)} Euro
+                                </span>
+                              </td>
+                            </tr>
+                          );
+                        }
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </Accordion.Content>
+            </Accordion.Panel>
+          </Accordion>
+        ))
+      ) : (
+        <LoadingDots />
+      )}
       <Link to="/user/order/summary">
     <div className="flex items-center justify-center">
     <button className="bg-colour1 font-Poppins font-bold text-base items-center justify-center text-white rounded-2xl h-10 mt-2 mb-10 p-2">
@@ -184,7 +227,6 @@ const getTotalPrice = (id)=>{
    
    
   );
-  }
+};
 
 export default UserMenu;
-

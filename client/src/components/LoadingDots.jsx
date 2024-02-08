@@ -1,14 +1,29 @@
-import React from 'react'
+import React from "react";
+import Lottie from "react-lottie";
+import loadingAnimation from "../animations/loadingAnimation.json";
 
 function LoadingDots() {
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: loadingAnimation,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid meet",
+    },
+  };
+
   return (
-    <div className='flex space-x-2 justify-center items-center bg-white h-screen dark:invert'>
- 	<span className='sr-only'>Loading...</span>
-  	<div className='h-5 w-5 bg-footerBackground rounded-full animate-bounce [animation-delay:-0.3s]'></div>
-	<div className='h-5 w-5 bg-footerBackground rounded-full animate-bounce [animation-delay:-0.15s]'></div>
-	<div className='h-5 w-5 bg-footerBackground rounded-full animate-bounce'></div>
-</div>
-  )
+    <div className="flex space-x-2 justify-center items-center bg-white h-screen dark:invert">
+      <Lottie
+        options={defaultOptions}
+        height={200}
+        width={700}
+        style={{
+          width: "80%",
+        }}
+      />
+    </div>
+  );
 }
 
-export default LoadingDots
+export default LoadingDots;
