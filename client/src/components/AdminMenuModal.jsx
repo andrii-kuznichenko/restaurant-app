@@ -29,12 +29,12 @@ function AdminMenuModal({ item, isOpen, closeModal }) {
               />
               <button
                 onClick={closeModal}
-                className="absolute top-0 right-0 bg-orange-500 hover:bg-orange-400 text-white font-bold rounded-full p-2 m-2 border border-gray-400 w-8 h-8 flex items-center justify-center transition-transform duration-200 ease-in-out transform hover:scale-110"
+                className="absolute top-0 right-0 bg-footerBackground/[0.25] hover:bg-footerBackground/[0.4] text-white font-bold rounded-full p-2 m-2 border border-gray-400 w-8 h-8 flex items-center justify-center transition-transform duration-200 ease-in-out transform hover:scale-110"
               >
                 X
               </button>
             </div>
-            <div className="bg-off-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 flex-grow">
+            <div className="bg-footerBackground/[0.25] px-4 pt-5 pb-4 sm:p-6 sm:pb-4 flex-grow">
               <div className="flex justify-between items-center">
                 <h3
                   className="text-lg leading-6 font-medium text-gray-900"
@@ -46,14 +46,14 @@ function AdminMenuModal({ item, isOpen, closeModal }) {
                   €{item.price}
                 </p>
               </div>
-              <p className="text-sm text-gray-500">Category: {item.category}</p>
+              <p className="text-sm text-gray-600">Category: {item.category}</p>
               <div className="mt-2">
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-600">
                   Description: {item.description}
                 </p>
               </div>
-              <div className="mt-2">
-                <p className="text-sm text-gray-500">
+              <div className="mt-2 pb-3">
+                <p className="text-sm text-gray-600">
                   Allergens: {item.allergens}
                 </p>
               </div>
