@@ -87,7 +87,7 @@ const AdminTables = () => {
 
 
   return (
-    <div className="my-4 mt-20">
+    <div className="my-4">
       <div className="flex flex-row justify-between items-center">
         <h1 className="mx-4 py-4 text-3xl font-bold">Your tables</h1>
         <button
