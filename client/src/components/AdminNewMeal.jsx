@@ -87,7 +87,7 @@ function AdminNewMeal({
   return (
   
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
-      <div className="modal-content bg-white p-4 rounded-lg flex flex-col justify-center p-10">
+      <div className="modal-content bg-white p-4 rounded-lg flex flex-col justify-center">
         <div>
           <h2 className="text-center">Add a New Meal</h2>
           <form onSubmit={handleSubmit} className="max-w-l mx-auto flex flex-row gap-4 p-10">
