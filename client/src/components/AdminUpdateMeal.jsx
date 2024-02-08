@@ -131,7 +131,7 @@ function AdminEditDeleteMeal({ meal }) {
               <input
                 type="submit"
                 value="Submit"
-                className="mt-2 bg-green-300 hover:bg-green-400 hover:cursor-pointer text-white font-bold py-1 px-3 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                className="mt-2 bg-footerBackground/[.55]  hover:bg-footerBackground/[.95]  hover:cursor-pointer hover:text-black text-white font-bold py-1 px-3 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
               />
             </div>
           </form>

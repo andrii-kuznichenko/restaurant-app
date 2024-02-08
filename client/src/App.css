@@ -100,3 +100,8 @@
   color: #bbb;
   transform: rotateY(180deg);
 }
+
+img[data-testid="flowbite-avatar-img"] {
+  height: 2rem !important;
+  width: 2rem !important;
+}
