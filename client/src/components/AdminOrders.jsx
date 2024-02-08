@@ -2,9 +2,6 @@ import axios from "../axiosInstance";
 import React, { useState, useEffect, useContext, useRef } from "react";
 import io from "socket.io-client";
 import { AuthContext } from "../context/Auth";
-
-// import { ToastContainer, toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Tabs } from "flowbite-react";
 import { HiLockClosed } from "react-icons/hi";
@@ -20,7 +17,6 @@ const AdminOrders = () => {
   const { admin, loading } = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
   const [ordersLoadind, SetOrdersLoading] = useState(true);
-  // const notify = () => toast("New order!💰");
   const prevOrdersRef = useRef();
   const navigate = useNavigate();
   const [timeElapsed, setTimeElapsed] = useState("");
@@ -35,54 +31,12 @@ const AdminOrders = () => {
     transports: ["websocket"],
   });
 
-  // const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
-  //   transports: ["websocket"],
-  // });
-
-  // const adminSocket = io(
-  //   `${import.meta.env.VITE_SERVER_BASE_URL}/restaurant-${restaurantId}`,
-  //   {
-  //     transports: ["websocket"],
-  //   }
-  // );
-
   useEffect(() => {
-    // axios
-    // axios.get(`/dashboard/orders/${restaurantId}`)
-    // .then((res) => {
-    //   console.log("Received data:", res.data);
-    //   if (Array.isArray(res.data)) {
-    //     setNewOrders(res.data);
-    //   }
-    // })
-    // .catch((e) => console.error(e));
-
-    //   // setNewOrders(res.data))
-
-    // adminSocket.emit("join room", "admin");
-    // adminSocket.on("new order", (order) => {
-    //   console.log("New order received:", order);
-    //   setNewOrders((prevOrders) => [order, ...prevOrders]);
-    // });
-
-    // return () => {
-    //   adminSocket.off("new order");
-    //   socket.disconnect();
-    // };
+    
     console.log(admin);
     if (admin) {
       socket.emit("connectToOrder", { restaurantId: admin.restaurantId });
       socket.on(`getOrders-${admin.restaurantId}`, (receivedOrders) => {
-        // Check if there is a previous state and if the new orders array is longer
-        // if (
-        //   prevOrdersRef.current &&
-        //   receivedOrders.length > prevOrdersRef.current.length
-        // ) {
-        //   notify(); // Trigger the notification for a new order
-        // }
-
-        // // Update the previous orders ref with the current orders
-        // prevOrdersRef.current = receivedOrders;
         setOrders(receivedOrders);
         setTimeout(() => {
           SetOrdersLoading(false);
@@ -91,18 +45,7 @@ const AdminOrders = () => {
     }
   }, [admin]);
 
-  // useEffect(() => {
-  //   if (orders && orders.length > 0) {
-  //     if (
-  //       prevOrdersRef.current &&
-  //       orders.length > prevOrdersRef.current.length
-  //     ) {
-  //       notify();
-  //     }
-  //     prevOrdersRef.current = orders;
-  //   }
-  // }, [orders]);
-
+ 
   const closeOrderHandler = (e) => {
     socket.emit("connectToOrder", {
       restaurantId: admin.restaurantId,
