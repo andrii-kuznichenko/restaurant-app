@@ -93,7 +93,7 @@ const getTotalPrice = (id)=>{
 
   return (
     <>
-   
+    <div className="mx-auto max-w-screen-lg">
 
       {categories && categories.length > 0?
       categories.map(category => (
@@ -103,7 +103,7 @@ const getTotalPrice = (id)=>{
         <Accordion.Panel>
           
         <Accordion.Title className='font-Poppins font-bold text-xl relative flex items-center justify-center'>{category}</Accordion.Title>
-        <Accordion.Content className="xxs:p-1 md:p-6 xl:p-12">
+        <Accordion.Content className="xxs:p-1 md:p-10 xl:p-12">
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         {userMenu.menu.map(item => {
@@ -112,11 +112,12 @@ const getTotalPrice = (id)=>{
               <tr key={item._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
              
              {/*Meal image, meal title*/}
-              <td className="p-4 xxs:p-1">
-              <div className="xxs:w-16 xxs:h-16 xs:w-20 xs:h-20 s:w-20 s:h-20 md:w-28 md:h-28 overflow-hidden rounded-full">
+              <td className="p-4 xxs:p-1 md:p-3 xxs:w-16 xs:w-20 s:w-28 md:w-48">
+              <div className="xxs:w-16 xxs:h-16 xs:w-20 xs:h-20 s:w-24 s:h-24 md:w-36 md:h-28 overflow-hidden rounded-full md:rounded-3xl">
                   <img src={item.image} className="w-full h-full object-cover" alt={item.title}/>
-            </div>
+              </div>
               </td>
+
               <td className="px-2 py-2 flex flex-col font-Poppins font-bold text-base xxs:text-sm text-gray-800 dark:text-white">
               <span
                 onClick={() => NavigateToDetails(item._id)}
@@ -177,6 +178,8 @@ const getTotalPrice = (id)=>{
     </button>
     </div>
       </Link>
+
+      </div>
   </>
    
    
