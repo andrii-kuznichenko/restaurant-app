@@ -537,7 +537,7 @@ function Protected() {
 
               {/* Dashboard Inhalt */}
 
-              <div className={`mt-16 p-4 transition-margin duration-300 ${isSidebarOpen ? "md:ml-64" : "md:ml-0"}`}>
+              <div className={`mt-16 p-4 transition-margin h-full duration-300 ${isSidebarOpen ? "md:ml-64" : "md:ml-0"}`}>
                 <Outlet />
               </div>
 

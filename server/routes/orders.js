@@ -1,11 +1,11 @@
 const express = require("express");
-const { authenticate} = require("../middleware/auth");
 const orderRouter = express.Router();
 const {
-  getOrderByTableNumber
+  getOrderByTableNumber,
+  getOrderByDate
 } = require("../controllers/orders");
 
-orderRouter.use(authenticate);
 orderRouter.get("/:tableNumberId", getOrderByTableNumber);
+orderRouter.get("/date/:dateStart/:dateFinish", getOrderByDate)
 
 module.exports = orderRouter;
