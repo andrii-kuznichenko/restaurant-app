@@ -102,11 +102,9 @@ const OrderSummary = () => {
                     onClick={() => openMealDetailsHandler(item._id)}
                   >
                     <td class="p-4">
-                      <img
-                        src={item.image}
-                        class="w-18 sm:w-19 md:w-20 max-w-full max-h-full rounded-full"
-                        alt={item.title}
-                      />
+                    <div className="xxs:w-12 xs:w-18 s:w-24  md:w-36  overflow-hidden rounded-full">
+                  <img src={item.image} className="w-full h-full object-cover" alt={item.title}/>
+              </div>
                     </td>
                     <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                       {item.title}
@@ -135,12 +133,9 @@ const OrderSummary = () => {
                     </td>
                     <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                       <div className="flex gap-0.5 items-end">
-                        {item.price}
+                      {item.price * item.quantity}
                         <div>EUR</div>
                       </div>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">
-                        Total: {item.price * item.quantity} EUR
-                      </p>
                     </td>
                   </tr>
                 ))
