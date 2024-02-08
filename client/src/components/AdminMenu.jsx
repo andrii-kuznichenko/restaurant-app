@@ -92,7 +92,7 @@ function AdminMenu() {
   const groupedItems = menuItems.menu ? groupByCategory(menuItems.menu) : {};
 
   return (
-    <div className="mx-auto m-3 mt-16 flex flex-col  ">
+    <div className="mx-auto flex flex-col  ">
       <div className="flex border-b justify-center">
         <button
           className={`text-black py-2 px-4 bg-grey-200 border-l border-t border-r rounded-t ${
@@ -161,22 +161,22 @@ function AdminMenu() {
                               </div>
                               <div className="md:flex-shrink-0 pb-2">
                                 <img
-                                  className="h-48 w-full object-cover rounded-lg"
+                                  className="h-48 w-full object-cover rounded-lg hover:cursor-pointer"
                                   src={item.image}
                                   alt={item.title}
+                                  onClick={() => openModal(item)}
                                 />
                               </div>
-                              <a
-                                href="#"
-                                className="block mt-1 text-lg leading-tight font-medium text-black hover:underline text-center"
+                              <h1
+                                className="block mt-1 text-lg leading-tight font-medium text-black text-center"
                               >
                                 {item.title}
-                              </a>
+                              </h1>
                               <p className="mt-2 text-gray-600">
                                 {item.description}
                               </p>
                             </div>
-                            <div className="mt-4 flex justify-between">
+                            <div className="mt-4 flex justify-center">
                               <button
                                 onClick={() => handleEdit(item, !item.hide)}
                                 className={`cursor-pointer px-3 py-2 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 ${
@@ -188,12 +188,6 @@ function AdminMenu() {
                                 {item.hide
                                   ? "Meal Hidden from Menu"
                                   : "Remove from menu"}
-                              </button>
-                              <button
-                                onClick={() => openModal(item)}
-                                className="bg-green-100 hover:bg-green-300 text-black font-bold py-2 px-4 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-                              >
-                                Meal Details
                               </button>
                             </div>
                           </div>
@@ -242,9 +236,10 @@ function AdminMenu() {
                             </div>
                             <div className="md:flex-shrink-0 pb-2">
                               <img
-                                className="h-48 w-full object-cover rounded-lg"
+                                className="h-48 w-full object-cover rounded-lg cursor-pointer"
                                 src={item.image}
                                 alt={item.title}
+                                onClick={() => openModal(item)}
                               />
                             </div>
                             <a
@@ -257,7 +252,7 @@ function AdminMenu() {
                               {item.description}
                             </p>
                           </div>
-                          <div className="mt-4 flex justify-between">
+                          <div className="mt-4 flex justify-center">
                             <button
                               onClick={() => handleEdit(item, !item.hide)}
                               className={`cursor-pointer px-3 py-2 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 ${
@@ -267,12 +262,6 @@ function AdminMenu() {
                               }`}
                             >
                               {item.hide ? "Put back on menu" : "Hide"}
-                            </button>
-                            <button
-                              onClick={() => openModal(item)}
-                              className="bg-green-100 hover:bg-green-300 text-black font-bold py-2 px-4 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-                            >
-                              Meal Details
                             </button>
                           </div>
                         </div>
