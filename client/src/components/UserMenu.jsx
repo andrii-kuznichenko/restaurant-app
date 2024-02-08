@@ -9,6 +9,7 @@ import io from "socket.io-client";
 import axios from "../axiosInstance";
 import { Accordion } from "flowbite-react";
 import UserMealDetails from "./UserMealDetails";
+import LoadingDots from "./LoadingDots";
 
 const UserMenu = () => {
   const context = useContext(AuthTableContext);
@@ -226,7 +227,7 @@ const UserMenu = () => {
           </Accordion>
         ))
       ) : (
-        <p></p>
+        <LoadingDots />
       )}
       <Link to="/user/order/summary">
         <div className="flex items-center justify-center">
