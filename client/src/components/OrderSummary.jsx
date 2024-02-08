@@ -104,7 +104,7 @@ const OrderSummary = () => {
                     <td class="p-4">
                       <img
                         src={item.image}
-                        class="w-17 md:w-20 max-w-full max-h-full rounded-full"
+                        class="w-18 sm:w-19 md:w-20 max-w-full max-h-full rounded-full"
                         alt={item.title}
                       />
                     </td>

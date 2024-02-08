@@ -140,10 +140,6 @@ function UserConfirmation() {
     <>
     {showMeal && (
       <>
-        <div
-          className="absolute h-screen w-screen z-20 opacity-55 bg-gray-400 "
-          onClick={openMealDetailsHandler}
-        />
         <div onClick={openMealDetailsHandler}>
           <UserMealDetails id={mealDetailsId} />
         </div>
@@ -342,7 +338,7 @@ function UserConfirmation() {
                       <td class="p-4">
                         <img
                           src={item.name.image}
-                          class="w-18 md:w-20 max-w-full max-h-full rounded-full"
+                          class="w-18 sm:w-19 md:w-20 max-w-full max-h-full rounded-full"
                           alt={item.name.title}
                         />
                       </td>
