@@ -35,6 +35,7 @@ function AdminMenu() {
   const [isAdminNewMealModalOpen, setIsAdminNewMealModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [mealAddedCount, setMealAddedCount] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState("starter");
 
   const openModal = (item) => {
     setSelectedItem(item);
@@ -96,8 +97,8 @@ function AdminMenu() {
         <button
           className={`text-black py-2 px-4 bg-grey-200 border-l border-t border-r rounded-t ${
             tab === "active"
-              ? "text-black border-green-500 bg-green-200"
-              : "text-gray-500"
+              ? "text-black border-footerBackground bg-footerBackground/[.25]"
+              : "text-gray-300"
           }`}
           onClick={() => setTab("active")}
         >
@@ -106,8 +107,8 @@ function AdminMenu() {
         <button
           className={`text-black py-3 px-4 bg-grey-200 border-l border-t border-r rounded-t ${
             tab === "hidden"
-              ? "text-black border-green-500 bg-green-200"
-              : "text-gray-500"
+              ? "text-black border-footerBackground bg-footerBackground/[.25]"
+              : "text-gray-300"
           }`}
           onClick={() => setTab("hidden")}
         >
@@ -133,7 +134,7 @@ function AdminMenu() {
                   .map((item, index) => (
                     <div
                       key={index}
-                      className="bg-off-white rounded-xl shadow-md overflow-hidden md:grid flex flex-col h-full w-full relative"
+                      className="bg-footerBackground/[.25] rounded-xl shadow-md overflow-hidden md:grid flex flex-col h-full w-full relative"
                     >
                       {animatingItems[item._id] && (
                         <div className="absolute inset-0 z-10 h-full w-full">
@@ -149,7 +150,7 @@ function AdminMenu() {
                       )}
                       <div className="p-2 flex flex-col justify-between">
                         <div>
-                          <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold text-center pb-2">
+                          <div className="uppercase tracking-wide text-sm text-footerBackground font-semibold text-center pb-2">
                             {item.category}
                           </div>
                           <div className="md:flex-shrink-0 pb-2">
@@ -216,7 +217,7 @@ function AdminMenu() {
           .map((item, index) => (
             <div
               key={index}
-              className="bg-off-white rounded-xl shadow-md overflow-hidden md:grid flex flex-col h-full w-full relative"
+              className="bg-footerBackground/[.25]  rounded-xl shadow-md overflow-hidden md:grid flex flex-col h-full w-full relative"
             >
               <div className="p-2 flex flex-col justify-between">
                 <div>
