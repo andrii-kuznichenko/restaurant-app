@@ -40,9 +40,10 @@ module.exports = {
       },
 
       fontSize: {
-        'xs': '0.8rem',   // Extra small
+        'xs': '0.85rem',   // Extra small
         'sm': '0.9rem',  // Small
-        'base': '1rem',   // Base (default)
+        'base': '1rem',
+        'l': '1.1rem',   // Base (default)
         'lg': '1.15rem', // Large
         'xl': '1.25rem',  // Extra large
       }
