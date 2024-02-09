@@ -115,7 +115,6 @@ function AdminMenu() {
         >
           Off the menu
         </button>
-        <DarkModeToggle />
       </div>
       <div className="flex justify-end mt-4">
         <button
@@ -257,7 +256,7 @@ function AdminMenu() {
                               className={`relative cursor-pointer px-4 py-2 rounded-md shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                                 item.hide
                                   ? "bg-green-500 hover:bg-green-600 text-white dark:bg-green-700 dark:hover:bg-green-800"
-                                  : "bg-red-500 hover:bg-red-600 text-white dark:bg-red-700 dark:hover:bg-red-800"
+                                  : "bg-red-500 hover:bg-red-600 text-white dark:bg-red-700 dark:hover:bg-red-800"  
                               } hover:rotate-3`}
                               style={{ perspective: "1000px" }}
                             >
