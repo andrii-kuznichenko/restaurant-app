@@ -6,11 +6,14 @@ import { Badge, Progress } from "flowbite-react";
 import { HiCheck, HiClock } from "react-icons/hi";
 import { Card } from "flowbite-react";
 import LoadingDots from "./LoadingDots";
+import { useNotification } from '../context/Notification';
 
 function AdminOrderDetails({ id, setShowOrder }) {
   const [order, setOrder] = useState({ loading: true });
   const [orderTime, setOrderTime] = useState("");
   const { admin, loading } = useContext(AuthContext);
+  const { notify } = useNotification();
+  
   const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
     transports: ["websocket"],
   });

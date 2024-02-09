@@ -5,6 +5,9 @@ import CreateQrCode from "./CreateQrCode";
 import QRCode from "react-qr-code";
 import * as htmlToImage from "html-to-image";
 import AdminAddTable from "./AdminAddTable";
+import { useNotification } from '../context/Notification';
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
 const AdminTables = () => {
   const { admin } = useContext(AuthContext);
@@ -15,6 +18,9 @@ const AdminTables = () => {
   const [tableAddedCount, setTableAddedCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const { notify } = useNotification();
+  // const { notify } = useNotification();
+  
 
   useEffect(() => {
     if (admin.restaurantId) {
@@ -85,6 +91,10 @@ const AdminTables = () => {
 
   console.log(tables);
 
+  const triggerNotification = () => {
+    notify()
+  }
+
 
   return (
     <div className="my-4">
@@ -151,6 +161,7 @@ const AdminTables = () => {
         onTableAdded={onTableAdded}
       /> */}
       <AdminAddTable onTableAdded={onTableAdded} isModalOpen={isModalOpen} closeModal={closeModal} className="mt-20 z-50"/>
+      {/* <ToastContainer />  */}
     </div>
   );
 };
