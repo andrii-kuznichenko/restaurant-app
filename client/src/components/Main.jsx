@@ -21,6 +21,7 @@ import AdminOrderDetails from './AdminOrderDetails';
 import AdminMealDetails from './AdminMealDetails';
 import AdminSideBar from './AdminSideBar'
 import AdminAddTable2 from "./AdminAddTable2"
+import AdminOrdersArchive from './AminOrdersArchive';
 
 function Main() {
   return (
@@ -46,7 +47,7 @@ function Main() {
       <Route path="admin/addtable" element={<AdminAddTable2 />} />
       <Route path="admin/order/:id" element ={<AdminOrderDetails />} />
       <Route path="admin/sidebar" element ={<AdminSideBar />} />
-      
+      <Route path="admin/orders/archive" element ={<AdminOrdersArchive />} />
       </Route>
       <Route path="/login" element ={<Login />} />
       <Route path="/register" element ={<Register />} />

@@ -4,11 +4,11 @@ import io from "socket.io-client";
 import { AuthTableContext } from "../context/AuthTable";
 import LoadingDots from "./LoadingDots";
 import { Card } from "flowbite-react";
-const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
-  transports: ["websocket"],
-});
 
 function UserMealDetails({ id, isMenu, setShowMeal }) {
+  const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
+    transports: ["websocket"],
+  });
   const context = useContext(AuthTableContext);
   const [meal, setMeal] = useState({});
   const {
@@ -70,7 +70,7 @@ function UserMealDetails({ id, isMenu, setShowMeal }) {
           >
             &#8203;
           </span>
-          <div className="z-20 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-bottom sm:max-w-sm sm:w-full">
+          <div className="z-20 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-20 sm:align-bottom sm:max-w-sm">
             <Card
               className=" z-20 w-md:max-w-sm"
               imgAlt={meal.title}

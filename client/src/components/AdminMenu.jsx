@@ -16,10 +16,6 @@ import { useNotification } from '../context/Notification';
 // import "react-toastify/dist/ReactToastify.css";
 import DarkModeToggle from "./darkModeToggle";
 
-const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
-  transports: ["websocket"],
-});
-
 const groupByCategory = (items) => {
   return items.reduce((groupedItems, item) => {
     (groupedItems[item.category] = groupedItems[item.category] || []).push(
@@ -30,6 +26,10 @@ const groupByCategory = (items) => {
 };
 
 function AdminMenu() {
+  const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
+    transports: ["websocket"],
+  });
+  
   const [isAnimating, setIsAnimating] = useState(false);
   const { admin, loading } = useContext(AuthContext);
   const [menuItems, setMenuItems] = useState([]);
