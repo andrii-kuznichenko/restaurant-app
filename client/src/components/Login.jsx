@@ -28,10 +28,8 @@ const Login = () => {
   if (!context.loading && !context.admin) {
     return (
       <>
-        <div className="flex justify-end pr-20 dark:bg-gray-900">
-          <DarkModeToggle />
-        </div>
         <div className="flex flex-col items-center justify-center px-6 pt-8 mx-auto md:h-screen pt:mt-0 dark:bg-gray-900 my-5">
+        <DarkModeToggle />
           <div className="flex justify-center items-center">
             <img
               src={ScanServeLogo}
