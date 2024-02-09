@@ -3,6 +3,7 @@ import axios from "../axiosInstance";
 import { AuthContext } from "../context/Auth";
 import { useNavigate } from "react-router-dom";
 import io from "socket.io-client";
+import DarkModeToggle from "./darkModeToggle";
 
 const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
   transports: ["websocket"],
@@ -79,7 +80,7 @@ function AdminEditDeleteMeal({ meal }) {
         {!isEditing && (
           <button
             onClick={handleEditClick}
-            className="bg-green-200 text-black font-semibold rounded-full py-1 px-2 shadow-md transition duration-500 ease-in-out transform hover:bg-green-300 hover:-translate-y-1 hover:scale-110"
+            className="bg-green-200 text-black font-semibold rounded-full py-1 px-2 shadow-md transition duration-500 ease-in-out transform hover:bg-green-300 hover:-translate-y-1 hover:scale-110 dark:bg-green-700 dark:text-white"
           >
             Edit Meal
           </button>
@@ -140,7 +141,7 @@ function AdminEditDeleteMeal({ meal }) {
       {!isEditing && (
         <button
           onClick={handleDelete}
-          className="bg-red-600 text-white font-semibold rounded-full py-1 px-2 shadow-md transition duration-500 ease-in-out transform hover:bg-red-700 hover:-translate-y-1 hover:scale-110"
+          className="bg-red-600 text-white font-semibold rounded-full py-1 px-2 shadow-md transition duration-500 ease-in-out transform hover:bg-red-700 hover:-translate-y-1 hover:scale-110 dark:bg-red-700 dark:text-white"
         >
           Delete Meal
         </button>

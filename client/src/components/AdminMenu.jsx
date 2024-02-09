@@ -11,6 +11,7 @@ import Lottie from "react-lottie";
 import animationData from "../animations/hideAnimation.json";
 import AdminNewMeal from "./AdminNewMeal";
 import { Accordion, AccordionPanel } from "flowbite-react";
+import DarkModeToggle from "./darkModeToggle";
 
 const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
   transports: ["websocket"],
@@ -114,6 +115,7 @@ function AdminMenu() {
         >
           Off the menu
         </button>
+        <DarkModeToggle />
       </div>
       <div className="flex justify-end mt-4">
         <button
@@ -156,7 +158,7 @@ function AdminMenu() {
                           )}
                           <div className="p-2 flex flex-col justify-between">
                             <div>
-                              <div className="uppercase tracking-wide text-sm text-footerBackground font-semibold text-center pb-2">
+                              <div className="uppercase tracking-wide text-sm text-footerBackground dark:text-gray-200 font-semibold text-center pb-2">
                                 {item.category}
                               </div>
                               <div className="md:flex-shrink-0 pb-2">
@@ -168,11 +170,11 @@ function AdminMenu() {
                                 />
                               </div>
                               <h1
-                                className="block mt-1 text-lg leading-tight font-medium text-black text-center"
+                                className="block mt-1 text-lg leading-tight font-medium text-black text-center dark:text-gray-300"
                               >
                                 {item.title}
                               </h1>
-                              <p className="mt-2 text-gray-600">
+                              <p className="mt-2 text-gray-600 dark:text-gray-400">
                                 {item.description}
                               </p>
                             </div>
@@ -182,7 +184,7 @@ function AdminMenu() {
                                 className={`cursor-pointer px-3 py-2 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 ${
                                   item.hide
                                     ? "bg-green-200 hover:bg-green-300 text-black"
-                                    : "bg-red-100 hover:bg-red-300 text-black"
+                                    : "bg-red-100 hover:bg-red-300 text-black dark:bg-red-500 dark:hover:bg-red-800 dark:text-black dark:hover:text-gray-100"
                                 }`}
                               >
                                 {item.hide
