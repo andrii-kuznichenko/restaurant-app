@@ -80,7 +80,7 @@ function AdminEditDeleteMeal({ meal }) {
         {!isEditing && (
           <button
             onClick={handleEditClick}
-            className="bg-green-200 text-black font-semibold rounded-full py-1 px-2 shadow-md transition duration-500 ease-in-out transform hover:bg-green-300 hover:-translate-y-1 hover:scale-110 dark:bg-green-700 dark:text-white"
+            className="bg-green-200 text-black font-semibold py-1 px-2 shadow-md transition duration-500 ease-in-out transform hover:bg-green-300 hover:-translate-y-1 hover:scale-110 dark:bg-green-700 dark:text-white"
           >
             Edit Meal
           </button>
@@ -88,7 +88,7 @@ function AdminEditDeleteMeal({ meal }) {
         {isEditing && (
           <form onSubmit={handleEdit} className="mt-4 w-full">
             <label className="block">
-              <span className="text-gray-700 flex justify-center">Name:</span>
+              <span className="text-gray-700 dark:text-gray-300 flex justify-center">Name:</span>
               <input
                 type="text"
                 name="title"
@@ -98,7 +98,7 @@ function AdminEditDeleteMeal({ meal }) {
               />
             </label>
             <label className="block">
-              <span className="text-gray-700 flex justify-center">Description:</span>
+              <span className="text-gray-700 dark:text-gray-300 flex justify-center">Description:</span>
               <input
                 type="text"
                 name="description"
@@ -108,7 +108,7 @@ function AdminEditDeleteMeal({ meal }) {
               />
             </label>
             <label className="block">
-              <span className="text-gray-700 flex justify-center">Price:</span>
+              <span className="text-gray-700 dark:text-gray-300 flex justify-center">Price:</span>
               <input
                 type="number"
                 name="price"
@@ -118,7 +118,7 @@ function AdminEditDeleteMeal({ meal }) {
               />
             </label>
             <label className="block">
-              <span className="text-gray-700 flex justify-center">Allergens:</span>
+              <span className="text-gray-700  dark:text-gray-300 flex justify-center">Allergens:</span>
               <input
                 type="text"
                 name="allergens"
@@ -141,7 +141,7 @@ function AdminEditDeleteMeal({ meal }) {
       {!isEditing && (
         <button
           onClick={handleDelete}
-          className="bg-red-600 text-white font-semibold rounded-full py-1 px-2 shadow-md transition duration-500 ease-in-out transform hover:bg-red-700 hover:-translate-y-1 hover:scale-110 dark:bg-red-700 dark:text-white"
+          className="bg-red-600 text-white font-semibold py-1 px-2 shadow-md transition duration-500 ease-in-out transform hover:bg-red-700 hover:-translate-y-1 hover:scale-110 dark:bg-red-700 dark:text-white"
         >
           Delete Meal
         </button>

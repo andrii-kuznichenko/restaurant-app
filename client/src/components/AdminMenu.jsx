@@ -154,14 +154,11 @@ function AdminMenu() {
                             />
                           </div>
                         )}
-                        <div className="p-2 flex flex-col justify-between">
+                        <div className=" flex flex-col justify-between">
                           <div>
-                            <div className="uppercase tracking-wide text-sm text-footerBackground dark:text-gray-200 font-semibold text-center pb-2">
-                              {item.category}
-                            </div>
                             <div className="md:flex-shrink-0 pb-2">
                               <img
-                                className="h-48 w-full object-cover rounded-lg hover:cursor-pointer"
+                                className="h-48 w-full object-cover  hover:cursor-pointer"
                                 src={item.image}
                                 alt={item.title}
                                 onClick={() => openModal(item)}
@@ -170,7 +167,7 @@ function AdminMenu() {
                             <h1 className="block mt-1 text-lg leading-tight font-medium text-black text-center dark:text-gray-300">
                               {item.title}
                             </h1>
-                            <p className="mt-2 text-gray-600 dark:text-gray-400">
+                            <p className=" p-2 mt-2 text-gray-600 dark:text-gray-400">
                               {item.description}
                             </p>
                           </div>
@@ -227,14 +224,11 @@ function AdminMenu() {
                         key={index}
                         className="bg-footerBackground/[.25] rounded-xl shadow-md overflow-hidden md:grid flex flex-col h-full w-full relative"
                       >
-                        <div className="p-2 flex flex-col justify-between">
+                        <div className=" flex flex-col justify-between">
                           <div>
-                            <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold text-center pb-2">
-                              {item.category}
-                            </div>
                             <div className="md:flex-shrink-0 pb-2">
                               <img
-                                className="h-48 w-full object-cover rounded-lg cursor-pointer"
+                                className="h-48 w-full object-cover cursor-pointer"
                                 src={item.image}
                                 alt={item.title}
                                 onClick={() => openModal(item)}
@@ -246,7 +240,7 @@ function AdminMenu() {
                             >
                               {item.title}
                             </a>
-                            <p className="mt-2 text-gray-600 dark:text-gray-300">
+                            <p className="p-2 mt-2 text-gray-600 dark:text-gray-300">
                               {item.description}
                             </p>
                           </div>
