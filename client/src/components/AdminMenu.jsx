@@ -11,6 +11,9 @@ import Lottie from "react-lottie";
 import animationData from "../animations/hideAnimation.json";
 import AdminNewMeal from "./AdminNewMeal";
 import { Accordion, AccordionPanel } from "flowbite-react";
+import { useNotification } from '../context/Notification';
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 import DarkModeToggle from "./darkModeToggle";
 
 const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
@@ -37,6 +40,7 @@ function AdminMenu() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [mealAddedCount, setMealAddedCount] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState("starter");
+  const { notify } = useNotification();
 
   const openModal = (item) => {
     setSelectedItem(item);
@@ -268,6 +272,7 @@ function AdminMenu() {
           ))}
         </Accordion>
       )}
+      {/* <ToastContainer /> */}
     </div>
   );
 }
