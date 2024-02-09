@@ -230,7 +230,7 @@ const AdminOrders = () => {
                                 <div>
                                   <div key={index}>
                                     {condole.log(meal)}
-                                    {meal.quantity} x {meal.name.title}
+                                    {meal.quantity} x {meal.name?.title}
                                   </div>
                                 </div>
                               ))}
