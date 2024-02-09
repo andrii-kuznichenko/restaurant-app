@@ -6,12 +6,14 @@ import { DefaultSidebar } from "./DefaultSidebar";
 import ScanServeLogo from "../assets/ScanServeLogo.png";
 import { Dropdown, Avatar } from "flowbite-react";
 import {Sidebar} from 'flowbite-react'
+import DarkModeToggle from "./darkModeToggle";
 
 function Protected() {
   const { admin, loading, logout } = useContext(AuthContext);
   const { table, loadingTable } = useContext(AuthTableContext);
   const [isSubMenuVisible, setIsSubMenuVisible] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
 
   const toggleSubMenu = () => {
     setIsSubMenuVisible(!isSubMenuVisible);
@@ -162,6 +164,7 @@ function Protected() {
                           <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
                         </svg>
                       </button>
+                      <DarkModeToggle />
                       {/* <!-- Dropdown menu --> */}
                       <div
                         className="z-10 z-40 hidden max-w-sm my-4 overflow-hidden text-base list-none bg-white divide-y divide-gray-100 rounded shadow-lg dark:divide-gray-600 dark:bg-gray-700"
