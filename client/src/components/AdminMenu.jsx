@@ -11,7 +11,7 @@ import Lottie from "react-lottie";
 import animationData from "../animations/hideAnimation.json";
 import AdminNewMeal from "./AdminNewMeal";
 import { Accordion, AccordionPanel } from "flowbite-react";
-import { useNotification } from '../context/Notification';
+import { useNotification } from "../context/Notification";
 // import { ToastContainer, toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 import DarkModeToggle from "./darkModeToggle";
@@ -29,7 +29,7 @@ function AdminMenu() {
   const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
     transports: ["websocket"],
   });
-  
+
   const [isAnimating, setIsAnimating] = useState(false);
   const { admin, loading } = useContext(AuthContext);
   const [menuItems, setMenuItems] = useState([]);
@@ -102,8 +102,8 @@ function AdminMenu() {
         <button
           className={`text-black py-2 px-4 bg-grey-200 border-l border-t border-r rounded-t ${
             tab === "active"
-              ? "text-black border-footerBackground bg-footerBackground/[.25]"
-              : "text-gray-300"
+              ? "text-black dark:text-gray-300  border-footerBackground bg-footerBackground/[.25]"
+              : "text-gray-300 dark:text-gray-600"
           }`}
           onClick={() => setTab("active")}
         >
@@ -112,8 +112,8 @@ function AdminMenu() {
         <button
           className={`text-black py-3 px-4 bg-grey-200 border-l border-t border-r rounded-t ${
             tab === "hidden"
-              ? "text-black border-footerBackground bg-footerBackground/[.25]"
-              : "text-gray-300"
+              ? "text-black dark:text-gray-300  border-footerBackground bg-footerBackground/[.25]"
+              : "text-gray-300 dark:text-gray-600"
           }`}
           onClick={() => setTab("hidden")}
         >
@@ -214,62 +214,67 @@ function AdminMenu() {
 
       {tab === "hidden" && (
         <Accordion>
-          {Object.keys(groupedItems).map((category) => (
-            <AccordionPanel title={category} key={category}>
-              <Accordion.Title className="font-Poppins font-bold text-xl relative flex items-center justify-center">
-                {category}
-              </Accordion.Title>
-              <Accordion.Content className="xxs:p-1 md:p-6 xl:p-12">
-                <div className="md:grid md:grid-cols-1 lg:grid-cols-2 gap-2 xl:grid-cols-3 p-3">
-                  {groupedItems[category]
-                    .filter((item) => item.hide)
-                    .map((item, index) => (
-                      <div
-                        key={index}
-                        className="bg-footerBackground/[.25] rounded-xl shadow-md overflow-hidden md:grid flex flex-col h-full w-full relative"
-                      >
-                        <div className=" flex flex-col justify-between">
-                          <div>
-                            <div className="md:flex-shrink-0 pb-2">
-                              <img
-                                className="h-48 w-full object-cover cursor-pointer"
-                                src={item.image}
-                                alt={item.title}
-                                onClick={() => openModal(item)}
-                              />
+          {Object.keys(groupedItems)
+            .map((category) => {
+              const hiddenItems = groupedItems[category].filter(
+                (item) => item.hide
+              );
+              return hiddenItems.length > 0 ? (
+                <AccordionPanel title={category} key={category}>
+                  <Accordion.Title className="font-Poppins font-bold text-xl relative flex items-center justify-center">
+                    {category}
+                  </Accordion.Title>
+                  <Accordion.Content className="xxs:p-1 md:p-6 xl:p-12">
+                    <div className="md:grid md:grid-cols-1 lg:grid-cols-2 gap-2 xl:grid-cols-3 p-3">
+                      {hiddenItems.map((item, index) => (
+                        <div
+                          key={index}
+                          className="bg-footerBackground/[.25] rounded-xl shadow-md overflow-hidden md:grid flex flex-col h-full w-full relative"
+                        >
+                          <div className=" flex flex-col justify-between">
+                            <div>
+                              <div className="md:flex-shrink-0 pb-2">
+                                <img
+                                  className="h-48 w-full object-cover cursor-pointer"
+                                  src={item.image}
+                                  alt={item.title}
+                                  onClick={() => openModal(item)}
+                                />
+                              </div>
+                              <a
+                                href="#"
+                                className="block mt-1 text-lg leading-tight font-medium text-black dark:text-gray-200 hover:underline text-center"
+                              >
+                                {item.title}
+                              </a>
+                              <p className="p-2 mt-2 text-gray-600 dark:text-gray-300">
+                                {item.description}
+                              </p>
                             </div>
-                            <a
-                              href="#"
-                              className="block mt-1 text-lg leading-tight font-medium text-black dark:text-gray-200 hover:underline text-center"
-                            >
-                              {item.title}
-                            </a>
-                            <p className="p-2 mt-2 text-gray-600 dark:text-gray-300">
-                              {item.description}
-                            </p>
-                          </div>
-                          <div className="mt-4 flex justify-center">
-                            <button
-                              onClick={() => handleEdit(item, !item.hide)}
-                              className={`relative cursor-pointer px-4 py-2 rounded-md shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-                                item.hide
-                                  ? "bg-green-500 hover:bg-green-600 text-white dark:bg-green-700 dark:hover:bg-green-800"
-                                  : "bg-red-500 hover:bg-red-600 text-white dark:bg-red-700 dark:hover:bg-red-800"  
-                              } hover:rotate-3`}
-                              style={{ perspective: "1000px" }}
-                            >
-                              {item.hide
-                                ? "Put back on menu"
-                                : "Remove from menu"}
-                            </button>
+                            <div className="mt-4 flex justify-center">
+                              <button
+                                onClick={() => handleEdit(item, !item.hide)}
+                                className={`relative cursor-pointer px-4 py-2 rounded-md shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+                                  item.hide
+                                    ? "bg-green-500 hover:bg-green-600 text-white dark:bg-green-700 dark:hover:bg-green-800"
+                                    : "bg-red-500 hover:bg-red-600 text-white dark:bg-red-700 dark:hover:bg-red-800"
+                                } hover:rotate-3`}
+                                style={{ perspective: "1000px" }}
+                              >
+                                {item.hide
+                                  ? "Put back on menu"
+                                  : "Remove from menu"}
+                              </button>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
-                </div>
-              </Accordion.Content>
-            </AccordionPanel>
-          ))}
+                      ))}
+                    </div>
+                  </Accordion.Content>
+                </AccordionPanel>
+              ) : null;
+            })
+            .filter(Boolean)}
         </Accordion>
       )}
       {/* <ToastContainer /> */}
