@@ -1,6 +1,5 @@
 import axios from "../axiosInstance";
 import React, { useState, useEffect, useContext } from "react";
-import io from "socket.io-client";
 import { AuthContext } from "../context/Auth";
 
 const MyRestaurant = () => {

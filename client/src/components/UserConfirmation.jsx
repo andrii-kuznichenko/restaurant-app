@@ -11,9 +11,6 @@ import cookingAnimation from "../animations/cookingAnimation.json";
 import paymentAnimation from "../animations/waitingForPayment.json";
 import LoadingDots from "./LoadingDots";
 import UserMealDetails from "./UserMealDetails";
-const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
-  transports: ["websocket"],
-});
 
 function UserConfirmation() {
   const context = useContext(AuthTableContext);
@@ -25,6 +22,9 @@ function UserConfirmation() {
   const navigate = useNavigate();
   const [showMeal, setShowMeal] = useState(false);
   const [mealDetailsId, setMealDetailsId] = useState("");
+  const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
+    transports: ["websocket"],
+  });
 
   const defaultOptions = {
     loop: true,

@@ -12,10 +12,6 @@ import animationData from "../animations/hideAnimation.json";
 import AdminNewMeal from "./AdminNewMeal";
 import { Accordion, AccordionPanel } from "flowbite-react";
 
-const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
-  transports: ["websocket"],
-});
-
 const groupByCategory = (items) => {
   return items.reduce((groupedItems, item) => {
     (groupedItems[item.category] = groupedItems[item.category] || []).push(
@@ -26,6 +22,10 @@ const groupByCategory = (items) => {
 };
 
 function AdminMenu() {
+  const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
+    transports: ["websocket"],
+  });
+  
   const [isAnimating, setIsAnimating] = useState(false);
   const { admin, loading } = useContext(AuthContext);
   const [menuItems, setMenuItems] = useState([]);
