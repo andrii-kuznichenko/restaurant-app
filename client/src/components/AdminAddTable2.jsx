@@ -8,6 +8,7 @@ import QRCode from "react-qr-code";
 import * as htmlToImage from "html-to-image";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useNotification } from '../context/Notification';
 
 
 
@@ -22,6 +23,7 @@ const AdminAddTable2 = (  ) => {
   const [captureQRCode, setCaptureQRCode] = useState(false);
   const [tableId, setTableId] = useState(null);
   const navigate = useNavigate();
+  const { notify } = useNotification();
   //   const [qrCodeVisible, setQrCodeVisible] = useState(false);
 
   useEffect(() => {

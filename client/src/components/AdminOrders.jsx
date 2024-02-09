@@ -2,15 +2,14 @@ import axios from "../axiosInstance";
 import React, { useState, useEffect, useContext, useRef } from "react";
 import io from "socket.io-client";
 import { AuthContext } from "../context/Auth";
-
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Tabs } from "flowbite-react";
 import { HiLockClosed } from "react-icons/hi";
 import { FaLockOpen } from "react-icons/fa";
 import LoadingDots from "./LoadingDots";
 import { Table } from "flowbite-react";
+import { useNotification } from '../context/Notification';
+
 import AdminOrderDetails from "./AdminOrderDetails";
 import { Button } from "flowbite-react";
 import { HiOutlineArrowRight } from "react-icons/hi";
@@ -21,10 +20,10 @@ const AdminOrders = () => {
   const { admin, loading } = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
   const [ordersLoadind, SetOrdersLoading] = useState(true);
-  const notify = () => toast("New order!💰");
   const prevOrdersRef = useRef();
   const navigate = useNavigate();
   const [timeElapsed, setTimeElapsed] = useState("");
+  const { notify } = useNotification();
   const [showOrder, setShowOrder] = useState(false);
   const [orderDetailsId, setOrderDetailsId] = useState("");
   const [flag, setFlag] = useState(0);
@@ -41,42 +40,11 @@ const AdminOrders = () => {
   };
 
   useEffect(() => {
-    // axios
-    // axios.get(`/dashboard/orders/${restaurantId}`)
-    // .then((res) => {
-    //   console.log("Received data:", res.data);
-    //   if (Array.isArray(res.data)) {
-    //     setNewOrders(res.data);
-    //   }
-    // })
-    // .catch((e) => console.error(e));
-
-    //   // setNewOrders(res.data))
-
-    // adminSocket.emit("join room", "admin");
-    // adminSocket.on("new order", (order) => {
-    //   console.log("New order received:", order);
-    //   setNewOrders((prevOrders) => [order, ...prevOrders]);
-    // });
-
-    // return () => {
-    //   adminSocket.off("new order");
-    //   socket.disconnect();
-    // };
+    
     console.log(admin);
     if (admin) {
       socket.emit("connectToOrder", { restaurantId: admin.restaurantId });
       socket.on(`getOrders-${admin.restaurantId}`, (receivedOrders) => {
-        // Check if there is a previous state and if the new orders array is longer
-        // if (
-        //   prevOrdersRef.current &&
-        //   receivedOrders.length > prevOrdersRef.current.length
-        // ) {
-        //   notify(); // Trigger the notification for a new order
-        // }
-
-        // // Update the previous orders ref with the current orders
-        // prevOrdersRef.current = receivedOrders;
         setOrders(receivedOrders);
         let orderIsClosed = false;
         receivedOrders.forEach((order) => {
@@ -96,18 +64,7 @@ const AdminOrders = () => {
     }
   }, [admin]);
 
-  useEffect(() => {
-    if (orders && orders.length > 0) {
-      if (
-        prevOrdersRef.current &&
-        orders.length > prevOrdersRef.current.length
-      ) {
-        notify(); // Trigger the notification for a new order
-      }
-      prevOrdersRef.current = orders;
-    }
-  }, [orders]);
-
+ 
   const closeOrderHandler = (e) => {
     socket.emit("connectToOrder", {
       restaurantId: admin.restaurantId,
