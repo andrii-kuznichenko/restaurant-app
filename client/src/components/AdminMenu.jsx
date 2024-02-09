@@ -144,7 +144,7 @@ function AdminMenu() {
                     .map((item, index) => (
                       <div
                         key={index}
-                        className="bg-footerBackground/[.25] rounded-xl shadow-md overflow-hidden md:grid flex flex-col h-full w-full relative"
+                        className="bg-footerBackground/[.25] rounded-md shadow-md overflow-hidden md:grid flex flex-col h-full w-full relative"
                       >
                         {animatingItems[item._id] && (
                           <div className="absolute inset-0 z-10 h-full w-full">
@@ -178,7 +178,7 @@ function AdminMenu() {
                           <div className="mt-4 flex justify-center">
                             <button
                               onClick={() => handleEdit(item, !item.hide)}
-                              className={`relative cursor-pointer px-4 py-2 rounded-md shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+                              className={`relative cursor-pointer px-4 py-2 rounded-sm shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-1 ${
                                 item.hide
                                   ? "bg-green-500 hover:bg-green-600 text-white dark:bg-green-700 dark:hover:bg-green-800"
                                   : "bg-red-500 hover:bg-red-600 text-white dark:bg-red-700 dark:hover:bg-red-800"
@@ -187,7 +187,7 @@ function AdminMenu() {
                             >
                               {item.hide
                                 ? "Meal Hidden from Menu"
-                                : "Remove from menu"}
+                                : "Remove"}
                             </button>
                           </div>
                         </div>
@@ -229,7 +229,7 @@ function AdminMenu() {
                       {hiddenItems.map((item, index) => (
                         <div
                           key={index}
-                          className="bg-footerBackground/[.25] rounded-xl shadow-md overflow-hidden md:grid flex flex-col h-full w-full relative"
+                          className="bg-footerBackground/[.25] rounded-md shadow-md overflow-hidden md:grid flex flex-col h-full w-full relative"
                         >
                           <div className=" flex flex-col justify-between">
                             <div>
@@ -254,7 +254,7 @@ function AdminMenu() {
                             <div className="mt-4 flex justify-center">
                               <button
                                 onClick={() => handleEdit(item, !item.hide)}
-                                className={`relative cursor-pointer px-4 py-2 rounded-md shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+                                className={`relative cursor-pointer px-4 py-2 rounded-sm shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-1 ${
                                   item.hide
                                     ? "bg-green-500 hover:bg-green-600 text-white dark:bg-green-700 dark:hover:bg-green-800"
                                     : "bg-red-500 hover:bg-red-600 text-white dark:bg-red-700 dark:hover:bg-red-800"
@@ -262,7 +262,7 @@ function AdminMenu() {
                                 style={{ perspective: "1000px" }}
                               >
                                 {item.hide
-                                  ? "Put back on menu"
+                                  ? "Return"
                                   : "Remove from menu"}
                               </button>
                             </div>
