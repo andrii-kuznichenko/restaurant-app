@@ -67,7 +67,7 @@ const AdminAddTable = ({ onTableAdded, isModalOpen, closeModal }) => {
     try {
       const newTableId = await createTableAndGetId();
       setTableId(newTableId);
-      const qrCodeValueURL = `http://localhost:5173/loginTable/${newTableId}/${tableNumber}/${admin.restaurantId}`;
+      const qrCodeValueURL = `https://scan-service.onrender.com/loginTable/${newTableId}/${tableNumber}/${admin.restaurantId}`;
       console.log(qrCodeValueURL);
 
       setQrCodeValue(qrCodeValueURL); // sets the qrCodeValue to http://localhost etc...

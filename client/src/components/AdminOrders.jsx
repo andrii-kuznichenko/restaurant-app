@@ -199,7 +199,7 @@ const AdminOrders = () => {
                             className="bg-white dark:border-gray-700 dark:bg-gray-800"
                             key={index}
                           >
-                            <Table.Cell>#{index + 1}</Table.Cell>
+                            <Table.Cell>#{orders.length - index}</Table.Cell>
                             <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                               #{order.tableNumberId.tableNumber}
                             </Table.Cell>
@@ -317,7 +317,7 @@ const AdminOrders = () => {
                             className="bg-white dark:border-gray-700 dark:bg-gray-800"
                             key={index}
                           >
-                            <Table.Cell>#{index + 1}</Table.Cell>
+                            <Table.Cell>#{orders.length - index}</Table.Cell>
                             <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                               #{order.tableNumberId.tableNumber}
                             </Table.Cell>
