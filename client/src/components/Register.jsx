@@ -3,6 +3,7 @@ import { AuthContext } from "../context/Auth";
 import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import ScanServeLogo from "../assets/ScanServeLogo.png"
+import DarkModeToggle from "./darkModeToggle";
 
 function Register() {
   const context = useContext(AuthContext);
@@ -32,6 +33,7 @@ function Register() {
     return (
       
         <div className="flex flex-col items-center justify-center px-6 pt-8 mx-auto md:h-screen pt:mt-0 dark:bg-gray-900 my-20">
+          <DarkModeToggle />
           <div className="flex justify-center items-center">
             <img
               src={ScanServeLogo}
