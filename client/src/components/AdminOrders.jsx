@@ -151,7 +151,7 @@ const AdminOrders = () => {
   };
 
   const OpenArchiveHadler = () => {
-    navigate("archive");
+    navigate("/admin/orders/archive");
   };
 
   const selectClass =
