@@ -212,7 +212,7 @@ const AdminOrdersArchive = () => {
                         {order.meals.map((meal, index) => (
                           <div>
                             <div key={index}>
-                              {meal.quantity} x {meal.name.title}
+                              {meal.quantity} x {meal.name?.title}
                             </div>
                           </div>
                         ))}

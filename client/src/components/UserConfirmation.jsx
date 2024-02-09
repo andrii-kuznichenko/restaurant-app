@@ -335,7 +335,7 @@ function UserConfirmation() {
                         onClick={() => openMealDetailsHandler(item.name._id)}
                       >
                         <td class="p-4">
-                          <div className="xxs:w-12 xs:w-18 s:w-24  md:w-36  overflow-hidden rounded-full">
+                          <div className="xxs:w-11 xs:w-18 s:w-24  md:w-36  overflow-hidden rounded-full">
                             <img
                               src={item.name.image}
                               className="w-full h-full object-cover"

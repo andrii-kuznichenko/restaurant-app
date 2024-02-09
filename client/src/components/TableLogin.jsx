@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useContext, useEffect } from 'react';
 import { AuthTableContext } from '../context/AuthTable';
 import { Navigate, useParams } from 'react-router-dom';
+import LoadingDots from './LoadingDots';
 
 function TableLogin() {
   const context = useContext(AuthTableContext);
@@ -27,9 +28,7 @@ function TableLogin() {
 if (!context.loading && !context.table) {
   return (
     <>
-    <div>Need to scan QR Code</div>
-    <div>To Do: create QR code</div>
-    <div>if you wanna login as a user set data into TableLogin component</div>
+    <LoadingDots />
     </>
   )
 }
