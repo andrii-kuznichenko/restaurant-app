@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useState, useContext } from "react";
+import ScanServeLogo from '../assets/ScanServeLogo.png';
 import { Link, useNavigate } from "react-router-dom";
 import UserOrderMeal from "./UserOrderMeal";
 import { FaChevronDown } from "react-icons/fa";
@@ -110,7 +111,12 @@ const getTotalPrice = (id)=>{
     )}
     
     <div className="mx-auto max-w-screen-md font-Poppins">
-   
+
+    <div className="flex items-center justify-center relative overflow-x-auto p-2 first:rounded-t-lg last:rounded-b-lg py-5 px-5 text-gray-500 dark:text-gray-400 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:hover:bg-gray-800 dark:focus:ring-gray-800 font-bold text-xl">
+      <img src={ScanServeLogo} alt="Scan & Serve" className="h-10 w-auto mr-2" />
+      <h1 className="text-2xl font-bold">Scan & Serve</h1>
+    </div>
+
       {categories && categories.length > 0?
       categories.map(category => (
         
@@ -124,6 +130,7 @@ const getTotalPrice = (id)=>{
         <table className="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
         {userMenu.menu.map(item => {
           if(item.category === category){
+            
             return(
               <tr key={item._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
              
@@ -202,3 +209,4 @@ const getTotalPrice = (id)=>{
   }
 
 export default UserMenu;
+
