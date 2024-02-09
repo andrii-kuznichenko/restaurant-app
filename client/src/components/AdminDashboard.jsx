@@ -3,6 +3,7 @@ import ScanServeLogo from "../assets/ScanServeLogo.png";
 import { Link } from "react-router-dom";
 import "flowbite/dist/flowbite.js";
 import AdminOrders from "./AdminOrders"
+import DarkModeToggle from "./darkModeToggle";
 
 const AdminDashboard = () => {
   return (

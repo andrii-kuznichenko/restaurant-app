@@ -14,6 +14,7 @@ import { Accordion, AccordionPanel } from "flowbite-react";
 import { useNotification } from '../context/Notification';
 // import { ToastContainer, toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
+import DarkModeToggle from "./darkModeToggle";
 
 const groupByCategory = (items) => {
   return items.reduce((groupedItems, item) => {
@@ -129,81 +130,75 @@ function AdminMenu() {
         </button>
       </div>
 
-
-        {tab === "active" && (
-          <Accordion>
-            {Object.keys(groupedItems).map((category) => (
-              <AccordionPanel title={category} key={category}>
-                <Accordion.Title className="font-Poppins font-bold text-xl relative flex items-center justify-center">
-                  {category}
-                </Accordion.Title>
-                <Accordion.Content className="xxs:p-1 md:p-6 xl:p-12">
-                  <div className="md:grid md:grid-cols-1 lg:grid-cols-2 gap-2 xl:grid-cols-3 p-3">
-                    {groupedItems[category]
-                      .filter((item) => !item.hide)
-                      .map((item, index) => (
-                        <div
-                          key={index}
-                          className="bg-footerBackground/[.25] rounded-xl shadow-md overflow-hidden md:grid flex flex-col h-full w-full relative"
-                        >
-                          {animatingItems[item._id] && (
-                            <div className="absolute inset-0 z-10 h-full w-full">
-                              <Lottie
-                                options={{
-                                  animationData,
-                                  loop: false,
-                                  autoplay: true,
-                                }}
-                                className="h-full w-full"
+      {tab === "active" && (
+        <Accordion>
+          {Object.keys(groupedItems).map((category) => (
+            <AccordionPanel title={category} key={category}>
+              <Accordion.Title className="font-Poppins font-bold text-xl relative flex items-center justify-center">
+                {category}
+              </Accordion.Title>
+              <Accordion.Content className="xxs:p-1 md:p-6 xl:p-12">
+                <div className="md:grid md:grid-cols-1 lg:grid-cols-2 gap-2 xl:grid-cols-3 p-3">
+                  {groupedItems[category]
+                    .filter((item) => !item.hide)
+                    .map((item, index) => (
+                      <div
+                        key={index}
+                        className="bg-footerBackground/[.25] rounded-xl shadow-md overflow-hidden md:grid flex flex-col h-full w-full relative"
+                      >
+                        {animatingItems[item._id] && (
+                          <div className="absolute inset-0 z-10 h-full w-full">
+                            <Lottie
+                              options={{
+                                animationData,
+                                loop: false,
+                                autoplay: true,
+                              }}
+                              className="h-full w-full"
+                            />
+                          </div>
+                        )}
+                        <div className=" flex flex-col justify-between">
+                          <div>
+                            <div className="md:flex-shrink-0 pb-2">
+                              <img
+                                className="h-48 w-full object-cover  hover:cursor-pointer"
+                                src={item.image}
+                                alt={item.title}
+                                onClick={() => openModal(item)}
                               />
                             </div>
-                          )}
-                          <div className="p-2 flex flex-col justify-between">
-                            <div>
-                              <div className="uppercase tracking-wide text-sm text-footerBackground font-semibold text-center pb-2">
-                                {item.category}
-                              </div>
-                              <div className="md:flex-shrink-0 pb-2">
-                                <img
-                                  className="h-48 w-full object-cover rounded-lg hover:cursor-pointer"
-                                  src={item.image}
-                                  alt={item.title}
-                                  onClick={() => openModal(item)}
-                                />
-                              </div>
-                              <h1
-                                className="block mt-1 text-lg leading-tight font-medium text-black text-center"
-                              >
-                                {item.title}
-                              </h1>
-                              <p className="mt-2 text-gray-600">
-                                {item.description}
-                              </p>
-                            </div>
-                            <div className="mt-4 flex justify-center">
-                              <button
-                                onClick={() => handleEdit(item, !item.hide)}
-                                className={`cursor-pointer px-3 py-2 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 ${
-                                  item.hide
-                                    ? "bg-green-200 hover:bg-green-300 text-black"
-                                    : "bg-red-100 hover:bg-red-300 text-black"
-                                }`}
-                              >
-                                {item.hide
-                                  ? "Meal Hidden from Menu"
-                                  : "Remove from menu"}
-                              </button>
-                            </div>
+                            <h1 className="block mt-1 text-lg leading-tight font-medium text-black text-center dark:text-gray-300">
+                              {item.title}
+                            </h1>
+                            <p className=" p-2 mt-2 text-gray-600 dark:text-gray-400">
+                              {item.description}
+                            </p>
+                          </div>
+                          <div className="mt-4 flex justify-center">
+                            <button
+                              onClick={() => handleEdit(item, !item.hide)}
+                              className={`relative cursor-pointer px-4 py-2 rounded-md shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+                                item.hide
+                                  ? "bg-green-500 hover:bg-green-600 text-white dark:bg-green-700 dark:hover:bg-green-800"
+                                  : "bg-red-500 hover:bg-red-600 text-white dark:bg-red-700 dark:hover:bg-red-800"
+                              } hover:rotate-3`}
+                              style={{ perspective: "1000px" }}
+                            >
+                              {item.hide
+                                ? "Meal Hidden from Menu"
+                                : "Remove from menu"}
+                            </button>
                           </div>
                         </div>
-                      ))}
-                  </div>
-                </Accordion.Content>
-              </AccordionPanel>
-            ))}
-          </Accordion>
-        )}
-
+                      </div>
+                    ))}
+                </div>
+              </Accordion.Content>
+            </AccordionPanel>
+          ))}
+        </Accordion>
+      )}
 
       <AdminMenuModal
         item={selectedItem}
@@ -233,14 +228,11 @@ function AdminMenu() {
                         key={index}
                         className="bg-footerBackground/[.25] rounded-xl shadow-md overflow-hidden md:grid flex flex-col h-full w-full relative"
                       >
-                        <div className="p-2 flex flex-col justify-between">
+                        <div className=" flex flex-col justify-between">
                           <div>
-                            <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold text-center pb-2">
-                              {item.category}
-                            </div>
                             <div className="md:flex-shrink-0 pb-2">
                               <img
-                                className="h-48 w-full object-cover rounded-lg cursor-pointer"
+                                className="h-48 w-full object-cover cursor-pointer"
                                 src={item.image}
                                 alt={item.title}
                                 onClick={() => openModal(item)}
@@ -248,24 +240,27 @@ function AdminMenu() {
                             </div>
                             <a
                               href="#"
-                              className="block mt-1 text-lg leading-tight font-medium text-black hover:underline text-center"
+                              className="block mt-1 text-lg leading-tight font-medium text-black dark:text-gray-200 hover:underline text-center"
                             >
                               {item.title}
                             </a>
-                            <p className="mt-2 text-gray-600">
+                            <p className="p-2 mt-2 text-gray-600 dark:text-gray-300">
                               {item.description}
                             </p>
                           </div>
                           <div className="mt-4 flex justify-center">
                             <button
                               onClick={() => handleEdit(item, !item.hide)}
-                              className={`cursor-pointer px-3 py-2 rounded-full shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 ${
+                              className={`relative cursor-pointer px-4 py-2 rounded-md shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                                 item.hide
-                                  ? "bg-green-200 hover:bg-green-300 text-black"
-                                  : "bg-red-100 hover:bg-red-300 text-black"
-                              }`}
+                                  ? "bg-green-500 hover:bg-green-600 text-white dark:bg-green-700 dark:hover:bg-green-800"
+                                  : "bg-red-500 hover:bg-red-600 text-white dark:bg-red-700 dark:hover:bg-red-800"  
+                              } hover:rotate-3`}
+                              style={{ perspective: "1000px" }}
                             >
-                              {item.hide ? "Put back on menu" : "Hide"}
+                              {item.hide
+                                ? "Put back on menu"
+                                : "Remove from menu"}
                             </button>
                           </div>
                         </div>

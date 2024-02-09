@@ -7,25 +7,24 @@ module.exports = {
     "node_modules/flowbite-react/lib/esm/**/*.js",
     "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js",
   ],
+  darkMode: "class",
   theme: {
     extend: {
-
       fontFamily: {
-        poppins: ['Poppins', 'sans-serif'],
-      }, 
-      
+        poppins: ["Poppins", "sans-serif"],
+      },
+
       colors: {
         "dark-sapphire-blue": "#0F3057",
         "teal-blue": "#00587A",
         "cyan-azure": "#008891",
         "off-white": "#E7E7DE",
-        
 
         "light-gray": "#E7E7DE",
         "dark-lime1": "#3f6212",
         footerBackground: "#008891",
 
-        'colour1':'#008891',
+        colour1: "#008891",
       },
 
       screens: {
@@ -33,7 +32,7 @@ module.exports = {
         xs: "375px",
         s: "425px",
         sm: "640px",
-        md: "768px",//tablet
+        md: "768px", //tablet
         lg: "1024px",
         xl: "1280px",
         "2xl": "1536px",
@@ -41,14 +40,22 @@ module.exports = {
       },
 
       fontSize: {
-        'xs': '0.85rem',   // Extra small
-        'sm': '0.9rem',  // Small
-        'base': '1rem',
-        'l': '1.1rem',   // Base (default)
-        'lg': '1.15rem', // Large
-        'xl': '1.25rem',  // Extra large
-      }
+        xs: "0.85rem", // Extra small
+        sm: "0.9rem", // Small
+        base: "1rem",
+        l: "1.1rem", // Base (default)
+        lg: "1.15rem", // Large
+        xl: "1.25rem", // Extra large
+      },
 
+      rotate: {
+        3: "3deg",
+      },
+    },
+  },
+  variants: {
+    extend: {
+      rotate: ["hover", "focus"],
     },
   },
   plugins: [require("flowbite/plugin"), require("daisyui")],

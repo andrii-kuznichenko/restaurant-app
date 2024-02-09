@@ -25,7 +25,7 @@ import AdminOrdersArchive from './AminOrdersArchive';
 
 function Main() {
   return (
-    <main className="bg-white dark:bg-black mb-auto flex-grow">
+    <main className="bg-white dark:bg-gray-900 mb-auto flex-grow">
       <Routes>
       <Route path="/user" element={<ProtectedTables />}>
         <Route path="" element={<UserMenu />} />
