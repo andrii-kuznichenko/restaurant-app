@@ -12,7 +12,10 @@ import { FaLockOpen } from "react-icons/fa";
 import LoadingDots from "./LoadingDots";
 import { Table } from "flowbite-react";
 import AdminOrderDetails from "./AdminOrderDetails";
-import Datepicker from "react-tailwindcss-datepicker";
+import { Button } from "flowbite-react";
+import { HiOutlineArrowRight } from "react-icons/hi";
+import Lottie from "react-lottie";
+import waitAnimation from "../animations/waitingForNewOrdersAnimation.json";
 
 const AdminOrders = () => {
   const { admin, loading } = useContext(AuthContext);
@@ -24,24 +27,18 @@ const AdminOrders = () => {
   const [timeElapsed, setTimeElapsed] = useState("");
   const [showOrder, setShowOrder] = useState(false);
   const [orderDetailsId, setOrderDetailsId] = useState("");
-  const [value, setValue] = useState({
-    startDate: new Date(Date.now() - 864e5),
-    endDate: new Date().setDate,
-  });
+  const [flag, setFlag] = useState(0);
   const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
     transports: ["websocket"],
   });
-
-  // const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
-  //   transports: ["websocket"],
-  // });
-
-  // const adminSocket = io(
-  //   `${import.meta.env.VITE_SERVER_BASE_URL}/restaurant-${restaurantId}`,
-  //   {
-  //     transports: ["websocket"],
-  //   }
-  // );
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: waitAnimation,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid meet",
+    },
+  };
 
   useEffect(() => {
     // axios
@@ -81,6 +78,17 @@ const AdminOrders = () => {
         // // Update the previous orders ref with the current orders
         // prevOrdersRef.current = receivedOrders;
         setOrders(receivedOrders);
+        let orderIsClosed = false;
+        receivedOrders.forEach((order) => {
+          if (!order.isClosed) {
+            orderIsClosed = true;
+          }
+        });
+        if (orderIsClosed) {
+          setFlag(1);
+        } else {
+          setFlag(0);
+        }
         setTimeout(() => {
           SetOrdersLoading(false);
         }, 600);
@@ -135,10 +143,6 @@ const AdminOrders = () => {
     return `${Math.floor(differenceInSeconds / 86400)} days ago`;
   };
 
-  const OrderDetailHandler = (id) => {
-    navigate(`/admin/order/${id}`);
-  };
-
   const getStatusMessage = (status) => {
     if (status === "in process") {
       return (
@@ -189,21 +193,8 @@ const AdminOrders = () => {
     setShowOrder(!showOrder);
   };
 
-
-  const handleValueChange = (newValue) => {
-    setValue(newValue);
-    axios
-    .get(`/order/date/${newValue.startDate}/${newValue.endDate}`)
-    .then((res) => {
-      console.log(res.data);
-      if (res.data && Object.keys(res.data).length > 0) {
-        socket.disconnect();
-        setOrders(res.data);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  const OpenArchiveHadler = () => {
+    navigate("archive");
   };
 
   const selectClass =
@@ -227,14 +218,7 @@ const AdminOrders = () => {
         <LoadingDots />
       ) : (
         <>
-          <div className="overflow-x-auto h-full">
-            <div className="flex justify-end w-30 mt-2">
-              <Datepicker
-                primaryColor={"teal"}
-                value={value}
-                onChange={handleValueChange}
-              />
-            </div>
+          <div className="overflow-x-auto">
             <Tabs aria-label="Tabs with underline" style="underline">
               <Tabs.Item active title="Open" icon={FaLockOpen}>
                 <Table striped>
@@ -338,6 +322,21 @@ const AdminOrders = () => {
                     })}
                   </Table.Body>
                 </Table>
+                {flag === 0 && (
+                  <div className=" relative flex flex-col justify-center items-center">
+                    <Lottie
+                      options={defaultOptions}
+                      height={350}
+                      width={700}
+                      style={{
+                        width: "80%",
+                      }}
+                    />
+                    <p class="absolute bottom-6 text-sm font-normal mb-2 text-gray-400 lg:text-xl dark:text-gray-400">
+                      Waiting for new orders.
+                    </p>
+                  </div>
+                )}
               </Tabs.Item>
               <Tabs.Item title="Closed" icon={HiLockClosed}>
                 <Table striped>
@@ -443,6 +442,12 @@ const AdminOrders = () => {
                 </Table>
               </Tabs.Item>
             </Tabs>
+            <div className="flex justify-center items-end">
+              <Button onClick={OpenArchiveHadler}>
+                Open Archive
+                <HiOutlineArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </div>
           </div>
         </>
       )}

@@ -27,7 +27,7 @@ const getOrderByDate = async (req, res) => {
         $gte: startDate,
         $lt: endDate,
       },
-    });
+    }).populate("meals.name").populate({path: "tableNumberId", select: "tableNumber"}).sort({createdAt: -1});
     res.status(201).json(order);
   } catch (error) {
     res.status(500).json({ message: error.message });
