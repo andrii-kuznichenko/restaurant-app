@@ -138,13 +138,13 @@ function AdminMenu() {
                 {category}
               </Accordion.Title>
               <Accordion.Content className="xxs:p-1 md:p-6 xl:p-12">
-                <div className="md:grid md:grid-cols-1 lg:grid-cols-2 gap-2 xl:grid-cols-3 p-3">
+                <div className=" md:grid md:grid-cols-1 lg:grid-cols-2 gap-2 xl:grid-cols-3 p-3">
                   {groupedItems[category]
                     .filter((item) => !item.hide)
                     .map((item, index) => (
                       <div
                         key={index}
-                        className="bg-footerBackground/[.25] rounded-md shadow-md overflow-hidden md:grid flex flex-col h-full w-full relative"
+                        className="bg-footerBackground/[.25] dark:bg-gray-800 rounded-md shadow-md overflow-hidden md:grid flex flex-col h-full w-full relative mb-2"
                       >
                         {animatingItems[item._id] && (
                           <div className="absolute inset-0 z-10 h-full w-full">
@@ -158,7 +158,7 @@ function AdminMenu() {
                             />
                           </div>
                         )}
-                        <div className=" flex flex-col justify-between">
+                        <div className=" flex flex-col justify-between pb-2">
                           <div>
                             <div className="md:flex-shrink-0 pb-2">
                               <img
@@ -181,7 +181,7 @@ function AdminMenu() {
                               className={`relative cursor-pointer px-4 py-2 rounded-sm shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-1 ${
                                 item.hide
                                   ? "bg-green-500 hover:bg-green-600 text-white dark:bg-green-700 dark:hover:bg-green-800"
-                                  : "bg-red-500 hover:bg-red-600 text-white dark:bg-red-700 dark:hover:bg-red-800"
+                                  : "bg-red-500 hover:bg-red-600 text-white dark:bg-red-600 dark:hover:bg-red-700"
                               } hover:rotate-3`}
                               style={{ perspective: "1000px" }}
                             >
@@ -229,7 +229,7 @@ function AdminMenu() {
                       {hiddenItems.map((item, index) => (
                         <div
                           key={index}
-                          className="bg-footerBackground/[.25] rounded-md shadow-md overflow-hidden md:grid flex flex-col h-full w-full relative"
+                          className="bg-footerBackground/[.25] dark:bg-gray-800 rounded-md shadow-md overflow-hidden md:grid flex flex-col h-full w-full relative"
                         >
                           <div className=" flex flex-col justify-between">
                             <div>
@@ -247,7 +247,7 @@ function AdminMenu() {
                               >
                                 {item.title}
                               </a>
-                              <p className="p-2 mt-2 text-gray-600 dark:text-gray-300">
+                              <p className="p-2 mt-2 text-gray-600 dark:text-gray-400">
                                 {item.description}
                               </p>
                             </div>
@@ -256,7 +256,7 @@ function AdminMenu() {
                                 onClick={() => handleEdit(item, !item.hide)}
                                 className={`relative cursor-pointer px-4 py-2 rounded-sm shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-1 ${
                                   item.hide
-                                    ? "bg-green-500 hover:bg-green-600 text-white dark:bg-green-700 dark:hover:bg-green-800"
+                                    ? "bg-green-600 hover:bg-green-700 text-white dark:bg-green-800 dark:hover:bg-green-900"
                                     : "bg-red-500 hover:bg-red-600 text-white dark:bg-red-700 dark:hover:bg-red-800"
                                 } hover:rotate-3`}
                                 style={{ perspective: "1000px" }}
