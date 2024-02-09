@@ -226,9 +226,10 @@ const AdminOrders = () => {
                               </span>
                             </Table.Cell>
                             <Table.Cell>
-                              {order.meals.map((meal, index) => (
+                              {order.meals && order.meals.length > 0 && order.meals.map((meal, index) => (
                                 <div>
                                   <div key={index}>
+                                    {condole.log(meal)}
                                     {meal.quantity} x {meal.name.title}
                                   </div>
                                 </div>
@@ -344,10 +345,10 @@ const AdminOrders = () => {
                               </span>
                             </Table.Cell>
                             <Table.Cell>
-                              {order.meals.map((meal, index) => (
+                              {order.meals && order.meals.length > 0 && order.meals.map((meal, index) => (
                                 <div>
                                   <div key={index}>
-                                    {meal.quantity} x {meal.name.title}
+                                    {meal.quantity} x {meal.name?.title}
                                   </div>
                                 </div>
                               ))}
