@@ -159,7 +159,7 @@ function AdminOrderDetails({ id, setShowOrder }) {
                       </button>
                       <div className="flex items-start py-3">
                         <div className="flex flex-col">
-                          <h2 className="text-3xl mx-5 font-extrabold dark:text-black">
+                          <h2 className="text-3xl mx-5 font-extrabold text-black dark:text-gray-300">
                             Table #{order.tableNumberId.tableNumber}
                           </h2>
                           <span class=" bg-gray-100 text-gray-800 text-xs font-medium inline-flex items-center px-5 py-0.5 rounded mx-6 mt-2 dark:bg-gray-700 dark:text-gray-400 border border-gray-500 ">
