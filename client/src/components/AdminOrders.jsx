@@ -229,7 +229,6 @@ const AdminOrders = () => {
                               {order.meals && order.meals.length > 0 && order.meals.map((meal, index) => (
                                 <div>
                                   <div key={index}>
-                                    {condole.log(meal)}
                                     {meal.quantity} x {meal.name?.title}
                                   </div>
                                 </div>
