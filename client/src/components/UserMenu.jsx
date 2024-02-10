@@ -22,6 +22,9 @@ const UserMenu = () => {
   });
   const [showMeal, setShowMeal] = useState(false);
   const [mealDetailsId, setMealDetailsId] = useState("");
+  
+  const [restaurant, setRestaurant] = useState("");
+  
 
   const openMealDetailsHandler = (id) => {
     setMealDetailsId(id);
@@ -38,6 +41,20 @@ const UserMenu = () => {
     categories
   } = useContext(AuthTableContext);
   const [isAccordionExpanded, setIsAccordionExpanded] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get(`/restaurant/${restaurantId}`) 
+      .then((res) => {
+        if (res.data.length > 0) {
+          setRestaurant(res.data[0]);
+        }
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  }, [restaurantId]);
+
 
   useEffect(() => { 
     axios
@@ -114,7 +131,7 @@ const getTotalPrice = (id)=>{
 
     <div className="flex items-center justify-center relative overflow-x-auto p-2 first:rounded-t-lg last:rounded-b-lg py-5 px-5 text-gray-500 dark:text-gray-400 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:hover:bg-gray-800 dark:focus:ring-gray-800 font-bold text-xl">
       <img src={ScanServeLogo} alt="Scan & Serve" className="h-10 w-auto mr-2" />
-      <h1 className="text-2xl font-bold">Scan & Serve</h1>
+      <h1 className="text-2xl font-bold">Scan & Serve {restaurant ? restaurant.title : 'Loading...'}</h1>
     </div>
 
       {categories && categories.length > 0?
