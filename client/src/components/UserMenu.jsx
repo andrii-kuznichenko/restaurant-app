@@ -11,6 +11,7 @@ import axios from "../axiosInstance";
 import { Accordion } from 'flowbite-react';
 import UserMealDetails from "./UserMealDetails";
 import LoadingDots from "./LoadingDots";
+import DarkModeToggle from "./darkModeToggle";
 
 const UserMenu = () => {
 
@@ -23,7 +24,7 @@ const UserMenu = () => {
   const [showMeal, setShowMeal] = useState(false);
   const [mealDetailsId, setMealDetailsId] = useState("");
   
-  const [restaurant, setRestaurant] = useState("");
+  const [restaurant, setRestaurant] = useState({});
   
 
   const openMealDetailsHandler = (id) => {
@@ -44,16 +45,14 @@ const UserMenu = () => {
 
   useEffect(() => {
     axios
-      .get(`/restaurant/${restaurantId}`) 
+      .get(`/restaurant/${restaurant}`) 
       .then((res) => {
         if (res.data.length > 0) {
           setRestaurant(res.data[0]);
         }
       })
-      .catch((error) => {
-        console.log(error.response.data);
-      });
-  }, [restaurantId]);
+      .catch((e) => console.error("Error fetching restaurant data:", e));
+  }, [restaurant]);
 
 
   useEffect(() => { 
@@ -131,7 +130,9 @@ const getTotalPrice = (id)=>{
 
     <div className="flex items-center justify-center relative overflow-x-auto p-2 first:rounded-t-lg last:rounded-b-lg py-5 px-5 text-gray-500 dark:text-gray-400 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:hover:bg-gray-800 dark:focus:ring-gray-800 font-bold text-xl">
       <img src={ScanServeLogo} alt="Scan & Serve" className="h-10 w-auto mr-2" />
-      <h1 className="text-2xl font-bold">Scan & Serve {restaurant ? restaurant.title : 'Loading...'}</h1>
+      <span className="text-2xl font-bold mr-6">Scan & Serve</span>
+      <span className="text-2xl font-bold mr-6"> Restaurant: {restaurant.title}</span>
+      <span className="text-2xl font-bold"><DarkModeToggle /></span>
     </div>
 
       {categories && categories.length > 0?
