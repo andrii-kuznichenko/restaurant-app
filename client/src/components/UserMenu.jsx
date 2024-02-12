@@ -52,7 +52,7 @@ const UserMenu = () => {
         
       })
       .catch((e) => console.error("Error fetching restaurant data:", e));
-  }, []);
+  }, [context.table]);
 
 
   useEffect(() => { 
@@ -76,8 +76,8 @@ axios
       })
       .catch((e) => console.error("Error fetching restaurant data:", e));
 
-      console.log(userMenu.menu);
- }, []);
+      console.log('menu', userMenu.menu);
+ }, [userMenu]);
 
   useEffect(() => {
     if(order && Object.keys(order).length > 0){
@@ -91,13 +91,13 @@ axios
   },[categories])
 
   
-const getCategories = () => {
-  if(userMenu.menu && userMenu.menu.length > 0){
-    console.log('1111');
-    const newArrayCategories = userMenu.menu.map(meal => meal.category);
-    setCategories(newArrayCategories.filter((category, index) => newArrayCategories.indexOf(category) !== index));
-  }
-}
+// const getCategories = () => {
+//   if(userMenu.menu && userMenu.menu.length > 0){
+//     console.log('1111');
+//     const newArrayCategories = userMenu.menu.map(meal => meal.category);
+//     setCategories(newArrayCategories.filter((category, index) => newArrayCategories.indexOf(category) !== index));
+//   }
+// }
 const getQuantity = (id)=>{
    return orderItems.find(item=>item._id === id)?.quantity || 0
 }
