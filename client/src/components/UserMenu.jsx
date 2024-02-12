@@ -75,10 +75,12 @@ axios
         
       })
       .catch((e) => console.error("Error fetching restaurant data:", e));
+
+      console.log(userMenu.menu);
  }, []);
 
   useEffect(() => {
-    if(order && order && Object.keys(order).length > 0){
+    if(order && Object.keys(order).length > 0){
       socket.disconnect();
       navigate('/user/order/confirmation');
     }

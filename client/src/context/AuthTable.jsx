@@ -30,29 +30,24 @@ function AuthTableProvider({ children }) {
       .get('auth/currentTable')
       .then(res => {
         setState(res.data.table, false, null);
+        console.log(res.data.table);
+        if(res.data.table && Object.keys(res.data.table).length > 0) {
+          socket.emit("connectToMenu", {restaurantId: res.data.table.restaurantId});
+          socket.on(`getMenuUser-${res.data.table.restaurantId}`, (receivedMenu) => {
+            setUserMenu(receivedMenu);
+            if(receivedMenu.menu && receivedMenu.menu.length > 0){
+              const newArrayCategories = receivedMenu.menu.map(meal => meal.category);
+              const uniqCategories = [...new Set(newArrayCategories)]
+              setCategories(uniqCategories);
+            }
+          });
+        }
       })
       .catch(error => {
         // we don't care about this error so I'm not storing it
         setState(null, false, null);
       });  
   }, []);
-
-  useEffect(() => {
-    if(table) {
-      socket.emit("connectToMenu", {restaurantId: table.restaurantId});
-      socket.on(`getMenuUser-${table.restaurantId}`, (receivedMenu) => {
-        setUserMenu(receivedMenu);
-      });
-    }
-  }, [table])
-
-  useEffect(() => {
-    if(userMenu.menu && userMenu.menu.length > 0){
-      const newArrayCategories = userMenu.menu.map(meal => meal.category);
-      const uniqCategories = [...new Set(newArrayCategories)]
-      setCategories(uniqCategories);
-    }
-  }, [userMenu])
 
   const login = table => {
     setLoading(true);
