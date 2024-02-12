@@ -7,6 +7,7 @@ import LoadingDots from './LoadingDots';
 function TableLogin() {
   const context = useContext(AuthTableContext);
   const {_id, tableNumber, restaurantId} = useParams();
+  
 
 
   if (!context.loading && context.table) {
@@ -16,7 +17,7 @@ function TableLogin() {
       restaurantId: restaurantId
     };
     console.log(user);
-    context.login(user);
+    context.login('user to navigate', user);
 
     return (<Navigate to="/user" />)
     
@@ -24,6 +25,13 @@ function TableLogin() {
 
 
 if (!context.loading && !context.table) {
+  const user = {
+    _id: _id,
+    tableNumber: tableNumber,
+    restaurantId: restaurantId
+  };
+  console.log('user to loading', user);
+  context.login(user);
   return (
     <>
     <LoadingDots />
