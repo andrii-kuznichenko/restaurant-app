@@ -7,31 +7,34 @@ import LoadingDots from './LoadingDots';
 function TableLogin() {
   const context = useContext(AuthTableContext);
   const {_id, tableNumber, restaurantId} = useParams();
-  
+  const [user, setUser] = useState({});
 
-
-  if (!context.loading && context.table) {
-    const user = {
+  useEffect(() => {
+    const newUser = {
       _id: _id,
       tableNumber: tableNumber,
       restaurantId: restaurantId
     };
-    console.log(user);
-    context.login('user to navigate', user);
+    setUser(newUser);
 
-    return (<Navigate to="/user" />)
-    
+  },[]);
+
+  useEffect(() => {
+    if(user && Object.keys(user).length > 0){
+      context.login(user);
+    }
+  },[user])
+  
+
+
+  if (!context.loading && context.table) {
+    console.log(user);
+    return (<Navigate to="/user" />)  
   }
 
 
 if (!context.loading && !context.table) {
-  const user = {
-    _id: _id,
-    tableNumber: tableNumber,
-    restaurantId: restaurantId
-  };
   console.log('user to loading', user);
-  context.login(user);
   return (
     <>
     <LoadingDots />
