@@ -2,9 +2,6 @@ import { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../axiosInstance';
 import io from "socket.io-client";
-const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
-  transports: ["websocket"],
-})
 
 export const AuthTableContext = createContext();
 
@@ -18,6 +15,9 @@ function AuthTableProvider({ children }) {
   const [total, setTotal] = useState(0);
   const [userMenu, setUserMenu] = useState([]);
   const [categories, setCategories] = useState([]);
+  const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
+    transports: ["websocket"],
+  });
 
   const setState = (table, loadingTable, errors) => {
     setTable(table);
@@ -38,9 +38,6 @@ function AuthTableProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
-      transports: ["websocket"],
-    });
     if(table) {
       socket.emit("connectToMenu", {restaurantId: table.restaurantId});
       socket.on(`getMenuUser-${table.restaurantId}`, (receivedMenu) => {
