@@ -160,7 +160,7 @@ function AdminOrderDetails({ id, setShowOrder }) {
                       <div className="flex items-start py-3">
                         <div className="flex flex-col">
                           <h2 className="text-3xl mx-5 font-extrabold text-black dark:text-gray-300">
-                            Table #{order.tableNumberId.tableNumber}
+                            Table #{order?.tableNumberId?.tableNumber}
                           </h2>
                           <span class=" bg-gray-100 text-gray-800 text-xs font-medium inline-flex items-center px-5 py-0.5 rounded mx-6 mt-2 dark:bg-gray-700 dark:text-gray-400 border border-gray-500 ">
                             <svg
@@ -483,13 +483,13 @@ function AdminOrderDetails({ id, setShowOrder }) {
                                     scope="row"
                                     class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                   >
-                                    {meal.name.title}
+                                    {meal.name?.title}
                                   </th>
                                   <td class="px-6 py-4">
-                                    {meal.name.allergens}
+                                    {meal.name?.allergens}
                                   </td>
                                   <td class="px-6 py-4">{meal.quantity}</td>
-                                  <td class="px-6 py-4">{meal.name.price}</td>
+                                  <td class="px-6 py-4">{meal?.name?.price}</td>
                                 </tr>
                               ))}
                             </tbody>
