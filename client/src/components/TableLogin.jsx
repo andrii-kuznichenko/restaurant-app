@@ -28,7 +28,7 @@ function TableLogin() {
 
 
   if (!context.loading && context.table) {
-    console.log(user);
+    console.log('user to navigate', user);
     return (<Navigate to="/user" />)  
   }
 
