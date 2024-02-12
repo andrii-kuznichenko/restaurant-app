@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useState, useContext } from "react";
+import ScanServeLogo from '../assets/ScanServeLogo.png';
 import { Link, useNavigate } from "react-router-dom";
 import UserOrderMeal from "./UserOrderMeal";
 import { FaChevronDown } from "react-icons/fa";
@@ -10,6 +11,7 @@ import axios from "../axiosInstance";
 import { Accordion } from 'flowbite-react';
 import UserMealDetails from "./UserMealDetails";
 import LoadingDots from "./LoadingDots";
+import DarkModeToggle from "./darkModeToggle";
 
 const UserMenu = () => {
 
@@ -21,6 +23,9 @@ const UserMenu = () => {
   });
   const [showMeal, setShowMeal] = useState(false);
   const [mealDetailsId, setMealDetailsId] = useState("");
+  
+  const [restaurant, setRestaurant] = useState({});
+  
 
   const openMealDetailsHandler = (id) => {
     setMealDetailsId(id);
@@ -37,6 +42,18 @@ const UserMenu = () => {
     categories
   } = useContext(AuthTableContext);
   const [isAccordionExpanded, setIsAccordionExpanded] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get(`/restaurant/${restaurant}`) 
+      .then((res) => {
+        if (res.data.length > 0) {
+          setRestaurant(res.data[0]);
+        }
+      })
+      .catch((e) => console.error("Error fetching restaurant data:", e));
+  }, [restaurant]);
+
 
   useEffect(() => { 
     axios
@@ -110,7 +127,14 @@ const getTotalPrice = (id)=>{
     )}
     
     <div className="mx-auto max-w-screen-md font-Poppins">
-   
+
+    <div className="flex items-center justify-center relative overflow-x-auto p-2 first:rounded-t-lg last:rounded-b-lg py-5 px-5 text-gray-500 dark:text-gray-400 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:hover:bg-gray-800 dark:focus:ring-gray-800 font-bold text-xl">
+      <img src={ScanServeLogo} alt="Scan & Serve" className="h-10 w-auto mr-2" />
+      <span className="text-2xl font-bold mr-6">Scan & Serve</span>
+      <span className="text-2xl font-bold mr-6"> Restaurant: {restaurant.title}</span>
+      <span className="text-2xl font-bold"><DarkModeToggle /></span>
+    </div>
+
       {categories && categories.length > 0?
       categories.map(category => (
         
@@ -124,6 +148,7 @@ const getTotalPrice = (id)=>{
         <table className="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
         {userMenu.menu.map(item => {
           if(item.category === category){
+            
             return(
               <tr key={item._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
              
@@ -202,3 +227,4 @@ const getTotalPrice = (id)=>{
   }
 
 export default UserMenu;
+
