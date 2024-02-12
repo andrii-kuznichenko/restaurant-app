@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useState, useContext } from "react";
+import ScanServeLogo from '../assets/ScanServeLogo.png';
 import { Link, useNavigate } from "react-router-dom";
 import UserOrderMeal from "./UserOrderMeal";
 import { FaChevronDown } from "react-icons/fa";
@@ -10,6 +11,7 @@ import axios from "../axiosInstance";
 import { Accordion } from 'flowbite-react';
 import UserMealDetails from "./UserMealDetails";
 import LoadingDots from "./LoadingDots";
+import DarkModeToggle from "./darkModeToggle";
 
 const UserMenu = () => {
 
@@ -21,6 +23,9 @@ const UserMenu = () => {
   });
   const [showMeal, setShowMeal] = useState(false);
   const [mealDetailsId, setMealDetailsId] = useState("");
+  
+  const [restaurant, setRestaurant] = useState({});
+  
 
   const openMealDetailsHandler = (id) => {
     setMealDetailsId(id);
@@ -38,8 +43,21 @@ const UserMenu = () => {
   } = useContext(AuthTableContext);
   const [isAccordionExpanded, setIsAccordionExpanded] = useState(false);
 
+  useEffect(() => {
+    axios
+      .get(`/dashboard/restaurant/${context.table.restaurantId}`) 
+      .then((res) => {
+       
+          setRestaurant(res.data);
+        
+      })
+      .catch((e) => console.error("Error fetching restaurant data:", e));
+  }, []);
+
+
   useEffect(() => { 
     axios
+
       .get(`/order/${context.table._id}`)
       .then((res) => {
         setOrder(res.data);
@@ -49,7 +67,14 @@ const UserMenu = () => {
         console.log(error.response.data);
         setState(null, false, error.response.data);
       });
-
+axios
+      .get(`/dashboard/restaurant/${context.table.restaurantId}`) 
+      .then((res) => {
+       
+          setRestaurant(res.data);
+        
+      })
+      .catch((e) => console.error("Error fetching restaurant data:", e));
  }, []);
 
   useEffect(() => {
@@ -110,7 +135,14 @@ const getTotalPrice = (id)=>{
     )}
     
     <div className="mx-auto max-w-screen-md font-Poppins">
-   
+
+    <div className="flex items-center justify-center relative overflow-x-auto p-2 first:rounded-t-lg last:rounded-b-lg py-5 px-5 text-gray-500 dark:text-gray-400 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:hover:bg-gray-800 dark:focus:ring-gray-800 font-bold text-xl">
+      <img src={ScanServeLogo} alt="Scan & Serve" className="h-10 w-auto mr-2" />
+      <span className="text-2xl font-bold mr-6">Scan & Serve</span>
+      <span className="text-2xl font-bold mr-6"> {restaurant.title}</span>
+      <span className="text-2xl font-bold"><DarkModeToggle /></span>
+    </div>
+
       {categories && categories.length > 0?
       categories.map(category => (
         
@@ -124,6 +156,7 @@ const getTotalPrice = (id)=>{
         <table className="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
         {userMenu.menu.map(item => {
           if(item.category === category){
+            
             return(
               <tr key={item._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
              
@@ -146,9 +179,9 @@ const getTotalPrice = (id)=>{
               {/*Add quantity; Total*/}
               <td className="px-2 py-2 text-center align-middle xxs:text-xs s:text-sm md:text-l">
                   
-                  <div className="flex items-center justify-center">
+                  <div className="flex items-center justify-center dark:text-gray-200">
                       
-                      <button className="inline-flex items-center justify-center p-1 me-3 xxs:me-1 text-sm font-medium h-6 w-6 text-gray-800 bg-white border border-gray-50 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" 
+                      <button className="inline-flex items-center justify-center p-1 me-3 xxs:me-1 text-sm font-medium h-6 w-6 text-gray-800 bg-white border border-gray-50 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" 
                       type="button"
                       onClick={() => handleRemove(item)}>
                           <span className="sr-only">Quantity button</span>
@@ -162,7 +195,7 @@ const getTotalPrice = (id)=>{
                             {getQuantity(item._id)}</p>
                       </div>
 
-                      <button className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 xxs:ms-1 text-sm font-medium text-gray-800 bg-white border border-gray-50 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" 
+                      <button className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 xxs:ms-1 text-sm font-medium text-gray-800 bg-white border border-gray-50 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" 
                       type="button"
                       onClick={() => handleAdd(item)}>
                           <span className="sr-only">Quantity button</span>
@@ -173,7 +206,7 @@ const getTotalPrice = (id)=>{
 
                   </div>
 
-                  <span className="text-gray-900 dark:text-gray-400 text-center"> {getTotalPrice(item._id)} Euro</span>
+                  <span className="text-gray-900 dark:text-gray-200 text-center"> {getTotalPrice(item._id)} Euro</span>
               </td>
               
           </tr>
@@ -202,3 +235,4 @@ const getTotalPrice = (id)=>{
   }
 
 export default UserMenu;
+
