@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Navigate, Outlet, Link } from "react-router-dom";
 import { AuthContext } from "../context/Auth";
 import { AuthTableContext } from "../context/AuthTable";
@@ -7,12 +7,26 @@ import ScanServeLogo from "../assets/ScanServeLogo.png";
 import { Dropdown, Avatar } from "flowbite-react";
 import {Sidebar} from 'flowbite-react'
 import DarkModeToggle from "./darkModeToggle";
+import axios from "../axiosInstance";
 
 function Protected() {
   const { admin, loading, logout } = useContext(AuthContext);
   const { table, loadingTable } = useContext(AuthTableContext);
   const [isSubMenuVisible, setIsSubMenuVisible] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [restaurant, setRestaurant] = useState({})
+
+
+  useEffect(() => {
+    if (admin) {
+      axios
+      .get(`/dashboard/restaurant/${admin.restaurantId}`)
+      .then((res) => {
+        console.log("Received restaurant data:", res.data);
+        setRestaurant(res.data);
+      })
+      .catch((e) => console.error("Error fetching restaurant data:", e));}
+  }, [admin]);
 
 
   const toggleSubMenu = () => {
@@ -392,7 +406,7 @@ function Protected() {
                           label={
                             <Avatar
                               alt="User Icon"
-                              img={ScanServeLogo}
+                              img={restaurant.logo}
                               rounded
                               
                             />
