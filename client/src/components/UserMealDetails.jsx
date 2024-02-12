@@ -5,6 +5,7 @@ import { AuthTableContext } from "../context/AuthTable";
 import LoadingDots from "./LoadingDots";
 import { Card } from "flowbite-react";
 
+
 function UserMealDetails({ id, isMenu, setShowMeal }) {
   const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
     transports: ["websocket"],
@@ -59,8 +60,8 @@ function UserMealDetails({ id, isMenu, setShowMeal }) {
 
   return meal && Object.keys(meal).length > 0 ? (
     <>
-      <div className="fixed z-40 inset-0 overflow-y-auto">
-        <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div className="fixed z-40 inset-0 overflow-y-auto ">
+        <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0 ">
           <div className="fixed inset-0 transition-opacity" aria-hidden="true">
             <div className="absolute inset-0 bg-gray-500 opacity-75 backdrop-blur-md" onClick={()=>{changeState()}}></div>
           </div>
@@ -79,25 +80,25 @@ function UserMealDetails({ id, isMenu, setShowMeal }) {
               <div className="flex-grow" onClick={()=>{changeState()}}>
                 <div className="flex justify-between items-center" onClick={()=>{changeState()}}>
                   <h3
-                    className="text-lg leading-6 font-medium text-gray-900"
+                    className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-200"
                     id="modal-title"
                   >
                     {meal.title}
                   </h3>
-                  <p className="text-lg leading-6 font-medium text-gray-900">
+                  <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-200">
                     €{meal.price}
                   </p>
                 </div>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-500 dark:text-gray-200">
                   Category: {meal.category}
                 </p>
                 <div className="mt-2" onClick={()=>{changeState()}}>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-500 dark:text-gray-200">
                     Description: {meal.description}
                   </p>
                 </div>
                 <div className="mt-2">
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-500 dark:text-gray-200">
                     Allergens: {meal.allergens}
                   </p>
                 </div>
@@ -106,7 +107,7 @@ function UserMealDetails({ id, isMenu, setShowMeal }) {
                 <>
                   <div className="flex items-center justify-evenly">
                     <button
-                      className="inline-flex items-center justify-center p-1 me-3 xxs:me-1 text-sm font-medium h-6 w-6 text-gray-800 bg-white border border-gray-50 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                      className="inline-flex items-center justify-center p-1 me-3 xxs:me-1 text-sm font-medium h-6 w-6 text-gray-800 bg-white border border-gray-50 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                       type="button"
                       onClick={() => handleRemove(meal)}
                     >
@@ -129,11 +130,11 @@ function UserMealDetails({ id, isMenu, setShowMeal }) {
                     </button>
 
                     <div>
-                       <p className="text-gray-900 text-xl"> {getQuantity(meal._id)} </p>
+                       <p className="text-gray-900 text-xl dark:text-gray-200"> {getQuantity(meal._id)} </p>
                     </div>
 
                     <button
-                      className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 xxs:ms-1 text-sm font-medium text-gray-800 bg-white border border-gray-50 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                      className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 xxs:ms-1 text-sm font-medium text-gray-800 bg-white border border-gray-50 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                       type="button"
                       onClick={() => handleAdd(meal)}
                     >
@@ -155,7 +156,7 @@ function UserMealDetails({ id, isMenu, setShowMeal }) {
                       </svg>
                     </button>
                   </div>
-                  <span className="text-gray-800 dark:text-gray-400 text-center">
+                  <span className="text-gray-800 dark:text-gray-200 text-center">
                     {" "}
                     Total: {getTotalPrice(id)} Euro
                   </span>
