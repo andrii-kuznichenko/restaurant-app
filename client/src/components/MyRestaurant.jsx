@@ -9,6 +9,34 @@ const MyRestaurant = () => {
   const [file, setFile] = useState(null);
   const fileInputRef = useRef(null);
   const [updateTrigger, setUpdateTrigger] = useState(0);
+  const [formValues, setFormValues] = useState({
+    title: "",
+    information: "",
+    openTime: {
+      Monday: "00:00",
+      Tuesday: "00:00",
+      Wednesday: "00:00",
+      Thursday: "00:00",
+      Friday: "00:00",
+      Saturday: "00:00",
+      Sunday: "00:00",
+    },
+    closeTime: {
+      Monday: "00:00",
+      Tuesday: "00:00",
+      Wednesday: "00:00",
+      Thursday: "00:00",
+      Friday: "00:00",
+      Saturday: "00:00",
+      Sunday: "00:00",
+    },
+    socials: {
+      facebook: "",
+      instagram: "",
+      tiktok: "",
+    },
+    currency: "",
+  });
 
   useEffect(() => {
     axios
@@ -16,6 +44,34 @@ const MyRestaurant = () => {
       .then((res) => {
         console.log("Received restaurant data:", res.data);
         setRestaurant(res.data);
+        setFormValues({
+          title: res.data.title,
+          information: res.data.information,
+          openTime: {
+            Monday: res.data.openTime?.Monday || "00:00",
+            Tuesday: res.data.openTime?.Tuesday || "00:00",
+            Wednesday: res.data.openTime?.Wednesday || "00:00",
+            Thursday: res.data.openTime?.Thursday || "00:00",
+            Friday: res.data.openTime?.Friday || "00:00",
+            Saturday: res.data.openTime?.Saturday || "00:00",
+            Sunday: res.data.openTime?.Sunday || "00:00",
+          },
+          closeTime: {
+            Monday: res.data.closeTime?.Monday || "00:00",
+            Tuesday: res.data.closeTime?.Tuesday || "00:00",
+            Wednesday: res.data.closeTime?.Wednesday || "00:00",
+            Thursday: res.data.closeTime?.Thursday || "00:00",
+            Friday: res.data.closeTime?.Friday || "00:00",
+            Saturday: res.data.closeTime?.Saturday || "00:00",
+            Sunday: res.data.closeTime?.Sunday || "00:00",
+          },
+          socials: {
+            facebook: res.data.socials?.facebook || '',
+            instagram: res.data.socials?.instagram || '',
+            tiktok: res.data.socials?.tiktok || '',
+          },
+          currency: res.data.currency,
+        });
       })
       .catch((e) => console.error("Error fetching restaurant data:", e));
   }, [updateTrigger]);
@@ -40,6 +96,39 @@ const MyRestaurant = () => {
           console.error("Error uploading logo:", error);
         });
     }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    const keys = name.split(".");
+
+    if (keys.length === 1) {
+      setFormValues((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    } else if (keys.length === 2) {
+      setFormValues((prevState) => ({
+        ...prevState,
+        [keys[0]]: {
+          ...prevState[keys[0]],
+          [keys[1]]: value,
+        },
+      }));
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .put(`/dashboard/restaurant/info/${admin.restaurantId}`, formValues)
+      .then((response) => {
+        console.log("Restaurant updated successfully:", response.data);
+        setUpdateTrigger((prev) => prev + 1);
+      })
+      .catch((error) => {
+        console.error("Error updating restaurant:", error);
+      });
   };
 
   const countSocials = (socials) => {
@@ -362,155 +451,13 @@ const MyRestaurant = () => {
               </div>
             </div>
           </div>
-          {/* <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-            <div className="flow-root">
-              <h3 className="text-xl font-semibold dark:text-white">
-                Other accounts
-              </h3>
-              <ul className="mb-6 divide-y divide-gray-200 dark:divide-gray-700">
-                <li className="py-4">
-                  <div className="flex justify-between xl:block 2xl:flex align-center 2xl:space-x-4">
-                    <div className="flex space-x-4 xl:mb-4 2xl:mb-0">
-                      <div>
-                        <img
-                          className="w-6 h-6 rounded-full"
-                          src="/images/users/bonnie-green.png"
-                          alt="Bonnie image"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-base font-semibold text-gray-900 leading-none truncate mb-0.5 dark:text-white">
-                          Bonnie Green
-                        </p>
-                        <p className="mb-1 text-sm font-normal truncate text-primary-700 dark:text-primary-500">
-                          New York, USA
-                        </p>
-                        <p className="text-xs font-medium text-gray-500 dark:text-gray-400">
-                          Last seen: 1 min ago
-                        </p>
-                      </div>
-                    </div>
-                    <div className="inline-flex items-center w-auto xl:w-full 2xl:w-auto">
-                      <a
-                        href="#"
-                        className="w-full px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                      >
-                        Disconnect
-                      </a>
-                    </div>
-                  </div>
-                </li>
-                <li className="py-4">
-                  <div className="flex justify-between xl:block 2xl:flex align-center 2xl:space-x-4">
-                    <div className="flex space-x-4 xl:mb-4 2xl:mb-0">
-                      <div>
-                        <img
-                          className="w-6 h-6 rounded-full"
-                          src="/images/users/jese-leos.png"
-                          alt="Jese image"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-base font-semibold text-gray-900 leading-none truncate mb-0.5 dark:text-white">
-                          Jese Leos
-                        </p>
-                        <p className="mb-1 text-sm font-normal truncate text-primary-700 dark:text-primary-500">
-                          California, USA
-                        </p>
-                        <p className="text-xs font-medium text-gray-500 dark:text-gray-400">
-                          Last seen: 2 min ago
-                        </p>
-                      </div>
-                    </div>
-                    <div className="inline-flex items-center w-auto xl:w-full 2xl:w-auto">
-                      <a
-                        href="#"
-                        className="w-full px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                      >
-                        Disconnect
-                      </a>
-                    </div>
-                  </div>
-                </li>
-                <li className="py-4">
-                  <div className="flex justify-between xl:block 2xl:flex align-center 2xl:space-x-4">
-                    <div className="flex space-x-4 xl:mb-4 2xl:mb-0">
-                      <div>
-                        <img
-                          className="w-6 h-6 rounded-full"
-                          src="/images/users/thomas-lean.png"
-                          alt="Thomas image"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-base font-semibold text-gray-900 leading-none truncate mb-0.5 dark:text-white">
-                          Thomas Lean
-                        </p>
-                        <p className="mb-1 text-sm font-normal truncate text-primary-700 dark:text-primary-500">
-                          Texas, USA
-                        </p>
-                        <p className="text-xs font-medium text-gray-500 dark:text-gray-400">
-                          Last seen: 1 hour ago
-                        </p>
-                      </div>
-                    </div>
-                    <div className="inline-flex items-center w-auto xl:w-full 2xl:w-auto">
-                      <a
-                        href="#"
-                        className="w-full px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                      >
-                        Disconnect
-                      </a>
-                    </div>
-                  </div>
-                </li>
-                <li className="pt-4">
-                  <div className="flex justify-between xl:block 2xl:flex align-center 2xl:space-x-4">
-                    <div className="flex space-x-4 xl:mb-4 2xl:mb-0">
-                      <div>
-                        <img
-                          className="w-6 h-6 rounded-full"
-                          src="/images/users/lana-byrd.png"
-                          alt="Lana image"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-base font-semibold text-gray-900 leading-none truncate mb-0.5 dark:text-white">
-                          Lana Byrd
-                        </p>
-                        <p className="mb-1 text-sm font-normal truncate text-primary-700 dark:text-primary-500">
-                          Texas, USA
-                        </p>
-                        <p className="text-xs font-medium text-gray-500 dark:text-gray-400">
-                          Last seen: 1 hour ago
-                        </p>
-                      </div>
-                    </div>
-                    <div className="inline-flex items-center w-auto xl:w-full 2xl:w-auto">
-                      <a
-                        href="#"
-                        className="w-full px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                      >
-                        Disconnect
-                      </a>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-              <div>
-                <button className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                  Save all
-                </button>
-              </div>
-            </div>
-          </div> */}
         </div>
         <div className="col-span-2">
           <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
             <h3 className="mb-4 text-xl font-semibold dark:text-white">
               General information
             </h3>
-            <form action="#">
+            <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-6 gap-6">
                 <div className="col-span-6 sm:col-span-6">
                   <label
@@ -521,11 +468,13 @@ const MyRestaurant = () => {
                   </label>
                   <input
                     type="text"
-                    name="restaurant-name"
+                    name="title"
                     id="restaurant-name"
+                    value={formValues.title}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder={restaurant.title}
-                    required
+                    onChange={handleInputChange}
+                    
                   />
                 </div>
                 <div className="col-span-6 sm:col-span-6">
@@ -535,13 +484,15 @@ const MyRestaurant = () => {
                   >
                     Restaurant information
                   </label>
-                  <input
+                  <textarea
                     type="text"
-                    name="restaurant-information"
+                    name="information"
                     id="restaurant-information"
+                    onChange={handleInputChange}
+                    value={formValues.information}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder={restaurant.information}
-                    required
+                   
                   />
                 </div>
                 {/* <div className="col-span-6 sm:col-span-3">
@@ -562,7 +513,7 @@ const MyRestaurant = () => {
                 </div> */}
 
                 <div className="col-span-4 sm:col-span-2 flex items-center">
-                  <div className="mt-4">Monday</div>
+                  <div className="mt-4 dark:text-white">Monday</div>
                 </div>
                 <div className="col-span-4 sm:col-span-2">
                   <label
@@ -573,11 +524,13 @@ const MyRestaurant = () => {
                   </label>
                   <input
                     type="text"
-                    name="country"
+                    name="openTime.Monday"
                     id="country"
+                    onChange={handleInputChange}
+                    value={formValues.openTime.Monday}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder={restaurant.openTime?.Monday ?? '00:00'}
-                    required
+                    placeholder={restaurant.openTime?.Monday ?? "00:00"}
+                    
                   />
                 </div>
                 <div className="col-span-4 sm:col-span-2">
@@ -589,154 +542,180 @@ const MyRestaurant = () => {
                   </label>
                   <input
                     type="text"
-                    name="city"
+                    name="closeTime.Monday"
                     id="city"
+                    onChange={handleInputChange}
+                    value={formValues.closeTime.Monday}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder={restaurant.closeTime?.Monday ?? '00:00'}
+                    placeholder={restaurant.closeTime?.Monday ?? "00:00"}
+                    
+                  />
+                </div>
+
+                <div className="col-span-4 sm:col-span-2 flex items-center">
+                  <div className="dark:text-white">Tuesday</div>
+                </div>
+                <div className="col-span-4 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="openTime.Tuesday"
+                    id="country"
+                    onChange={handleInputChange}
+                    value={formValues.openTime.Tuesday}
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder={restaurant.openTime?.Tuesday ?? "00:00"}
+                    
+                  />
+                </div>
+                <div className="col-span-4 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="closeTime.Tuesday"
+                    id="city"
+                    onChange={handleInputChange}
+                    value={formValues.closeTime.Tuesday}
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder={restaurant.closeTime?.Tuesday ?? "00:00"}
+                    
+                  />
+                </div>
+
+                <div className="col-span-4 sm:col-span-2 flex items-center">
+                  <div className="dark:text-white">Wednesday</div>
+                </div>
+                <div className="col-span-4 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="openTime.Wednesday"
+                    id="country"
+                    onChange={handleInputChange}
+                    value={formValues.openTime.Wednesday}
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder={restaurant.openTime?.Wednesday ?? "00:00"}
+                    
+                  />
+                </div>
+                <div className="col-span-4 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="closeTime.Wednesday"
+                    id="city"
+                    onChange={handleInputChange}
+                    value={formValues.closeTime.Wednesday}
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder={restaurant.closeTime?.Wednesday ?? "00:00"}
+                    
+                  />
+                </div>
+
+                <div className="col-span-4 sm:col-span-2 flex items-center">
+                  <div className="dark:text-white">Thursday</div>
+                </div>
+                <div className="col-span-4 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="openTime.Thursday"
+                    id="country"
+                    onChange={handleInputChange}
+                    value={formValues.openTime.Thursday}
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder={restaurant.openTime?.Thursday ?? "00:00"}
+                    
+                  />
+                </div>
+                <div className="col-span-4 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="closeTime.Thursday"
+                    id="city"
+                    onChange={handleInputChange}
+                    value={formValues.closeTime.Thursday}
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder={restaurant.closeTime?.Thursday ?? "00:00"}
                     required
                   />
                 </div>
 
                 <div className="col-span-4 sm:col-span-2 flex items-center">
-                  <div className="">Tuesday</div>
+                  <div className="dark:text-white">Friday</div>
                 </div>
                 <div className="col-span-4 sm:col-span-2">
                   <input
                     type="text"
-                    name="country"
+                    name="openTime.Friday"
                     id="country"
+                    onChange={handleInputChange}
+                    value={formValues.openTime.Friday}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder={restaurant.openTime?.Tuesday ?? '00:00'}
+                    placeholder={restaurant.openTime?.Friday ?? "00:00"}
                     required
                   />
                 </div>
                 <div className="col-span-4 sm:col-span-2">
                   <input
                     type="text"
-                    name="city"
+                    name="closeTime.Friday"
                     id="city"
+                    onChange={handleInputChange}
+                    value={formValues.closeTime.Friday}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder={restaurant.closeTime?.Tuesday ?? '00:00'}
+                    placeholder={restaurant.closeTime?.Friday ?? "00:00"}
                     required
                   />
                 </div>
 
                 <div className="col-span-4 sm:col-span-2 flex items-center">
-                  <div className="">Wednesday</div>
+                  <div className="dark:text-white">Saturday</div>
                 </div>
                 <div className="col-span-4 sm:col-span-2">
                   <input
                     type="text"
-                    name="country"
+                    name="openTime.Saturday"
                     id="country"
+                    onChange={handleInputChange}
+                    value={formValues.openTime.Saturday}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder={restaurant.openTime?.Wednesday ?? '00:00'}
+                    placeholder={restaurant.openTime?.Saturday ?? "00:00"}
                     required
                   />
                 </div>
                 <div className="col-span-4 sm:col-span-2">
                   <input
                     type="text"
-                    name="city"
+                    name="closeTime.Saturday"
                     id="city"
+                    onChange={handleInputChange}
+                    value={formValues.closeTime.Saturday}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder={restaurant.closeTime?.Wednesday ?? '00:00'}
+                    placeholder={restaurant.closeTime?.Saturday ?? "00:00"}
                     required
                   />
                 </div>
 
                 <div className="col-span-4 sm:col-span-2 flex items-center">
-                  <div className="">Thursday</div>
+                  <div className="dark:text-white">Sunday</div>
                 </div>
                 <div className="col-span-4 sm:col-span-2">
                   <input
                     type="text"
-                    name="country"
+                    name="openTime.Sunday"
                     id="country"
+                    onChange={handleInputChange}
+                    value={formValues.openTime.Sunday}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder={restaurant.openTime?.Thursday ?? '00:00'}
+                    placeholder={restaurant.openTime?.Sunday ?? "00:00"}
                     required
                   />
                 </div>
                 <div className="col-span-4 sm:col-span-2">
                   <input
                     type="text"
-                    name="city"
+                    name="closeTime.Sunday"
                     id="city"
+                    onChange={handleInputChange}
+                    value={formValues.closeTime.Sunday}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder={restaurant.closeTime?.Thursday ?? '00:00'}
-                    required
-                  />
-                </div>
-
-                <div className="col-span-4 sm:col-span-2 flex items-center">
-                  <div className="">Friday</div>
-                </div>
-                <div className="col-span-4 sm:col-span-2">
-                  <input
-                    type="text"
-                    name="country"
-                    id="country"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder={restaurant.openTime?.Friday ?? '00:00'}
-                    required
-                  />
-                </div>
-                <div className="col-span-4 sm:col-span-2">
-                  <input
-                    type="text"
-                    name="city"
-                    id="city"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder={restaurant.closeTime?.Friday ?? '00:00'}
-                    required
-                  />
-                </div>
-
-                <div className="col-span-4 sm:col-span-2 flex items-center">
-                  <div className="">Saturday</div>
-                </div>
-                <div className="col-span-4 sm:col-span-2">
-                  <input
-                    type="text"
-                    name="country"
-                    id="country"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder={restaurant.openTime?.Saturday ?? '00:00'}
-                    required
-                  />
-                </div>
-                <div className="col-span-4 sm:col-span-2">
-                  <input
-                    type="text"
-                    name="city"
-                    id="city"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder={restaurant.closeTime?.Saturday ?? '00:00'}
-                    required
-                  />
-                </div>
-
-                <div className="col-span-4 sm:col-span-2 flex items-center">
-                  <div className="">Sunday</div>
-                </div>
-                <div className="col-span-4 sm:col-span-2">
-                  <input
-                    type="text"
-                    name="country"
-                    id="country"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder={restaurant.openTime?.Sunday ?? '00:00'}
-                    required
-                  />
-                </div>
-                <div className="col-span-4 sm:col-span-2">
-                  <input
-                    type="text"
-                    name="city"
-                    id="city"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder={restaurant.closeTime?.Sunday ?? '00:00'}
+                    placeholder={restaurant.closeTime?.Sunday ?? "00:00"}
                     required
                   />
                 </div>
@@ -750,10 +729,14 @@ const MyRestaurant = () => {
                   </label>
                   <select
                     id="currency"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    value={formValues.currency}
+                    onChange={handleInputChange}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   >
-                    <option>{restaurant.currency}</option>
-                    <option>USD</option>
+                    <option value={restaurant.currency}>
+                      {restaurant.currency}
+                    </option>
+                    <option value="USD">USD</option>
                   </select>
                   {/* <input
                     type="text"
@@ -770,7 +753,7 @@ const MyRestaurant = () => {
                     className="text-white bg-footerBackground bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                     type="submit"
                   >
-                    Save
+                    Save changes
                   </button>
                 </div>
               </div>
