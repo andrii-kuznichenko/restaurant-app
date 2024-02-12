@@ -30,7 +30,7 @@ function AuthTableProvider({ children }) {
       .get('auth/currentTable')
       .then(res => {
         setState(res.data.table, false, null);
-        console.log(res.data.table);
+        console.log('TABLEINFO:', res.data.table);
         if(res.data.table && Object.keys(res.data.table).length > 0) {
           socket.emit("connectToMenu", {restaurantId: res.data.table.restaurantId});
           socket.on(`getMenuUser-${res.data.table.restaurantId}`, (receivedMenu) => {
