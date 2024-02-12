@@ -34,7 +34,7 @@ const MyRestaurant = () => {
         })
         .then((response) => {
           console.log("Logo uploaded successfully:", response.data);
-          setUpdateTrigger(prev => prev + 1);
+          setUpdateTrigger((prev) => prev + 1);
         })
         .catch((error) => {
           console.error("Error uploading logo:", error);
@@ -62,8 +62,20 @@ const MyRestaurant = () => {
           <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
             <div className="items-center sm:flex xl:block 2xl:flex sm:space-x-4 xl:space-x-0 2xl:space-x-4">
               <img
-                className={`mb-4 rounded-lg w-28 h-28 sm:mb-0 xl:mb-4 2xl:mb-0 ${restaurant.logo && restaurant.logo !== 'https://res.cloudinary.com/ddoeaay7c/image/upload/v1707763851/Default-Logo_ylhopo.png' ? '' : 'blur-sm'}`}
-                src={restaurant.logo && restaurant.logo !== 'https://res.cloudinary.com/ddoeaay7c/image/upload/v1707763851/Default-Logo_ylhopo.png' ? restaurant.logo : DefaultLogo}
+                className={`mb-4 rounded-lg w-28 h-28 sm:mb-0 xl:mb-4 2xl:mb-0 ${
+                  restaurant.logo &&
+                  restaurant.logo !==
+                    "https://res.cloudinary.com/ddoeaay7c/image/upload/v1707763851/Default-Logo_ylhopo.png"
+                    ? ""
+                    : "blur-sm"
+                }`}
+                src={
+                  restaurant.logo &&
+                  restaurant.logo !==
+                    "https://res.cloudinary.com/ddoeaay7c/image/upload/v1707763851/Default-Logo_ylhopo.png"
+                    ? restaurant.logo
+                    : DefaultLogo
+                }
                 alt={`Restaurant Logo ${restaurant.title}`}
               />
               <div>
@@ -548,23 +560,27 @@ const MyRestaurant = () => {
                     required
                   />
                 </div> */}
-                <div className="col-span-6 sm:col-span-3">
+
+                <div className="col-span-4 sm:col-span-2 flex items-center">
+                  <div className="mt-4">Monday</div>
+                </div>
+                <div className="col-span-4 sm:col-span-2">
                   <label
                     htmlFor="country"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Open time
+                    Opening time
                   </label>
                   <input
                     type="text"
                     name="country"
                     id="country"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder={restaurant.openTime}
+                    placeholder={restaurant.openTime?.Monday ?? '00:00'}
                     required
                   />
                 </div>
-                <div className="col-span-6 sm:col-span-3">
+                <div className="col-span-4 sm:col-span-2">
                   <label
                     htmlFor="city"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -576,25 +592,177 @@ const MyRestaurant = () => {
                     name="city"
                     id="city"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder={restaurant.closeTime}
+                    placeholder={restaurant.closeTime?.Monday ?? '00:00'}
                     required
                   />
                 </div>
+
+                <div className="col-span-4 sm:col-span-2 flex items-center">
+                  <div className="">Tuesday</div>
+                </div>
+                <div className="col-span-4 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="country"
+                    id="country"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder={restaurant.openTime?.Tuesday ?? '00:00'}
+                    required
+                  />
+                </div>
+                <div className="col-span-4 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="city"
+                    id="city"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder={restaurant.closeTime?.Tuesday ?? '00:00'}
+                    required
+                  />
+                </div>
+
+                <div className="col-span-4 sm:col-span-2 flex items-center">
+                  <div className="">Wednesday</div>
+                </div>
+                <div className="col-span-4 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="country"
+                    id="country"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder={restaurant.openTime?.Wednesday ?? '00:00'}
+                    required
+                  />
+                </div>
+                <div className="col-span-4 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="city"
+                    id="city"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder={restaurant.closeTime?.Wednesday ?? '00:00'}
+                    required
+                  />
+                </div>
+
+                <div className="col-span-4 sm:col-span-2 flex items-center">
+                  <div className="">Thursday</div>
+                </div>
+                <div className="col-span-4 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="country"
+                    id="country"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder={restaurant.openTime?.Thursday ?? '00:00'}
+                    required
+                  />
+                </div>
+                <div className="col-span-4 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="city"
+                    id="city"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder={restaurant.closeTime?.Thursday ?? '00:00'}
+                    required
+                  />
+                </div>
+
+                <div className="col-span-4 sm:col-span-2 flex items-center">
+                  <div className="">Friday</div>
+                </div>
+                <div className="col-span-4 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="country"
+                    id="country"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder={restaurant.openTime?.Friday ?? '00:00'}
+                    required
+                  />
+                </div>
+                <div className="col-span-4 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="city"
+                    id="city"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder={restaurant.closeTime?.Friday ?? '00:00'}
+                    required
+                  />
+                </div>
+
+                <div className="col-span-4 sm:col-span-2 flex items-center">
+                  <div className="">Saturday</div>
+                </div>
+                <div className="col-span-4 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="country"
+                    id="country"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder={restaurant.openTime?.Saturday ?? '00:00'}
+                    required
+                  />
+                </div>
+                <div className="col-span-4 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="city"
+                    id="city"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder={restaurant.closeTime?.Saturday ?? '00:00'}
+                    required
+                  />
+                </div>
+
+                <div className="col-span-4 sm:col-span-2 flex items-center">
+                  <div className="">Sunday</div>
+                </div>
+                <div className="col-span-4 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="country"
+                    id="country"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder={restaurant.openTime?.Sunday ?? '00:00'}
+                    required
+                  />
+                </div>
+                <div className="col-span-4 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="city"
+                    id="city"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder={restaurant.closeTime?.Sunday ?? '00:00'}
+                    required
+                  />
+                </div>
+
                 <div className="col-span-6 sm:col-span-6">
                   <label
-                    htmlFor="weekends"
+                    htmlFor="currency"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Weekends
+                    Currency
                   </label>
-                  <input
+                  <select
+                    id="currency"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    <option>{restaurant.currency}</option>
+                    <option>USD</option>
+                  </select>
+                  {/* <input
                     type="text"
                     name="weekends"
                     id="weekends"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder={restaurant.weekends}
+                    placeholder={restaurant.currency}
                     required
-                  />
+                  /> */}
                 </div>
 
                 <div className="col-span-6 sm:col-full">
