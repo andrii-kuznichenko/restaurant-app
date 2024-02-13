@@ -66,13 +66,13 @@ function AuthTableProvider({ children }) {
     axios
       .post("/auth/login", table)
       .then((res) => {
-
         setState(res.data.table, false, null);
         console.log("TABLEINFO FROM LOGIN:", res.data.table);
       })
       .catch((err) => {
         setState(null, false, err.response.data);
       });
+      navigate('/user');
   };
 
   const register = (table) => {
