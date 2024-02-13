@@ -79,11 +79,11 @@ function AuthTableProvider({ children }) {
                 );
                 const uniqCategories = [...new Set(newArrayCategories)];
                 setCategories(uniqCategories);
+                navigate("/user");
               }
             }
           );
         }
-        navigate("/user");
       })
       .catch((err) => {
         setState(null, false, err.response.data);
