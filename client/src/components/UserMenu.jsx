@@ -2,8 +2,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import ScanServeLogo from '../assets/ScanServeLogo.png';
 import { Link, useNavigate } from "react-router-dom";
-import UserOrderMeal from "./UserOrderMeal";
-import { FaChevronDown } from "react-icons/fa";
 import "./UserMenu.css";
 import { AuthTableContext } from "../context/AuthTable";
 import io from "socket.io-client";

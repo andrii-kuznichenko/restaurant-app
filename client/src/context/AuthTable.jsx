@@ -31,24 +31,6 @@ function AuthTableProvider({ children }) {
       .then((res) => {
         setState(res.data.table, false, null);
         console.log("TABLEINFO:", res.data);
-        if (res.data.table && Object.keys(res.data.table).length > 0) {
-          socket.emit("connectToMenu", {
-            restaurantId: res.data.table.restaurantId,
-          });
-          socket.on(
-            `getMenuUser-${res.data.table.restaurantId}`,
-            (receivedMenu) => {
-              setUserMenu(receivedMenu);
-              if (receivedMenu.menu && receivedMenu.menu.length > 0) {
-                const newArrayCategories = receivedMenu.menu.map(
-                  (meal) => meal.category
-                );
-                const uniqCategories = [...new Set(newArrayCategories)];
-                setCategories(uniqCategories);
-              }
-            }
-          );
-        }
       })
       .catch((error) => {
         // we don't care about this error so I'm not storing it
@@ -56,6 +38,28 @@ function AuthTableProvider({ children }) {
         setState(null, false, error);
       });
   }, []);
+
+  useEffect(() => {
+    if (table && Object.keys(table).length > 0) {
+      socket.emit("connectToMenu", {
+        restaurantId: table.restaurantId,
+      });
+      socket.on(
+        `getMenuUser-${table.restaurantId}`,
+        (receivedMenu) => {
+          setUserMenu(receivedMenu);
+          if (receivedMenu.menu && receivedMenu.menu.length > 0) {
+            const newArrayCategories = receivedMenu.menu.map(
+              (meal) => meal.category
+            );
+            const uniqCategories = [...new Set(newArrayCategories)];
+            setCategories(uniqCategories);
+          }
+        }
+      );
+    }
+
+  }, [table])
 
   const login = (table) => {
     setLoading(true);
@@ -65,26 +69,6 @@ function AuthTableProvider({ children }) {
 
         setState(res.data.table, false, null);
         console.log("TABLEINFO FROM LOGIN:", res.data.table);
-        if (res.data.table && Object.keys(res.data.table).length > 0) {
-          socket.emit("connectToMenu", {
-            restaurantId: res.data.table.restaurantId,
-          });
-          socket.on(
-            `getMenuUser-${res.data.table.restaurantId}`,
-            (receivedMenu) => {
-              setUserMenu(receivedMenu);
-              if (receivedMenu.menu && receivedMenu.menu.length > 0) {
-                console.log('11',receivedMenu);
-                const newArrayCategories = receivedMenu.menu.map(
-                  (meal) => meal.category
-                );
-                const uniqCategories = [...new Set(newArrayCategories)];
-                setCategories(uniqCategories);
-                navigate("/user");
-              }
-            }
-          );
-        }
       })
       .catch((err) => {
         setState(null, false, err.response.data);
