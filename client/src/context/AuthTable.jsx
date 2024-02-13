@@ -29,7 +29,9 @@ function AuthTableProvider({ children }) {
     axios
       .get("auth/currentTable")
       .then((res) => {
-        setState(res.data.table, false, null);
+        if(res.data.table && Object.keys(res.data.table).length > 0){
+          setState(res.data.table, false, null);
+        }
         console.log("TABLEINFO:", res.data);
       })
       .catch((error) => {
@@ -66,7 +68,9 @@ function AuthTableProvider({ children }) {
     axios
       .post("/auth/login", table)
       .then((res) => {
-        setState(res.data.table, false, null);
+        if(res.data.table && Object.keys(res.data.table).length > 0){
+          setState(res.data.table, false, null);
+        }
         console.log("TABLEINFO FROM LOGIN:", res.data.table);
       })
       .catch((err) => {
