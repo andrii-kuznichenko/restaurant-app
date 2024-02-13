@@ -6,14 +6,20 @@ const {
   createRestaurant,
   getAllRestaurants,
   getAllOrders,
-  getRestaurantById
+  getRestaurantById,
+  updateRestaurantLogo,
+  updateRestaurantInfo,
 } = require("../controllers/restaurants");
 
+const upload = require("../config/multer");
 
 restaurantRouter.post("/", createRestaurant);
 restaurantRouter.get("/", getAllRestaurants);
 restaurantRouter.get("/orders/:restaurantId", getAllOrders)
-restaurantRouter.get("/myRestaurant", getRestaurantInfo);
+restaurantRouter.get("/myrestaurant", getRestaurantInfo);
 restaurantRouter.get("/restaurant/:id", getRestaurantById);
+restaurantRouter.put("/restaurant/logo/:id", upload.single("image"), updateRestaurantLogo);
+restaurantRouter.put("/restaurant/info/:restaurantId", updateRestaurantInfo)
+
 
 module.exports = restaurantRouter;

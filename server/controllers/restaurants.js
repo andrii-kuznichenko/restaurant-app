@@ -1,6 +1,8 @@
 const Admin = require("../modules/admin");
 const Restaurant = require("../modules/restaurant");
 const Order = require("../modules/order");
+const cloudinary = require('../config/cloudinary');
+const fs = require('fs');
 
 const getRestaurantInfo = async (req, res) => {
   try {
@@ -75,12 +77,64 @@ const getRestaurantById = async (req, res) => {
   }
 }
 
+const updateRestaurantLogo = async (req, res) => {
+  try {
+    console.log('MULTER FILE?', req.file ? "Yes" : "No file");
+    if (req.file) {
+      console.log("File path:", req.file.path);
+
+      
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "your_folder_name_here", 
+      });
+
+      const updatedRestaurant = await Restaurant.findByIdAndUpdate(
+        req.params.id,
+        { $set: { logo: result.secure_url } }, 
+        { new: true, useFindAndModify: false }
+      );
+
+      if (!updatedRestaurant) {
+        return res.status(404).json({ message: 'Restaurant not found' });
+      }
+
+      console.log("Restaurant logo updated");
+      res.status(200).json(updatedRestaurant);
+    } else {
+      throw new Error('No file uploaded');
+    }
+  } catch (error) {
+    console.error("Error in updateRestaurantLogo:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const updateRestaurantInfo = async (req, res) => {
+  try {
+    const restaurantId = req.params.restaurantId;
+    const updateData = req.body;
+    console.log(`Updating restaurant ID: ${restaurantId}`, updateData);
+    // Find the restaurant by ID and update it
+    const updatedRestaurant = await Restaurant.findByIdAndUpdate(restaurantId, updateData, { new: true });
+
+    if (!updatedRestaurant) {
+      return res.status(404).json({ message: 'Restaurant not found' });
+    }
+
+    res.status(200).json({ message: 'Restaurant updated successfully', updatedRestaurant });
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating restaurant', error: error.message });
+  }
+};
+
 module.exports = {
   getRestaurantInfo,
   createRestaurant,
   getAllRestaurants,
   getAllOrders,
   getRestaurantById,
+  updateRestaurantLogo,
+  updateRestaurantInfo,
 };
 
 //const getAllInfoFromRestaurant = async (req, res) => {
