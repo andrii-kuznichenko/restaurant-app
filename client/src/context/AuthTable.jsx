@@ -74,6 +74,7 @@ function AuthTableProvider({ children }) {
             (receivedMenu) => {
               setUserMenu(receivedMenu);
               if (receivedMenu.menu && receivedMenu.menu.length > 0) {
+                console.log('11',receivedMenu);
                 const newArrayCategories = receivedMenu.menu.map(
                   (meal) => meal.category
                 );
