@@ -80,7 +80,7 @@ function AuthTableProvider({ children }) {
                 );
                 const uniqCategories = [...new Set(newArrayCategories)];
                 setCategories(uniqCategories);
-                // navigate("/user");
+                navigate("/user");
               }
             }
           );
