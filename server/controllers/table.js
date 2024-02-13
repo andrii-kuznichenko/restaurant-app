@@ -50,6 +50,7 @@ const login = async (req, res) => {
             .cookie('accessToken', tableToken, {
               httpOnly: true,
               expires: new Date(Date.now() + dayInMilliseconds),
+              sameSite: 'strict',
             })
             .json({ message: 'table loggedin!', table: tablePayload });
       }
