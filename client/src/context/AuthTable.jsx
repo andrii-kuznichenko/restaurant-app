@@ -45,7 +45,8 @@ function AuthTableProvider({ children }) {
       })
       .catch(error => {
         // we don't care about this error so I'm not storing it
-        setState(null, false, null);
+        console.log('ERROR', error);
+        setState(null, false, error);
       });  
   }, []);
 
