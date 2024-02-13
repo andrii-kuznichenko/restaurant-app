@@ -12,8 +12,24 @@ const register = async (req, res) => {
   try {
     const defaultRestaurant = {
       title: "Name of your restaurant",
-      openTime: "00:00",
-      closeTime: "00;00",
+      openTime: {
+        Monday: "00:00",
+        Tuesday: "00:00",
+        Wednesday: "00:00",
+        Thursday: "00:00",
+        Friday: "00:00",
+        Saturday: "00:00",
+        Sunday: "00:00",
+      },
+      closeTime: {
+        Monday: "00:00",
+        Tuesday: "00:00",
+        Wednesday: "00:00",
+        Thursday: "00:00",
+        Friday: "00:00",
+        Saturday: "00:00",
+        Sunday: "00:00",
+      },
       weekends: [],
       information: "Details about your restaurant",
       currency: "EUR",
