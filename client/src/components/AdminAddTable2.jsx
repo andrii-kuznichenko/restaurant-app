@@ -42,7 +42,7 @@ const AdminAddTable2 = (  ) => {
 
   const createTableAndGetId = async () => {
     try {
-      const response = await axios.post("auth/addTable", {
+      const response = await axios.post("/auth/addTable", {
         restaurantId: admin.restaurantId,
         tableNumber,
       });
