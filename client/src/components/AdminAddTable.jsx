@@ -24,7 +24,7 @@ const AdminAddTable = ({ onTableAdded, isModalOpen, closeModal }) => {
     if (captureQRCode && tableId) {
       const capture = async () => {
         const qrCodeUrl = await convertToImageAndUpload();
-        await axios.post("auth/tables/update-qr-code", { tableId, qrCodeUrl });
+        await axios.post("/auth/tables/update-qr-code", { tableId, qrCodeUrl });
         setCaptureQRCode(false);
 
         setSuccessMessage("Table created and QR code updated successfully.");
