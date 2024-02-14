@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Navigate, Outlet, Link } from "react-router-dom";
 import { AuthContext } from "../context/Auth";
 import { AuthTableContext } from "../context/AuthTable";
@@ -7,12 +7,26 @@ import ScanServeLogo from "../assets/ScanServeLogo.png";
 import { Dropdown, Avatar } from "flowbite-react";
 import {Sidebar} from 'flowbite-react'
 import DarkModeToggle from "./darkModeToggle";
+import axios from "../axiosInstance";
 
 function Protected() {
   const { admin, loading, logout } = useContext(AuthContext);
   const { table, loadingTable } = useContext(AuthTableContext);
   const [isSubMenuVisible, setIsSubMenuVisible] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [restaurant, setRestaurant] = useState({})
+
+
+  useEffect(() => {
+    if (admin) {
+      axios
+      .get(`/dashboard/restaurant/${admin.restaurantId}`)
+      .then((res) => {
+        console.log("Received restaurant data:", res.data);
+        setRestaurant(res.data);
+      })
+      .catch((e) => console.error("Error fetching restaurant data:", e));}
+  }, [admin]);
 
 
   const toggleSubMenu = () => {
@@ -392,7 +406,7 @@ function Protected() {
                           label={
                             <Avatar
                               alt="User Icon"
-                              img={ScanServeLogo}
+                              img={restaurant.logo}
                               rounded
                               
                             />
@@ -431,15 +445,15 @@ function Protected() {
                 <div className="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
                   <ul className="space-y-2 font-medium">
                     <li>
-                      <a
-                        href="#"
+                      <Link
+                        to="/admin/restaurant"
                         className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                       >
                         <span class="material-symbols-outlined">
                           storefront
                         </span>
                         <span className="ms-3">My Restaurant</span>
-                      </a>
+                      </Link>
                     </li>
                     <li>
                       <Link

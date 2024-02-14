@@ -2,8 +2,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import ScanServeLogo from '../assets/ScanServeLogo.png';
 import { Link, useNavigate } from "react-router-dom";
-import UserOrderMeal from "./UserOrderMeal";
-import { FaChevronDown } from "react-icons/fa";
 import "./UserMenu.css";
 import { AuthTableContext } from "../context/AuthTable";
 import io from "socket.io-client";
@@ -52,7 +50,7 @@ const UserMenu = () => {
         
       })
       .catch((e) => console.error("Error fetching restaurant data:", e));
-  }, []);
+  }, [context.table]);
 
 
   useEffect(() => { 
@@ -75,10 +73,12 @@ axios
         
       })
       .catch((e) => console.error("Error fetching restaurant data:", e));
- }, []);
+
+      console.log('menu', userMenu.menu);
+ }, [userMenu]);
 
   useEffect(() => {
-    if(order && order && Object.keys(order).length > 0){
+    if(order && Object.keys(order).length > 0){
       socket.disconnect();
       navigate('/user/order/confirmation');
     }
@@ -89,13 +89,13 @@ axios
   },[categories])
 
   
-const getCategories = () => {
-  if(userMenu.menu && userMenu.menu.length > 0){
-    console.log('1111');
-    const newArrayCategories = userMenu.menu.map(meal => meal.category);
-    setCategories(newArrayCategories.filter((category, index) => newArrayCategories.indexOf(category) !== index));
-  }
-}
+// const getCategories = () => {
+//   if(userMenu.menu && userMenu.menu.length > 0){
+//     console.log('1111');
+//     const newArrayCategories = userMenu.menu.map(meal => meal.category);
+//     setCategories(newArrayCategories.filter((category, index) => newArrayCategories.indexOf(category) !== index));
+//   }
+// }
 const getQuantity = (id)=>{
    return orderItems.find(item=>item._id === id)?.quantity || 0
 }

@@ -12,7 +12,13 @@ const { createServer } = require("node:http");
 const server = createServer(app);
 
 const { Server } = require("socket.io");
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    cors: true,
+    origin: process.env.FRONTEND_URL,
+  },
+});
+
 const jwt = require("jsonwebtoken");
 const cookie = require("cookie");
 

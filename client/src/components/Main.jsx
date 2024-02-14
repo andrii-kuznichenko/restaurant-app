@@ -34,6 +34,7 @@ function Main() {
         <Route path="order/meal/:id" element={<UserMealDetails />} />
       </Route>
       <Route path="/loginTable/:_id/:tableNumber/:restaurantId" element={<TableLogin />} />
+      <Route path="/loginTable" element={<TableLogin />} />
 
       <Route path="/" element={<Protected />}>
       <Route path="" element={<AdminOrders />} />

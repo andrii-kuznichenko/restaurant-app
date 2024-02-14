@@ -5,7 +5,6 @@ import CreateQrCode from "./CreateQrCode";
 import AdminTables from "./AdminTables";
 import { useNavigate } from "react-router-dom";
 import AdminMenuModal from "./AdminMenuModal";
-import axios from "axios";
 import AdminEditDeleteMeal from "./AdminUpdateMeal";
 import Lottie from "react-lottie";
 import animationData from "../animations/hideAnimation.json";

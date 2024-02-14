@@ -201,7 +201,7 @@ const AdminOrders = () => {
                           >
                             <Table.Cell>#{orders.length - index}</Table.Cell>
                             <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                              #{order.tableNumberId.tableNumber}
+                              #{order.tableNumberId?.tableNumber}
                             </Table.Cell>
                             <Table.Cell>
                               <span className="bg-gray-100 text-gray-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded me-2 dark:bg-gray-700 dark:text-gray-400 border border-gray-500 ">
