@@ -53,7 +53,7 @@ function Register() {
                   htmlFor=""
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Name of your Restaurant
+                  Your name
                 </label>
                 {errors?.login && (
                   <p className="text-danger">{errors?.login.message}</p>
