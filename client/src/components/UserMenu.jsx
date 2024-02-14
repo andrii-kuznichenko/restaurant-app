@@ -138,8 +138,8 @@ const getTotalPrice = (id)=>{
 
     <div className="flex items-center justify-center relative overflow-x-auto p-2 first:rounded-t-lg last:rounded-b-lg py-5 px-5 text-gray-500 dark:text-gray-400 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:hover:bg-gray-800 dark:focus:ring-gray-800 font-bold text-xl">
       <img src={ScanServeLogo} alt="Scan & Serve" className="h-10 w-auto mr-2" />
-      <span className="text-2xl font-bold mr-6">Scan & Serve</span>
-      <span className="text-2xl font-bold mr-6"> {restaurant.title}</span>
+      <span className="text-xl font-bold mr-6">Scan & Serve</span>
+      <span className="text-xl font-bold mr-6"> {restaurant.title}</span>
       <span className="text-2xl font-bold"><DarkModeToggle /></span>
     </div>
 
