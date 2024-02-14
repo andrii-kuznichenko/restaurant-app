@@ -8,9 +8,6 @@ import "../index.css";
 import { Button } from "flowbite-react";
 import UserMealDetails from "./UserMealDetails";
 
-const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
-  transports: ["websocket"],
-});
 
 const OrderSummary = () => {
   const context = useContext(AuthTableContext);
@@ -19,6 +16,9 @@ const OrderSummary = () => {
   const { orderItems, total } = useContext(AuthTableContext);
   const [showMeal, setShowMeal] = useState(false);
   const [mealDetailsId, setMealDetailsId] = useState("");
+  const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
+    transports: ["websocket"],
+  });
 
   useEffect(() => {
     axios
