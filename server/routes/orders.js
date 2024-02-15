@@ -6,6 +6,6 @@ const {
 } = require("../controllers/orders");
 
 orderRouter.get("/:tableNumberId", getOrderByTableNumber);
-orderRouter.get("/date/:dateStart/:dateFinish", getOrderByDate)
+orderRouter.get("/date/:dateStart/:dateFinish/:restaurantId", getOrderByDate)
 
 module.exports = orderRouter;

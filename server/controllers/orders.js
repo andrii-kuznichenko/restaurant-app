@@ -15,7 +15,7 @@ const getOrderByTableNumber = async (req, res) => {
 
 const getOrderByDate = async (req, res) => {
   try {
-    const { dateStart, dateFinish } = req.params;
+    const { dateStart, dateFinish, restaurantId } = req.params;
     const startDate = new Date(dateStart);
     startDate.setUTCHours(0, 0, 0, 0);
 
@@ -27,6 +27,7 @@ const getOrderByDate = async (req, res) => {
         $gte: startDate,
         $lt: endDate,
       },
+      restaurantId: restaurantId
     }).populate("meals.name").populate({path: "tableNumberId", select: "tableNumber"}).sort({createdAt: -1});
     res.status(201).json(order);
   } catch (error) {

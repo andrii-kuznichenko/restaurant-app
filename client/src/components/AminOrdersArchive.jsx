@@ -31,9 +31,10 @@ const AdminOrdersArchive = () => {
   useEffect(() => {
     if (value) {
       axios
-        .get(`/order/date/${value.startDate}/${value.endDate}`)
+        .get(`/order/date/${value.startDate}/${value.endDate}/${admin.restaurantId}`)
         .then((res) => {
           console.log(res.data);
+          console.log('sadasdasdas', admin.restaurantId);
           if (res.data && Object.keys(res.data).length > 0) {
             setOrders(res.data);
           }
@@ -121,9 +122,9 @@ const AdminOrdersArchive = () => {
   const handleValueChange = (newValue) => {
     setValue(newValue);
     axios
-      .get(`/order/date/${newValue.startDate}/${newValue.endDate}`)
+      .get(`/order/date/${newValue.startDate}/${newValue.endDate}/${admin.restaurantId}`)
       .then((res) => {
-        console.log(res.data);
+        console.log('sadasdasdas', admin.restaurantId);
         if (res.data && Object.keys(res.data).length > 0) {
           setOrders(res.data);
         }
