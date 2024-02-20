@@ -24,6 +24,8 @@ Welcome to **Scan & Serve**, the cutting-edge app designed to transform the way 
 
 - **Real-Time Updates**: From the moment you place your order until it's ready, stay informed with live updates on your order status through the app. Always know exactly when your meal will be ready to enjoy.
 
+  ![](https://github.com/andrii-kuznichenko/restaurant-app/blob/main/screenshots/IMG_8402.gif)
+
 ## Why Choose Scan & Serve?
 
 Scan & Serve isn't just an app; it's a comprehensive solution aimed at improving restaurant operations' efficiency and enhancing the dining experience for customers. Whether you're a restaurant owner looking to streamline your services or a diner in search of a hassle-free meal, Scan & Serve caters to your needs.
