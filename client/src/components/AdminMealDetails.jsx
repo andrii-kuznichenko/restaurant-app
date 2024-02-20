@@ -2,14 +2,14 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import io from "socket.io-client";
 import { AuthContext } from '../context/Auth';
-const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
-  transports: ["websocket"],
-});
 
 function AdminMealDetails() {
   const { id } = useParams();
   const [meal, setMeal] = useState({});
   const { admin, loading } = useContext(AuthContext);
+  const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
+    transports: ["websocket"],
+  });
 
 
   useEffect(() => { 

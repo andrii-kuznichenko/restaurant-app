@@ -2,77 +2,69 @@ import axios from "../axiosInstance";
 import React, { useState, useEffect, useContext, useRef } from "react";
 import io from "socket.io-client";
 import { AuthContext } from "../context/Auth";
-const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
-  transports: ["websocket"],
-});
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { Navigate, useNavigate } from "react-router-dom";
-import AdminOrderTimeline from "./AdminOrderTimeline";
-import { Button, Timeline } from "flowbite-react";
-import { HiArrowNarrowRight } from "react-icons/hi";
-import { Dropdown } from "flowbite-react";
+import { Tabs } from "flowbite-react";
+import { HiLockClosed } from "react-icons/hi";
+import { FaLockOpen } from "react-icons/fa";
+import LoadingDots from "./LoadingDots";
+import { Table } from "flowbite-react";
+import { useNotification } from '../context/Notification';
+
+import AdminOrderDetails from "./AdminOrderDetails";
+import { Button } from "flowbite-react";
+import { HiOutlineArrowRight } from "react-icons/hi";
+import Lottie from "react-lottie";
+import waitAnimation from "../animations/waitingForNewOrdersAnimation.json";
 
 const AdminOrders = () => {
   const { admin, loading } = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
-  const notify = () => toast("New order!💰");
+  const [ordersLoadind, SetOrdersLoading] = useState(true);
   const prevOrdersRef = useRef();
   const navigate = useNavigate();
   const [timeElapsed, setTimeElapsed] = useState("");
-
-  // const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
-  //   transports: ["websocket"],
-  // });
-
-  // const adminSocket = io(
-  //   `${import.meta.env.VITE_SERVER_BASE_URL}/restaurant-${restaurantId}`,
-  //   {
-  //     transports: ["websocket"],
-  //   }
-  // );
+  const { notify } = useNotification();
+  const [showOrder, setShowOrder] = useState(false);
+  const [orderDetailsId, setOrderDetailsId] = useState("");
+  const [flag, setFlag] = useState(0);
+  const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
+    transports: ["websocket"],
+  });
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: waitAnimation,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid meet",
+    },
+  };
 
   useEffect(() => {
-    // axios
-    // axios.get(`/dashboard/orders/${restaurantId}`)
-    // .then((res) => {
-    //   console.log("Received data:", res.data);
-    //   if (Array.isArray(res.data)) {
-    //     setNewOrders(res.data);
-    //   }
-    // })
-    // .catch((e) => console.error(e));
+    
+    console.log(admin);
+    if (admin) {
+      socket.emit("connectToOrder", { restaurantId: admin.restaurantId });
+      socket.on(`getOrders-${admin.restaurantId}`, (receivedOrders) => {
+        setOrders(receivedOrders);
+        let orderIsClosed = false;
+        receivedOrders.forEach((order) => {
+          if (!order.isClosed) {
+            orderIsClosed = true;
+          }
+        });
+        if (orderIsClosed) {
+          setFlag(1);
+        } else {
+          setFlag(0);
+        }
+        setTimeout(() => {
+          SetOrdersLoading(false);
+        }, 600);
+      });
+    }
+  }, [admin]);
 
-    //   // setNewOrders(res.data))
-
-    // adminSocket.emit("join room", "admin");
-    // adminSocket.on("new order", (order) => {
-    //   console.log("New order received:", order);
-    //   setNewOrders((prevOrders) => [order, ...prevOrders]);
-    // });
-
-    // return () => {
-    //   adminSocket.off("new order");
-    //   socket.disconnect();
-    // };
-
-    socket.emit("connectToOrder", { restaurantId: admin.restaurantId });
-    socket.on(`getOrders-${admin.restaurantId}`, (receivedOrders) => {
-      console.log(receivedOrders);
-      // Check if there is a previous state and if the new orders array is longer
-      if (
-        prevOrdersRef.current &&
-        receivedOrders.length > prevOrdersRef.current.length
-      ) {
-        notify(); // Trigger the notification for a new order
-      }
-
-      // Update the previous orders ref with the current orders
-      prevOrdersRef.current = receivedOrders;
-      setOrders(receivedOrders);
-    });
-  }, []);
-
+ 
   const closeOrderHandler = (e) => {
     socket.emit("connectToOrder", {
       restaurantId: admin.restaurantId,
@@ -108,150 +100,315 @@ const AdminOrders = () => {
     return `${Math.floor(differenceInSeconds / 86400)} days ago`;
   };
 
-  const OrderDetailHandler = (id) => {
-    navigate(`admin/order/${id}`);
+  const getStatusMessage = (status) => {
+    if (status === "in process") {
+      return (
+        <div className="flex items-center gap-2">
+          <span className="flex w-2 h-2 bg-yellow-300 rounded-full"></span>
+
+          <span>In process...</span>
+        </div>
+      );
+    } else if (status === "need to accept") {
+      return (
+        <div className="flex items-center gap-2">
+          <span className="flex w-2 h-2 bg-yellow-300 rounded-full"></span>
+
+          <span>Needs acceptance</span>
+        </div>
+      );
+    } else if (status === "waiting for payment") {
+      return (
+        <div className="flex items-center gap-2">
+          <span className="flex w-2 h-2 bg-yellow-300 rounded-full"></span>
+
+          <span>Awaiting payment</span>
+        </div>
+      );
+    } else if (status === "finished") {
+      return (
+        <div className="flex items-center gap-2">
+          <span className="flex w-2 h-2 bg-green-600 rounded-full"></span>
+
+          <span>Order completed</span>
+        </div>
+      );
+    } else if (status === "order could not be processed") {
+      return (
+        <div className="flex items-center gap-2">
+          <span className="flex w-2 h-2 bg-red-600 rounded-full"></span>
+          <span>Order failed</span>
+        </div>
+      );
+    } else {
+      return status; // default case
+    }
   };
 
-  const selectClass = "text-sm group flex items-center justify-center p-0.5 text-center font-medium relative focus:z-10 focus:outline-none text-gray-900 bg-white border border-gray-200 enabled:hover:bg-gray-100 enabled:hover:text-cyan-700 :ring-cyan-700 focus:text-cyan-700 dark:bg-transparent dark:text-gray-400 dark:border-gray-600 dark:enabled:hover:text-white dark:enabled:hover:bg-gray-700 rounded-lg focus:ring-2";
-  const selectedOptionClass = "flex items-center transition-all duration-200 rounded-md text-sm px-4 py-2"
+  const openOrderDetailsHandler = (id) => {
+    setOrderDetailsId(id);
+    setShowOrder(!showOrder);
+  };
+
+  const OpenArchiveHadler = () => {
+    navigate("/admin/orders/archive");
+  };
+
+  const selectClass =
+    "text-sm group flex items-center justify-center p-0.5 text-center font-medium relative focus:z-10 focus:outline-none text-gray-900 bg-white border border-gray-300 enabled:hover:bg-gray-100 enabled:hover:text-cyan-700 :ring-cyan-700 focus:text-cyan-700 dark:bg-transparent dark:text-gray-400 dark:border-gray-600 dark:enabled:hover:text-white dark:enabled:hover:bg-gray-700 rounded-lg focus:ring-2";
+  const selectedOptionClass =
+    "flex items-center transition-all duration-200 rounded-md text-sm px-4 py-2";
 
   return (
-    <div>
-      <Timeline className="mx-4">
-        <ToastContainer />
-        <h1 className="text-center py-3">Admin Orders</h1>
-
-        {orders.length === 0 ? (
-          <h2>No orders yet</h2>
-        ) : (
-          orders.map((order, index) => (
-            <>
-              <Timeline.Item className="border-b-2">
-                <Timeline.Point />
-                <Timeline.Content>
-                  <Timeline.Time>{timeSince(order.createdAt)}</Timeline.Time>
-                  <Timeline.Title>
-                    Table {order.tableNumberId.tableNumber}
-                  </Timeline.Title>
-                  <Timeline.Body>
-                    <div
-                      key={index}
-                      className="p-2 grid grid-cols-4 justify-between"
-                    >
-                      <div className="flex flex-col">
-                        {order.meals.map((meal, index) => (
-                          <div>
-                            <div key={index}>
-                              ●{meal.name.title} {meal.quantity}x
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="flex flex-col">
-                        
-                        <div>{order.status}</div>
-                      </div>
-                      <div className="flex flex-col">
-                        
-                        <div>{order.isClosed ? "closed" : "active"}</div>
-                      </div>
-                      {/* <button onClick={changeOrderStatusHandler} name={order._id} className="border-2 hover:bg-blue-500">Change Status</button> */}
-                      <div className="flex flex-col gap-2">
-                    <Button
-                    color="gray"
-                    onClick={() => OrderDetailHandler(order._id)}
-                  >
-                    Order Details
-                    <HiArrowNarrowRight className="ml-2 h-3 w-3" />
-                  </Button>
-                  <div>
-                  <select
-                  onChange={(e) => changeOrderStatusHandler(e)}
-                  defaultValue={order.status}
-                  className={selectClass} 
-                  name={order._id}
-                  type="button"
-                >
-                  <option value="in process" > <span className="in-process">In process</span></option>
-                  <option value="need to accept">Need to accept</option>
-                  <option value="waiting for payment">
-                    Waiting for payment
-                  </option>
-                  <option value="finished">Finished</option>
-                  <option value="order could not be processed">
-                    Order could not be processed
-                  </option>
-                </select>
-                </div>
-                  <Button
-                    color="red"
-                    onClick={closeOrderHandler}
-                    name={order._id}
-                  >
-                    Close
-                  </Button>
+    <>
+      {showOrder && (
+        <>
+          <div>
+            <AdminOrderDetails
+              id={orderDetailsId}
+              setShowOrder={setShowOrder}
+            />
+          </div>
+        </>
+      )}
+      {ordersLoadind ? (
+        <LoadingDots />
+      ) : (
+        <>
+          <div className="overflow-x-auto">
+            <Tabs aria-label="Tabs with underline" style="underline">
+              <Tabs.Item active title="Open" icon={FaLockOpen}>
+                <Table striped>
+                  <Table.Head>
+                    <Table.HeadCell>Order</Table.HeadCell>
+                    <Table.HeadCell>Table</Table.HeadCell>
+                    <Table.HeadCell>Created at</Table.HeadCell>
+                    <Table.HeadCell>Order details</Table.HeadCell>
+                    <Table.HeadCell>Status</Table.HeadCell>
+                    <Table.HeadCell>Closed/open</Table.HeadCell>
+                    <Table.HeadCell>Price</Table.HeadCell>
+                    <Table.HeadCell>
+                      <span className="sr-only">Edit</span>
+                    </Table.HeadCell>
+                  </Table.Head>
+                  <Table.Body className="divide-y">
+                    {orders.map((order, index) => {
+                      if (!order.isClosed) {
+                        return (
+                          <Table.Row
+                            className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                            key={index}
+                          >
+                            <Table.Cell>#{orders.length - index}</Table.Cell>
+                            <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                              #{order.tableNumberId?.tableNumber}
+                            </Table.Cell>
+                            <Table.Cell>
+                              <span className="bg-gray-100 text-gray-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded me-2 dark:bg-gray-700 dark:text-gray-400 border border-gray-500 ">
+                                <svg
+                                  className={`w-2.5 h-2.5 me-1.5 ${
+                                    [
+                                      "in process",
+                                      "need to accept",
+                                      "waiting for payment",
+                                    ].includes(order.status)
+                                      ? "spin"
+                                      : ""
+                                  }`}
+                                  aria-hidden="true"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z" />
+                                </svg>
+                                {timeSince(order.createdAt)}
+                              </span>
+                            </Table.Cell>
+                            <Table.Cell>
+                              {order.meals && order.meals.length > 0 && order.meals.map((meal, index) => (
+                                <div>
+                                  <div key={index}>
+                                    {meal.quantity} x {meal.name?.title}
+                                  </div>
+                                </div>
+                              ))}
+                            </Table.Cell>
+                            <Table.Cell>
+                              {getStatusMessage(order.status)}
+                            </Table.Cell>
+                            <Table.Cell>
+                              {order.isClosed ? (
+                                <span className="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                                  closed
+                                </span>
+                              ) : (
+                                <span className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">
+                                  open
+                                </span>
+                              )}
+                            </Table.Cell>
+                            <Table.Cell>{order.totalPrice} €</Table.Cell>
+                            <Table.Cell>
+                              <div
+                                onClick={() =>
+                                  openOrderDetailsHandler(order._id)
+                                }
+                                className="cursor-pointer font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                              >
+                                <svg
+                                  className="w-6 h-6 text-gray-800 dark:text-white"
+                                  aria-hidden="true"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M19 12H5m14 0-4 4m4-4-4-4"
+                                  />
+                                </svg>
+                              </div>
+                            </Table.Cell>
+                          </Table.Row>
+                        );
+                      }
+                    })}
+                  </Table.Body>
+                </Table>
+                {flag === 0 && (
+                  <div className=" relative flex flex-col justify-center items-center">
+                    <Lottie
+                      options={defaultOptions}
+                      height={350}
+                      width={700}
+                      style={{
+                        width: "80%",
+                      }}
+                    />
+                    <p class="absolute bottom-6 text-sm font-normal mb-2 text-gray-400 lg:text-xl dark:text-gray-400">
+                      Waiting for new orders.
+                    </p>
                   </div>
-                    </div>
-                    <div><div className="font-bold">Total price: {order.totalPrice} EUR</div></div>
-          
-                  </Timeline.Body>
-
-
-                </Timeline.Content>
-              </Timeline.Item>
-              
-              {/* <div key={index} className="p-2 grid grid-cols-6 justify-between">
-                <div className="flex flex-col">
-                  <div className="font-bold">Table</div>{" "}
-                  <div>{order.tableNumberId.tableNumber}</div>
-                  <div>{timeSince(order.createdAt)}</div>
-                </div>
-                <div className="flex flex-col">
-                  <div className="font-bold pl-2">Order</div>
-                  {order.meals.map((meal, index) => (
-                    <div>
-                      <div key={index}>
-                        ●{meal.name.title} {meal.quantity}x
-                      </div>
-                    </div>
-                  ))}
-                  <div>Total price: {order.totalPrice} EUR</div>
-                </div>
-                <div className="flex flex-col">
-                  <div className="font-bold">Status</div>{" "}
-                  <div>{order.status}</div>
-                </div>
-                <div className="flex flex-col">
-                  <div className="font-bold">Closed/active</div>{" "}
-                  <div>{order.isClosed ? "closed" : "active"}</div>
-                </div>
-                <select
-                  onChange={(e) => changeOrderStatusHandler(e)}
-                  defaultValue={order.status}
-                  className="border-2 hover:bg-blue-500"
-                  name={order._id}
-                >
-                  <option value="in process">In process</option>
-                  <option value="need to accept">Need to accept</option>
-                  <option value="waiting for payment">
-                    Waiting for payment
-                  </option>
-                  <option value="finished">Finished</option>
-                  <option value="order could not be processed">
-                    Order could not be processed
-                  </option>
-                </select>
-          
-                {/* <button onClick={changeOrderStatusHandler} name={order._id} className="border-2 hover:bg-blue-500">Change Status</button> */}
-              {/* </div> */} 
-              
-  
-             
-            </>
-          ))
-        )}
-      </Timeline>
-    </div>
+                )}
+              </Tabs.Item>
+              <Tabs.Item title="Closed" icon={HiLockClosed}>
+                <Table striped>
+                  <Table.Head>
+                    <Table.HeadCell>Order</Table.HeadCell>
+                    <Table.HeadCell>Table</Table.HeadCell>
+                    <Table.HeadCell>Created at</Table.HeadCell>
+                    <Table.HeadCell>Order details</Table.HeadCell>
+                    <Table.HeadCell>Status</Table.HeadCell>
+                    <Table.HeadCell>Closed/open</Table.HeadCell>
+                    <Table.HeadCell>Price</Table.HeadCell>
+                    <Table.HeadCell>
+                      <span className="sr-only">Edit</span>
+                    </Table.HeadCell>
+                  </Table.Head>
+                  <Table.Body className="divide-y">
+                    {orders.map((order, index) => {
+                      if (order.isClosed) {
+                        return (
+                          <Table.Row
+                            className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                            key={index}
+                          >
+                            <Table.Cell>#{orders.length - index}</Table.Cell>
+                            <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                              #{order.tableNumberId.tableNumber}
+                            </Table.Cell>
+                            <Table.Cell>
+                              <span className="bg-gray-100 text-gray-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded me-2 dark:bg-gray-700 dark:text-gray-400 border border-gray-500 ">
+                                <svg
+                                  className={`w-2.5 h-2.5 me-1.5 ${
+                                    [
+                                      "in process",
+                                      "need to accept",
+                                      "waiting for payment",
+                                    ].includes(order.status)
+                                      ? "spin"
+                                      : ""
+                                  }`}
+                                  aria-hidden="true"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z" />
+                                </svg>
+                                {timeSince(order.createdAt)}
+                              </span>
+                            </Table.Cell>
+                            <Table.Cell>
+                              {order.meals && order.meals.length > 0 && order.meals.map((meal, index) => (
+                                <div>
+                                  <div key={index}>
+                                    {meal.quantity} x {meal.name?.title}
+                                  </div>
+                                </div>
+                              ))}
+                            </Table.Cell>
+                            <Table.Cell>
+                              {getStatusMessage(order.status)}
+                            </Table.Cell>
+                            <Table.Cell>
+                              {order.isClosed ? (
+                                <span className="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                                  closed
+                                </span>
+                              ) : (
+                                <span className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">
+                                  open
+                                </span>
+                              )}
+                            </Table.Cell>
+                            <Table.Cell>{order.totalPrice} €</Table.Cell>
+                            <Table.Cell>
+                              <div
+                                onClick={() =>
+                                  openOrderDetailsHandler(order._id)
+                                }
+                                className="cursor-pointer font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                              >
+                                <svg
+                                  className="w-6 h-6 text-gray-800 dark:text-white"
+                                  aria-hidden="true"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M19 12H5m14 0-4 4m4-4-4-4"
+                                  />
+                                </svg>
+                              </div>
+                            </Table.Cell>
+                          </Table.Row>
+                        );
+                      }
+                    })}
+                  </Table.Body>
+                </Table>
+              </Tabs.Item>
+            </Tabs>
+            <div className="flex justify-center items-end">
+              <Button onClick={OpenArchiveHadler}>
+                Open Archive
+                <HiOutlineArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </div>
+          </div>
+        </>
+      )}
+    </>
   );
 };
 

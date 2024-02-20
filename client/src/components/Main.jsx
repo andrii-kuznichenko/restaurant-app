@@ -19,10 +19,13 @@ import AdminAddTable from './AdminAddTable';
 import UserMealDetails from './UserMealDetails';
 import AdminOrderDetails from './AdminOrderDetails';
 import AdminMealDetails from './AdminMealDetails';
+import AdminSideBar from './AdminSideBar'
+import AdminAddTable2 from "./AdminAddTable2"
+import AdminOrdersArchive from './AminOrdersArchive';
 
 function Main() {
   return (
-    <main>
+    <main className="bg-white dark:bg-gray-900 mb-auto flex-grow">
       <Routes>
       <Route path="/user" element={<ProtectedTables />}>
         <Route path="" element={<UserMenu />} />
@@ -31,17 +34,21 @@ function Main() {
         <Route path="order/meal/:id" element={<UserMealDetails />} />
       </Route>
       <Route path="/loginTable/:_id/:tableNumber/:restaurantId" element={<TableLogin />} />
+      <Route path="/loginTable" element={<TableLogin />} />
 
       <Route path="/" element={<Protected />}>
       <Route path="" element={<AdminOrders />} />
       <Route path="admin/menu" element={<AdminMenu />} />
       <Route path="admin/menu/:id" element={<AdminMealDetails />} />
-      <Route path="admin/dashboard" element={<AdminDashboard />} /> 
+      <Route path="admin/dashboard" element={<AdminDashboard />} />
+      <Route path="admin/orders" element={<AdminOrders />} />
       <Route path="admin/newmeal" element={<AdminNewMeal />} />  
       <Route path="admin/restaurant" element ={<MyRestaurant />} />
       <Route path="admin/tables" element={<AdminTables />} />
-      <Route path="admin/addtable" element={<AdminAddTable />} />
+      <Route path="admin/addtable" element={<AdminAddTable2 />} />
       <Route path="admin/order/:id" element ={<AdminOrderDetails />} />
+      <Route path="admin/sidebar" element ={<AdminSideBar />} />
+      <Route path="admin/orders/archive" element ={<AdminOrdersArchive />} />
       </Route>
       <Route path="/login" element ={<Login />} />
       <Route path="/register" element ={<Register />} />

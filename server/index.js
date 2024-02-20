@@ -12,7 +12,13 @@ const { createServer } = require("node:http");
 const server = createServer(app);
 
 const { Server } = require("socket.io");
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    cors: true,
+    origin: process.env.FRONTEND_URL,
+  },
+});
+
 const jwt = require("jsonwebtoken");
 const cookie = require("cookie");
 
@@ -20,6 +26,7 @@ const authRouter = require("./routes/table");
 const restaurantRouter = require("./routes/restaurants");
 const adminRouter = require("./routes/admins");
 const mealRouter = require("./routes/meals");
+const orderRouter = require("./routes/orders");
 
 const Meal = require("./modules/meal");
 const Restaurant = require("./modules/restaurant");
@@ -37,6 +44,7 @@ app.use("/auth", authRouter);
 app.use("/admin", adminRouter);
 app.use("/dashboard", restaurantRouter);
 app.use("/menu", mealRouter);
+app.use("/order", orderRouter);
 
 // const namespaces = {};
 // const restaurantId = '65b3b26aef210c44a63af9b2'
@@ -102,10 +110,8 @@ io.use((socket, next) => {
   }
 });
 
-const clients = [];
 io.on("connection", (socket) => {
   console.log("Connected:", socket.user);
-  clients.push(socket.user);
 
   //socket of menu managment and receiving it for admin and user
   socket.on("connectToMenu", async (payload) => {
@@ -187,17 +193,13 @@ io.on("connection", (socket) => {
         socket.user.role === "user"
       ) {
         //START ORDER
-
-        
-
         const newOrder = await Order.create({ ...order, tableNumberId });
+        io.emit(`getOrder-${socket.user._id}`, newOrder);
       } else if (Object.keys(order).length !== 0 && operation === "update") {
         //UPDATE ORDER STARTS HERE
-
-        const { orderId, tableNumberId, ...order } = order;
+        const { orderId, orderTime, status } = order;
         const updatedOrder = await Order.findOneAndUpdate(
-          { _id: orderId },
-          { ...order }
+          { _id: orderId}, {orderTime: orderTime, status: status }
         );
       } else if (
         Object.keys(order).length !== 0 &&
@@ -223,7 +225,6 @@ io.on("connection", (socket) => {
           { isClosed: true }
         );
       } else if (Object.keys(order).length !== 0 &&
-      socket.user.role === "admin" &&
       operation === "find"){
         const { orderId } = order;
         const foundOrder = await Order.findById(orderId).populate('tableNumberId').populate('meals.name');
@@ -236,25 +237,28 @@ io.on("connection", (socket) => {
 
       //SEND TO EVERYONE FULL LIST OF ORDERS IN RESTAURANT
 
-      for await (const user of clients) {
-        if (user.restaurantId === socket.user.restaurantId) {
-          const orderInfo = await Order.find({
-            restaurantId: user.restaurantId,
-            tableNumberId: user._id,
-            isClosed: false,
-          }).populate("meals.name").populate({path: "tableNumberId", select: "tableNumber"});
-          io.emit(`getOrder-${user._id}`, orderInfo);
-        }
-      }
-
+      // for await (const user of clients) {
+      //   if (user.restaurantId === socket.user.restaurantId) {
+      //     const orderInfo = await Order.find({
+      //       restaurantId: user.restaurantId,
+      //       tableNumberId: user._id,
+      //       isClosed: false,
+      //     }).populate("meals.name").populate({path: "tableNumberId", select: "tableNumber"});
+      //     io.emit(`getOrder-${user._id}`, orderInfo);
+      //   }
+      // }
       const { orderId } = order;
       const foundOrder = await Order.findById(orderId).populate('tableNumberId').populate('meals.name');
 
       io.emit(`getOrder-${orderId}`, foundOrder);
 
       const orders = await Order.find({
-        restaurantId: socket.user.restaurantId,
-      }).populate("meals.name").populate({path: "tableNumberId", select: "tableNumber"});
+        "restaurantId": socket.user.restaurantId,
+        "createdAt": {
+          $gte: new Date(new Date().setHours(0, 0, 0, 0)),
+          $lt: new Date(new Date().setHours(24, 0, 0, 0))
+      },
+      }).populate("meals.name").populate({path: "tableNumberId", select: "tableNumber"}).sort({createdAt: -1});
       io.emit(`getOrders-${socket.user.restaurantId}`, orders);
     } catch (error) {
       console.log("There is an error here:", error);
@@ -263,14 +267,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    const index = clients
-      .map((user) => {
-        if (user._id === socket.user._id) {
-          return user;
-        }
-      })
-      .indexOf();
-    clients.splice(index, 1);
     console.log("🔥: A user disconnected");
   });
 });

@@ -1,10 +1,7 @@
-import { createContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from '../axiosInstance';
+import { createContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "../axiosInstance";
 import io from "socket.io-client";
-const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
-  transports: ["websocket"],
-})
 
 export const AuthTableContext = createContext();
 
@@ -17,63 +14,87 @@ function AuthTableProvider({ children }) {
   const [orderItems, setOrderItems] = useState([]);
   const [total, setTotal] = useState(0);
   const [userMenu, setUserMenu] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const socket = io(import.meta.env.VITE_SERVER_BASE_URL, {
+    transports: ["websocket"],
+  });
 
-  const setState = (table, loading, errors) => {
+  const setState = (table, loadingTable, errors) => {
     setTable(table);
-    setLoading(loading);
+    setLoading(loadingTable);
     setErrors(errors);
   };
 
   useEffect(() => {
     axios
-      .get('auth/currentTable')
-      .then(res => {
-        setState(res.data.table, false, null);
+      .get("auth/currentTable")
+      .then((res) => {
+        if(res.data.table && Object.keys(res.data.table).length > 0){
+          setState(res.data.table, false, null);
+        }
+        console.log("TABLEINFO:", res.data);
       })
-      .catch(error => {
+      .catch((error) => {
         // we don't care about this error so I'm not storing it
-        setState(null, false, null);
-      });  
+        console.log("ERROR", error);
+        setState(null, false, error);
+      });
   }, []);
 
   useEffect(() => {
-    if(table) {
-      socket.emit("connectToMenu", {restaurantId: table.restaurantId});
-      socket.on(`getMenuUser-${table.restaurantId}`, (receivedMenu) => {
-        setUserMenu(receivedMenu);
+    if (table && Object.keys(table).length > 0) {
+      socket.emit("connectToMenu", {
+        restaurantId: table.restaurantId,
       });
+      socket.on(
+        `getMenuUser-${table.restaurantId}`,
+        (receivedMenu) => {
+          setUserMenu(receivedMenu);
+          if (receivedMenu.menu && receivedMenu.menu.length > 0) {
+            const newArrayCategories = receivedMenu.menu.map(
+              (meal) => meal.category
+            );
+            const uniqCategories = [...new Set(newArrayCategories)];
+            setCategories(uniqCategories);
+          }
+        }
+      );
     }
-  })
 
-  const login = table => {
+  }, [table])
+
+  const login = (table) => {
     setLoading(true);
     axios
-      .post('/auth/login', table)
-      .then(res => {
-        setState(res.data.table, false, null);
-        navigate('/user');
+      .post("/auth/login", table)
+      .then((res) => {
+        if(res.data.table && Object.keys(res.data.table).length > 0){
+          setState(res.data.table, false, null);
+        }
+        console.log("TABLEINFO FROM LOGIN:", res.data.table);
       })
-      .catch(err => {
+      .catch((err) => {
         setState(null, false, err.response.data);
       });
+      navigate('/user');
   };
 
-  const register = table => {
+  const register = (table) => {
     setLoading(true);
     axios
-      .post('/auth/register', table)
-      .then(res => {
+      .post("/auth/register", table)
+      .then((res) => {
         setState(res.data.table, false, null);
-        navigate('/user');
+        navigate("/user");
       })
-      .catch(err => {
+      .catch((err) => {
         setState(null, false, err.response.data.errors);
       });
   };
 
   const logout = () => {
-    axios.post('/auth/logout', {}).then(res => {
-      navigate('/user');
+    axios.post("/auth/logout", {}).then((res) => {
+      navigate("/user");
       window.location.reload();
     });
   };
@@ -85,7 +106,9 @@ function AuthTableProvider({ children }) {
   };
 
   const updateOrderItems = (item) => {
-    const existingItem = orderItems.find((orderItem) => orderItem._id === item._id);
+    const existingItem = orderItems.find(
+      (orderItem) => orderItem._id === item._id
+    );
 
     if (existingItem) {
       setOrderItems((prevItems) =>
@@ -102,9 +125,53 @@ function AuthTableProvider({ children }) {
     setTotal((prevTotal) => prevTotal + item.price);
   };
 
+  const removeOrderItems = (item) => {
+    const existingItem = orderItems.find(
+      (orderItem) => orderItem._id === item._id
+    );
+    if (existingItem && item.quantity !== 0) {
+      if (existingItem) {
+        setOrderItems((prevItems) =>
+          prevItems.map((orderItem) =>
+            orderItem._id === item._id
+              ? { ...orderItem, quantity: orderItem.quantity - 1 }
+              : orderItem
+          )
+        );
+      } else {
+        setOrderItems((prevItems) => [...prevItems, { ...item, quantity: 0 }]);
+      }
+
+      setTotal((prevTotal) => prevTotal - item.price);
+    }
+    const notOrderedItem = orderItems.find(
+      (orderItem) => orderItem._id === item._id
+    );
+    if (notOrderedItem.quantity === 1) {
+      const index = orderItems.indexOf(notOrderedItem);
+      orderItems.splice(index, 1);
+    }
+  };
 
   return (
-    <AuthTableContext.Provider value={{ table, errors, loadingTable, register, login, logout, selectedItem, userMenu, orderItems, total, updateSelectedItem, updateOrderItems}}>
+    <AuthTableContext.Provider
+      value={{
+        table,
+        errors,
+        loadingTable,
+        register,
+        login,
+        logout,
+        selectedItem,
+        userMenu,
+        orderItems,
+        total,
+        updateSelectedItem,
+        updateOrderItems,
+        removeOrderItems,
+        categories,
+      }}
+    >
       {children}
     </AuthTableContext.Provider>
   );

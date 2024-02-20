@@ -6,8 +6,10 @@ const authenticate = async (req, res, next) => {
     if (accessToken) {
       const auth = await jwt.verify(accessToken, SECRET);
       req.table = auth;
+      console.log('auth', auth);
       next();
     } else {
+      console.log('acces');
       res.status(403).json({ message: 'Forbidden' });
     }
   } catch (error) {
