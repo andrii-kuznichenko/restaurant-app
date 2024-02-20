@@ -34,6 +34,9 @@ Join us in redefining the future of dining. Get started with Scan & Serve today 
 
 2. **For Diners**: Look for the Scan & Serve QR code on your next restaurant visit to access the menu and place orders effortlessly.
 
+## Link
+https://scan-service.onrender.com/
+
 ## Support
 
 Need help or have questions? Our dedicated support team is here to assist you. Contact us.
