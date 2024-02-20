@@ -36,7 +36,7 @@ Join us in redefining the future of dining. Get started with Scan & Serve today 
 
 ## Support
 
-Need help or have questions? Our dedicated support team is here to assist you. Contact us through [insert support contact details] for any inquiries or assistance.
+Need help or have questions? Our dedicated support team is here to assist you. Contact us.
 
 ## Join the Dining Revolution
 
