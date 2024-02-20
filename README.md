@@ -14,6 +14,8 @@ Welcome to **Scan & Serve**, the cutting-edge app designed to transform the way 
 
 - **Real-Time Order Management**: Leveraging the power of the Socket.IO library, Scan & Serve offers live order management. Receive orders as they come in, update statuses in real-time, and keep a direct communication line with your guests. Manage your restaurant operations in real-time, ensuring prompt and efficient service for every customer.
 
+  ![new order](screenshots/Screenshot_2.png?raw=true "New Order Admin")
+
 ### For Guests: A Seamless and Interactive Dining Experience
 
 - **Instant Access to Menus**: Forget waiting for a physical menu. Scan the QR code at your table to see the restaurant's menu directly on your device. Explore the menu at your leisure, with all the details you need easily accessible.
