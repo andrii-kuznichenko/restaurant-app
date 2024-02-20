@@ -40,4 +40,4 @@ Need help or have questions? Our dedicated support team is here to assist you. C
 
 ## Join the Dining Revolution
 
-Ready to streamline your restaurant operations or elevate your dining experience? Download Scan & Serve today and be a part of the future of dining. Follow us on [insert social media links] for updates and news.
+Ready to streamline your restaurant operations or elevate your dining experience? Download Scan & Serve today and be a part of the future of dining. 
