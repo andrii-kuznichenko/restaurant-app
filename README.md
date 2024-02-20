@@ -45,11 +45,3 @@ Join us in redefining the future of dining. Get started with Scan & Serve today 
 
 ## Link
 https://scan-service.onrender.com/
-
-## Support
-
-Need help or have questions? Our dedicated support team is here to assist you. Contact us.
-
-## Join the Dining Revolution
-
-Ready to streamline your restaurant operations or elevate your dining experience? Download Scan & Serve today and be a part of the future of dining. 
