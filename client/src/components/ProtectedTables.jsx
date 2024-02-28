@@ -6,7 +6,7 @@ function Protected() {
   const { table, loadingTable } = useContext(AuthTableContext);
   console.log('table in protecting table', table);
 
-  return <>{!loadingTable && <>{table ? <Outlet /> : <Navigate to="/loginTable" />}</>}</>;
+  return <>{!loadingTable && <>{table ? <Outlet /> : <Navigate to="/user" />}</>}</>;
 }
 
 export default Protected;
