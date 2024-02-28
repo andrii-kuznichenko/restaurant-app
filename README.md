@@ -13,6 +13,8 @@ Welcome to **Scan & Serve**, the cutting-edge app designed to transform the way 
 - **Table Management**: Organize your seating effortlessly by setting up virtual tables in the app. Each table gets a unique QR code, ready for your guests to scan.
 
 - **Real-Time Order Management**: Leveraging the power of the Socket.IO library, Scan & Serve offers live order management. Receive orders as they come in, update statuses in real-time, and keep a direct communication line with your guests. Manage your restaurant operations in real-time, ensuring prompt and efficient service for every customer.
+  ![List Orders](screenshots/Screenshot_5.png?raw=true "List of Orders")
+  ![new order](screenshots/Screenshot_2.png?raw=true "New Order Admin")
 
 ### For Guests: A Seamless and Interactive Dining Experience
 
@@ -21,6 +23,13 @@ Welcome to **Scan & Serve**, the cutting-edge app designed to transform the way 
 - **Effortless Ordering**: After choosing your items, place your order directly through the app. Avoid the wait to catch a server's attention—it's all about convenience and speed.
 
 - **Real-Time Updates**: From the moment you place your order until it's ready, stay informed with live updates on your order status through the app. Always know exactly when your meal will be ready to enjoy.
+
+  <table>
+  <tr>
+    <td valign="top"><img src="https://github.com/andrii-kuznichenko/restaurant-app/blob/main/screenshots/IMG_8402.gif" width="300" height="650"/></td>
+    <td valign="top"><img src="https://github.com/andrii-kuznichenko/restaurant-app/blob/main/screenshots/order.gif" width="300" height="650"/></td>
+  </tr>
+</table>
 
 ## Why Choose Scan & Serve?
 
@@ -36,11 +45,3 @@ Join us in redefining the future of dining. Get started with Scan & Serve today 
 
 ## Link
 https://scan-service.onrender.com/
-
-## Support
-
-Need help or have questions? Our dedicated support team is here to assist you. Contact us.
-
-## Join the Dining Revolution
-
-Ready to streamline your restaurant operations or elevate your dining experience? Download Scan & Serve today and be a part of the future of dining. 
