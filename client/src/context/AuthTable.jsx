@@ -27,7 +27,7 @@ function AuthTableProvider({ children }) {
 
   useEffect(() => {
     axios
-      .get("auth/currentTable")
+      .get("/auth/currentTable")
       .then((res) => {
         if(res.data.table && Object.keys(res.data.table).length > 0){
           setState(res.data.table, false, null);
